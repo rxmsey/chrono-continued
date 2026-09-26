@@ -130,9 +130,7 @@ public class RegionLocker
 
 	public static boolean hasRegion(int regionId)
 	{
-		RegionTypes type = getType(regionId);
-		if (type == null) return false;
-		return type == RegionTypes.UNLOCKED;
+		return HistoricalRegionState.isRegionUnlocked(regionId);
 	}
 
 	public static boolean isUnlockable(int regionId)
