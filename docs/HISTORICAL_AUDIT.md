@@ -18,7 +18,7 @@ This audit covers the plugin's selectable timeline from 4 January 2001 through t
 | Skills | 23 historical skills; exact introduction dates; Sailing excluded at every date |
 | Prayers | 26 historical prayers; 2005, 2006, and King's Ransom additions gated on their release days |
 | Spells | 127 historical standard, Ancient, and Lunar spells; post-backup spell widgets fail closed |
-| Items | 24,735 definitions checked; exact dates are inclusive; missing, malformed, and post-backup dates remain locked |
+| Items | 24,735 definitions checked; exact dates are inclusive; missing/malformed dates fail closed; three verified legacy ID gaps are restored by a curated override ledger |
 | NPCs/monsters | 3,000 definitions checked; exact dates are inclusive; missing, malformed, unknown, and post-backup IDs remain locked |
 | Regions | 298 cumulative regions; historically added location anchors checked; unknown surface, underground, and instance-template regions remain masked |
 | Sailing | Skill, UI groups, 1,250 current Sailing object IDs, and Sailing-labelled actions remain permanently unavailable |
@@ -28,8 +28,9 @@ This audit covers the plugin's selectable timeline from 4 January 2001 through t
 - Release comparisons use `LocalDate`, fixing off-by-one and release-day exclusion errors.
 - Selected spells and items are rechecked when used on NPCs, objects, ground items, players, or widgets.
 - Item gates cover action types as well as a fixed menu-label list. Disposal and banking remain possible.
+- Null-date item records were audited separately. The source dataset mixes real items with interface-only pseudo-items, so there is no broad fallback. Only externally verified player-relevant gaps are overridden: half plain pizza IDs 2291/2292 (11 June 2001) and old red disk ID 9947 (conservatively 13 November 2006, the end of its documented 6–13 November hidden-update window).
 - Scene, minimap, and world-map masks use the same fail-closed region state. Instances are checked through their template coordinates.
 - Scene hiding uses RuneLite's current `RenderCallbackManager`; widget identifiers use current `gameval` constants.
 - The regression suite checks all dated entity records and each release boundary. `./gradlew clean test` is the required local validation.
 
-The client cannot recreate removed server behaviour or split a 64-by-64 map region when old and modern content occupy the same region. Those are representation limits rather than silent unlocks: content without verified date coverage is blocked.
+The client cannot recreate removed server behaviour, hard-disable every quest start that reuses an older NPC/object, or split a 64-by-64 map region when old and modern content occupy the same region. Exact object-level cache equivalence would require a historical object-definition allowlist. These are representation limits rather than permissive fallbacks: content without verified date coverage is blocked.
