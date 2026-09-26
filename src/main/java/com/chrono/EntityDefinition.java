@@ -24,7 +24,7 @@ public class EntityDefinition {
 
         if(def == null) return false;
         Date releaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(def.getReleaseDate());
-        return releaseDate.before(release);
+        return !releaseDate.after(release);
     }
 
     public static boolean isMonsterUnlocked(int npcId, Date release) throws ParseException {
