@@ -16,12 +16,10 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayPriority;
 
 public class HistoricalMinimapMaskOverlay extends Overlay
 {
     private static final Color VOID = new Color(0, 0, 0, 255);
-    private static final int RADIUS = 24;
     private final Client client;
     private final ChronoConfig config;
 
@@ -32,7 +30,7 @@ public class HistoricalMinimapMaskOverlay extends Overlay
         this.config = config;
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_WIDGETS);
-        setPriority(OverlayPriority.HIGHEST);
+        setPriority(Overlay.PRIORITY_HIGHEST);
     }
 
     @Override
@@ -43,21 +41,37 @@ public class HistoricalMinimapMaskOverlay extends Overlay
             return null;
         }
 
-        WorldView worldView = client.getTopLevelWorldView();
+        int widgetId = !client.isResized() ? net.runelite.api.gameval.InterfaceID.Toplevel.MINIMAP
+            : client.getVarbitValue(net.runelite.api.gameval.VarbitID.RESIZABLE_STONE_ARRANGEMENT) == 1
+                ? net.runelite.api.gameval.InterfaceID.ToplevelPreEoc.MINIMAP
+                : net.runelite.api.gameval.InterfaceID.ToplevelOsrsStretch.MINIMAP;
+        net.runelite.api.widgets.Widget minimap = client.getWidget(widgetId);
+        if (minimap == null || minimap.isHidden()) return null;
+        java.awt.Rectangle bounds = minimap.getBounds();
+        Graphics2D copy = (Graphics2D) graphics.create();
+        copy.clip(new java.awt.geom.Ellipse2D.Double(bounds.x, bounds.y, bounds.width, bounds.height));
+        int radius = Math.min(104, (int) Math.ceil(Math.max(bounds.width, bounds.height)
+            / (2.0 * Math.max(0.5, client.getMinimapZoom()))) + 2);
+        try {
+        WorldView worldView = client.getLocalPlayer().getWorldView();
         WorldPoint centre = client.getLocalPlayer().getWorldLocation();
-        graphics.setColor(VOID);
+        copy.setColor(VOID);
 
-        for (int dx = -RADIUS; dx <= RADIUS; dx++)
+        for (int dx = -radius; dx <= radius; dx++)
         {
-            for (int dy = -RADIUS; dy <= RADIUS; dy++)
+            for (int dy = -radius; dy <= radius; dy++)
             {
                 WorldPoint wp = new WorldPoint(centre.getX() + dx, centre.getY() + dy, centre.getPlane());
-                if (!HistoricalRegionState.isTileUnlocked(wp))
+                LocalPoint local = LocalPoint.fromWorld(worldView, wp);
+                if (local != null && !HistoricalRegionState.isTileUnlocked(
+                    WorldPoint.fromLocalInstance(worldView.getScene(), local, worldView.getPlane())))
                 {
-                    drawTile(graphics, worldView, wp);
+                    drawTile(copy, worldView, wp);
                 }
             }
         }
+
+        } finally { copy.dispose(); }
 
         return null;
     }
@@ -74,10 +88,10 @@ public class HistoricalMinimapMaskOverlay extends Overlay
         int y = lp.getY() & -Perspective.LOCAL_TILE_SIZE;
         int id = worldView.getId();
 
-        Point p1 = Perspective.localToMinimap(client, new LocalPoint(x, y, id));
-        Point p2 = Perspective.localToMinimap(client, new LocalPoint(x, y + Perspective.LOCAL_TILE_SIZE, id));
-        Point p3 = Perspective.localToMinimap(client, new LocalPoint(x + Perspective.LOCAL_TILE_SIZE, y + Perspective.LOCAL_TILE_SIZE, id));
-        Point p4 = Perspective.localToMinimap(client, new LocalPoint(x + Perspective.LOCAL_TILE_SIZE, y, id));
+        Point p1 = Perspective.localToMinimap(client, new LocalPoint(x, y, id), 30000);
+        Point p2 = Perspective.localToMinimap(client, new LocalPoint(x, y + Perspective.LOCAL_TILE_SIZE, id), 30000);
+        Point p3 = Perspective.localToMinimap(client, new LocalPoint(x + Perspective.LOCAL_TILE_SIZE, y + Perspective.LOCAL_TILE_SIZE, id), 30000);
+        Point p4 = Perspective.localToMinimap(client, new LocalPoint(x + Perspective.LOCAL_TILE_SIZE, y, id), 30000);
 
         if (p1 == null || p2 == null || p3 == null || p4 == null)
         {

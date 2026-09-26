@@ -1,5 +1,7 @@
 package com.chrono;
 
+import com.chrono.Release;
+
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 
@@ -58,7 +60,7 @@ public class ChronoPanel extends PluginPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String regions = plugin.getCurrentRelease().getRegions().toString().replace("[", "").replace("]", "");
+        String regions = Release.getRegions(plugin.getCurrentRelease()).toString().replace("[", "").replace("]", "");
         StringSelection stringSelection = new StringSelection(regions);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);

@@ -1,53 +1,27 @@
 package com.chrono;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Locale;
 
-public final class HistoricalSpellRestrictions
-{
-    private static final LocalDate ANCIENTS = LocalDate.of(2005, 4, 18);
-    private static final LocalDate DREAM_MENTOR = LocalDate.of(2007, 5, 15);
-
-    private static final Set<String> ANCIENT = new HashSet<>(Arrays.asList(
-        "Smoke Rush", "Shadow Rush", "Blood Rush", "Ice Rush",
-        "Smoke Burst", "Shadow Burst", "Blood Burst", "Ice Burst",
-        "Smoke Blitz", "Shadow Blitz", "Blood Blitz", "Ice Blitz",
-        "Smoke Barrage", "Shadow Barrage", "Blood Barrage", "Ice Barrage",
-        "Paddewwa Teleport", "Senntisten Teleport", "Kharyrll Teleport", "Lassar Teleport",
-        "Dareeyak Teleport", "Carrallangar Teleport", "Annakarl Teleport", "Ghorrock Teleport"
-    ));
-
-    private static final Set<String> DREAM = new HashSet<>(Arrays.asList(
-        "Monster Examine", "Humidify", "Hunter Kit", "Stat Spy", "Dream", "Plank Make", "Spellbook Swap"
-    ));
-
+/** Exact spell identities: substrings such as Vengeance must not unlock Vengeance Other. */
+public final class HistoricalSpellRestrictions {
     private HistoricalSpellRestrictions() {}
 
-    public static boolean allowed(String menuTarget, Date selectedDate)
-    {
-        LocalDate selected = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String target = menuTarget == null ? "" : menuTarget.replaceAll("<[^>]*>", "");
+    public static String clean(String text) {
+        if (text == null) return "";
+        return text.replaceAll("<[^>]*>", "").replace('\u00a0', ' ').trim();
+    }
 
-        for (String spell : ANCIENT)
-        {
-            if (target.contains(spell))
-            {
-                return !selected.isBefore(ANCIENTS);
-            }
-        }
+    public static boolean allowed(String target, List<ChronoSpell> unlocked) {
+        String name = clean(target).split(" -> ", 2)[0].trim();
+        // Client spelling variants refer to the same historical spell.
+        if (name.equals("Teleport Block")) name = "Tele Block";
+        if (name.equals("Enchant Crossbow Bolts")) name = "Enchant Crossbow Bolt";
+        for (ChronoSpell spell : unlocked) if (spell.getName().equalsIgnoreCase(name)) return true;
+        return false;
+    }
 
-        for (String spell : DREAM)
-        {
-            if (target.contains(spell))
-            {
-                return !selected.isBefore(DREAM_MENTOR);
-            }
-        }
-
-        return true;
+    public static boolean allowedWidget(int packedId, List<ChronoSpell> unlocked) {
+        return unlocked.stream().anyMatch(spell -> spell.getPackedID() == packedId);
     }
 }

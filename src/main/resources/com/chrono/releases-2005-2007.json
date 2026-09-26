@@ -8,7 +8,10 @@
       "ROVING_ELVES"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Roving Elves",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Roving_Elves"
+    ]
   },
   {
     "date": "_15_FEBRUARY_2005",
@@ -19,7 +22,34 @@
       "GHOSTS_AHOY"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Ghosts Ahoy and Slayer Update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Ghosts_Ahoy_and_Slayer_Update"
+    ]
+  },
+  {
+    "date": "_22_FEBRUARY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Wilderness Capes, and Changes",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Wilderness_Capes,_and_Changes"
+    ]
+  },
+  {
+    "date": "_23_FEBRUARY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Wilderness Capes Change",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Wilderness_Capes_Change"
+    ]
   },
   {
     "date": "_28_FEBRUARY_2005",
@@ -30,7 +60,10 @@
       "ONE_SMALL_FAVOUR"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "One Small Favour",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:One_Small_Favour"
+    ]
   },
   {
     "date": "_07_MARCH_2005",
@@ -41,7 +74,10 @@
       "MOUNTAIN_DAUGHTER"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Mountain Daughter and Changes",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Mountain_Daughter_and_Changes"
+    ]
   },
   {
     "date": "_14_MARCH_2005",
@@ -49,8 +85,17 @@
     "skills": [],
     "prayers": [],
     "quests": [],
-    "spells": [],
-    "description": "Chrono Continued historical release"
+    "spells": [
+      "TELEOTHER_LUMBRIDGE",
+      "TELEOTHER_FALADOR",
+      "TELEOTHER_CAMELOT",
+      "TELE_BLOCK"
+    ],
+    "description": "Magic and Wilderness Updates; Lumbridge Swamp Caves",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Magic_and_Wilderness_Updates",
+      "https://oldschool.runescape.wiki/w/Update:Lumbridge_Swamp_Caves"
+    ]
   },
   {
     "date": "_21_MARCH_2005",
@@ -61,7 +106,23 @@
       "BETWEEN_A_ROCK"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Easter Bunny; Between a Rock...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Easter_Bunny",
+      "https://oldschool.runescape.wiki/w/Update:Between_a_Rock..."
+    ]
+  },
+  {
+    "date": "_29_MARCH_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Weapons Update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Weapons_Update"
+    ]
   },
   {
     "date": "_04_APRIL_2005",
@@ -74,29 +135,69 @@
       "THE_FEUD"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Dragon Scimitar Change; Ali Morrisane and Pollnivneach",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Dragon_Scimitar_Change",
+      "https://oldschool.runescape.wiki/w/Update:Ali_Morrisane_and_Pollnivneach"
+    ]
   },
   {
     "date": "_11_APRIL_2005",
-    "regions": [],
+    "regions": [
+      13872
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "THE_GOLEM"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Golem",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Golem"
+    ]
   },
   {
     "date": "_18_APRIL_2005",
-    "regions": [],
+    "regions": [
+      12845
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "DESERT_TREASURE_I"
     ],
-    "spells": [],
-    "description": "Chrono Continued historical release"
+    "spells": [
+      "SMOKE_RUSH",
+      "SMOKE_BURST",
+      "SMOKE_BLITZ",
+      "SMOKE_BARRAGE",
+      "SHADOW_RUSH",
+      "SHADOW_BURST",
+      "SHADOW_BLITZ",
+      "SHADOW_BARRAGE",
+      "BLOOD_RUSH",
+      "BLOOD_BURST",
+      "BLOOD_BLITZ",
+      "BLOOD_BARRAGE",
+      "ICE_RUSH",
+      "ICE_BURST",
+      "ICE_BLITZ",
+      "ICE_BARRAGE",
+      "PADDEWWA_TELEPORT",
+      "SENNTISTEN_TELEPORT",
+      "KHARYRLL_TELEPORT",
+      "LASSAR_TELEPORT",
+      "DAREEYAK_TELEPORT",
+      "CARRALLANGAR_TELEPORT",
+      "ANNAKARL_TELEPORT",
+      "GHORROCK_TELEPORT"
+    ],
+    "description": "Desert Treasure; Castle Wars Change",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Desert_Treasure",
+      "https://oldschool.runescape.wiki/w/Update:Castle_Wars_Change"
+    ]
   },
   {
     "date": "_26_APRIL_2005",
@@ -109,7 +210,10 @@
       "ICTHLARINS_LITTLE_HELPER"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Desert Month Finale",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Desert_Month_Finale"
+    ]
   },
   {
     "date": "_04_MAY_2005",
@@ -120,16 +224,24 @@
       "TEARS_OF_GUTHIX"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Earthquake Rocks Lumbridge",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Earthquake_Rocks_Lumbridge"
+    ]
   },
   {
     "date": "_09_MAY_2005",
-    "regions": [],
+    "regions": [
+      14131
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Barrows",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Barrows"
+    ]
   },
   {
     "date": "_17_MAY_2005",
@@ -140,23 +252,73 @@
       "ZOGRE_FLESH_EATERS"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Zogre Flesh Eaters; Barrows Changes and Other Tweaks",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Zogre_Flesh_Eaters",
+      "https://oldschool.runescape.wiki/w/Update:Barrows_Changes_and_Other_Tweaks"
+    ]
   },
   {
     "date": "_31_MAY_2005",
     "regions": [
       10810,
       11678,
-      11679
+      11679,
+      11423
     ],
     "skills": [],
     "prayers": [],
     "quests": [
-      "THE_LOST_TRIBE",
-      "THE_GIANT_DWARF"
+      "THE_GIANT_DWARF",
+      "THE_LOST_TRIBE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "New Emotes And Other Tweaks; New Appointment in Lumbridge; Keldagrim - The Dwarven City",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:New_Emotes_And_Other_Tweaks",
+      "https://oldschool.runescape.wiki/w/Update:New_Appointment_in_Lumbridge",
+      "https://oldschool.runescape.wiki/w/Update:Keldagrim_-_The_Dwarven_City"
+    ]
+  },
+  {
+    "date": "_06_JUNE_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Seeds, Bankspace And Advisors",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Seeds,_Bankspace_And_Advisors"
+    ]
+  },
+  {
+    "date": "_13_JUNE_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ENTER_THE_ABYSS"
+    ],
+    "spells": [],
+    "description": "RuneCraft Update and Tweaks; Rune Shop Changes",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:RuneCraft_Update_and_Tweaks",
+      "https://oldschool.runescape.wiki/w/Update:Rune_Shop_Changes",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
+  },
+  {
+    "date": "_22_JUNE_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Rogues Den + Tweaks",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rogues_Den_%2B_Tweaks"
+    ]
   },
   {
     "date": "_27_JUNE_2005",
@@ -167,7 +329,22 @@
       "RECRUITMENT_DRIVE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Recruitment Drive",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Recruitment_Drive"
+    ]
+  },
+  {
+    "date": "_05_JULY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Magic Carpet Ride",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Magic_Carpet_Ride"
+    ]
   },
   {
     "date": "_11_JULY_2005",
@@ -178,7 +355,10 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Farming",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Farming"
+    ]
   },
   {
     "date": "_19_JULY_2005",
@@ -189,7 +369,10 @@
       "MOURNINGS_END_PART_I"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Plague City Series Continued",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Plague_City_Series_Continued"
+    ]
   },
   {
     "date": "_26_JULY_2005",
@@ -197,21 +380,79 @@
     "skills": [],
     "prayers": [],
     "quests": [
+      "CURSE_OF_THE_EMPTY_LORD",
       "FORGETTABLE_TALE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Forgettable Tale...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Forgettable_Tale...",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
   },
   {
     "date": "_01_AUGUST_2005",
     "regions": [
-      10042
+      10042,
+      10647
     ],
     "skills": [],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Waterbirth Island; 48 more bank slots for members",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Waterbirth_Island",
+      "https://oldschool.runescape.wiki/w/Update:48_more_bank_slots_for_members"
+    ]
+  },
+  {
+    "date": "_03_AUGUST_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "RuneScape Classic is no longer available to free users",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:RuneScape_Classic_is_no_longer_available_to_free_users"
+    ]
+  },
+  {
+    "date": "_09_AUGUST_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Tai Bwo Wannai Clean-Up",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Tai_Bwo_Wannai_Clean-Up"
+    ]
+  },
+  {
+    "date": "_15_AUGUST_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Rogue Trader",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rogue_Trader"
+    ]
+  },
+  {
+    "date": "_23_AUGUST_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Blast Furnace",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Blast_Furnace"
+    ]
   },
   {
     "date": "_30_AUGUST_2005",
@@ -222,7 +463,38 @@
       "GARDEN_OF_TRANQUILLITY"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Garden Of Tranquillity",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Garden_Of_Tranquillity"
+    ]
+  },
+  {
+    "date": "_06_SEPTEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [
+      "RETRIBUTION",
+      "REDEMPTION",
+      "SMITE"
+    ],
+    "quests": [],
+    "spells": [],
+    "description": "New shortcuts and prayers",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:New_shortcuts_and_prayers"
+    ]
+  },
+  {
+    "date": "_12_SEPTEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Cook-X",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Cook-X"
+    ]
   },
   {
     "date": "_19_SEPTEMBER_2005",
@@ -230,8 +502,14 @@
     "skills": [],
     "prayers": [],
     "quests": [],
-    "spells": [],
-    "description": "Chrono Continued historical release"
+    "spells": [
+      "LVL_6_ENCHANT"
+    ],
+    "description": "Security feature - Bank PIN; Massive minigame - Fight Pits",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Security_feature_-_Bank_PIN",
+      "https://oldschool.runescape.wiki/w/Update:Massive_minigame_-_Fight_Pits"
+    ]
   },
   {
     "date": "_26_SEPTEMBER_2005",
@@ -242,16 +520,26 @@
       "A_TAIL_OF_TWO_CATS"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "TzHaar reworks and mage arena changes; New graphics for Port Sarim, Rimmington and Thurgo's Peninsula; A Tail of Two Cats",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:TzHaar_reworks_and_mage_arena_changes",
+      "https://oldschool.runescape.wiki/w/Update:New_graphics_for_Port_Sarim,_Rimmington_and_Thurgo%27s_Peninsula",
+      "https://oldschool.runescape.wiki/w/Update:A_Tail_of_Two_Cats"
+    ]
   },
   {
     "date": "_04_OCTOBER_2005",
-    "regions": [],
+    "regions": [
+      9808
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "TzHaar Fight Caves",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:TzHaar_Fight_Caves"
+    ]
   },
   {
     "date": "_17_OCTOBER_2005",
@@ -259,11 +547,30 @@
     "skills": [],
     "prayers": [],
     "quests": [
-      "WANTED",
-      "MOURNINGS_END_PART_II"
+      "MOURNINGS_END_PART_II",
+      "WANTED"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Wanted!; Mourning's Ends Pt II",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Wanted!",
+      "https://oldschool.runescape.wiki/w/Update:Mourning%27s_Ends_Pt_II"
+    ]
+  },
+  {
+    "date": "_24_OCTOBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "SKIPPY_AND_THE_MOGRES"
+    ],
+    "spells": [],
+    "description": "Mogres, Lizards, Pet Fish, Potions and Potatoes!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Mogres,_Lizards,_Pet_Fish,_Potions_and_Potatoes!",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
   },
   {
     "date": "_31_OCTOBER_2005",
@@ -274,7 +581,23 @@
       "RUM_DEAL"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Rum Deal; Halloween Update!!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rum_Deal",
+      "https://oldschool.runescape.wiki/w/Update:Halloween_Update!!"
+    ]
+  },
+  {
+    "date": "_07_NOVEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Waterbirth Island - deeper, darker, deadlier!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Waterbirth_Island_-_deeper,_darker,_deadlier!"
+    ]
   },
   {
     "date": "_14_NOVEMBER_2005",
@@ -285,7 +608,10 @@
       "SHADOW_OF_THE_STORM"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Shadow of the Storm",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Shadow_of_the_Storm"
+    ]
   },
   {
     "date": "_22_NOVEMBER_2005",
@@ -297,7 +623,11 @@
       "THE_ENCHANTED_KEY"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Making History and minor changes",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Making_History_and_minor_changes",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
   },
   {
     "date": "_28_NOVEMBER_2005",
@@ -308,7 +638,10 @@
       "RATCATCHERS"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Rat Catchers and Rat Pits!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rat_Catchers_and_Rat_Pits!"
+    ]
   },
   {
     "date": "_05_DECEMBER_2005",
@@ -321,7 +654,23 @@
       "SPIRITS_OF_THE_ELID"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Nardah, Tool Sheds & Spirits of the Elid",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Nardah,_Tool_Sheds_%26_Spirits_of_the_Elid",
+      "https://oldschool.runescape.wiki/w/Update:Behind_the_Scenes_-_December_(2005)"
+    ]
+  },
+  {
+    "date": "_12_DECEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Champions, Wyverns and Granite",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Champions,_Wyverns_and_Granite"
+    ]
   },
   {
     "date": "_19_DECEMBER_2005",
@@ -332,7 +681,11 @@
       "DEVIOUS_MINDS"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Devious Minds; Christmas update for all players",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Devious_Minds",
+      "https://oldschool.runescape.wiki/w/Update:Christmas_update_for_all_players"
+    ]
   },
   {
     "date": "_04_JANUARY_2006",
@@ -343,7 +696,10 @@
     "spells": [
       "BONES_TO_PEACHES"
     ],
-    "description": "Chrono Continued historical release"
+    "description": "Mage Training Arena",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Mage_Training_Arena"
+    ]
   },
   {
     "date": "_10_JANUARY_2006",
@@ -354,7 +710,34 @@
       "THE_HAND_IN_THE_SAND"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Hand in the Sand",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Hand_in_the_Sand"
+    ]
+  },
+  {
+    "date": "_16_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Agility Pyramid",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Agility_Pyramid"
+    ]
+  },
+  {
+    "date": "_19_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Agility Pyramid tweaks",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Agility_Pyramid_tweaks"
+    ]
   },
   {
     "date": "_23_JANUARY_2006",
@@ -365,7 +748,22 @@
       "ENAKHRAS_LAMENT"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Enakhra's Lament",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Enakhra%27s_Lament"
+    ]
+  },
+  {
+    "date": "_30_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Runesquares, Harpie Bugs and new potato recipes!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Runesquares,_Harpie_Bugs_and_new_potato_recipes!"
+    ]
   },
   {
     "date": "_07_FEBRUARY_2006",
@@ -383,7 +781,22 @@
       "CABIN_FEVER"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Cabin Fever",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Cabin_Fever"
+    ]
+  },
+  {
+    "date": "_20_FEBRUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Updates, updates and more updates...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Updates,_updates_and_more_updates..."
+    ]
   },
   {
     "date": "_27_FEBRUARY_2006",
@@ -394,7 +807,22 @@
       "FAIRYTALE_I__GROWING_PAINS"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "A Fairy Tale Part I - Growing Pains",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:A_Fairy_Tale_Part_I_-_Growing_Pains"
+    ]
+  },
+  {
+    "date": "_07_MARCH_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Canoeing, Zygomites and a Mole!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Canoeing,_Zygomites_and_a_Mole!"
+    ]
   },
   {
     "date": "_15_MARCH_2006",
@@ -402,21 +830,53 @@
     "skills": [],
     "prayers": [],
     "quests": [
-      "RECIPE_FOR_DISASTER"
+      "RECIPE_FOR_DISASTER",
+      "RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST",
+      "RECIPE_FOR_DISASTER__MOUNTAIN_DWARF",
+      "RECIPE_FOR_DISASTER__WARTFACE__BENTNOZE",
+      "RECIPE_FOR_DISASTER__PIRATE_PETE",
+      "RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE",
+      "RECIPE_FOR_DISASTER__EVIL_DAVE",
+      "RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE",
+      "RECIPE_FOR_DISASTER__SIR_AMIK_VARZE",
+      "RECIPE_FOR_DISASTER__KING_AWOWOGEI",
+      "RECIPE_FOR_DISASTER__CULINAROMANCER"
     ],
-    "spells": [],
-    "description": "Chrono Continued historical release"
+    "spells": [
+      "APE_ATOLL_TELEPORT"
+    ],
+    "description": "Hundredth Quest - Recipe for Disaster!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Hundredth_Quest_-_Recipe_for_Disaster!"
+    ]
   },
   {
     "date": "_22_MARCH_2006",
-    "regions": [],
+    "regions": [
+      13874
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "IN_AID_OF_THE_MYREQUE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "In Aid of the Myreque",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:In_Aid_of_the_Myreque"
+    ]
+  },
+  {
+    "date": "_28_MARCH_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Temple Trekking",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Temple_Trekking"
+    ]
   },
   {
     "date": "_03_APRIL_2006",
@@ -427,7 +887,10 @@
       "A_SOULS_BANE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "A Soul's Bane",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:A_Soul%27s_Bane"
+    ]
   },
   {
     "date": "_10_APRIL_2006",
@@ -438,7 +901,11 @@
       "RAG_AND_BONE_MAN_I"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Rag and Bone Man; Easter bunnies infest RuneScape!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rag_and_Bone_Man",
+      "https://oldschool.runescape.wiki/w/Update:Easter_bunnies_infest_RuneScape!"
+    ]
   },
   {
     "date": "_18_APRIL_2006",
@@ -449,18 +916,63 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Pest Control",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Pest_Control"
+    ]
+  },
+  {
+    "date": "_20_APRIL_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Rune Essence adjustment",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Rune_Essence_adjustment"
+    ]
+  },
+  {
+    "date": "_24_APRIL_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Wilderness graphical update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Wilderness_graphical_update"
+    ]
   },
   {
     "date": "_02_MAY_2006",
-    "regions": [],
+    "regions": [
+      9273
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "SWAN_SONG"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Return of the Wise Old Man!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Return_of_the_Wise_Old_Man!"
+    ]
+  },
+  {
+    "date": "_16_MAY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Game engine upgraded!; Changes to Pest Control",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Game_engine_upgraded!",
+      "https://oldschool.runescape.wiki/w/Update:Changes_to_Pest_Control"
+    ]
   },
   {
     "date": "_22_MAY_2006",
@@ -471,7 +983,10 @@
       "ROYAL_TROUBLE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Royal Trouble",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Royal_Trouble"
+    ]
   },
   {
     "date": "_31_MAY_2006",
@@ -484,7 +999,23 @@
     "spells": [
       "TELEPORT_TO_HOUSE"
     ],
-    "description": "Chrono Continued historical release"
+    "description": "Readers' letters, bank space and game tweaks!; PLAYER-OWNED HOUSES!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Readers%27_letters,_bank_space_and_game_tweaks!",
+      "https://oldschool.runescape.wiki/w/Update:PLAYER-OWNED_HOUSES!"
+    ]
+  },
+  {
+    "date": "_06_JUNE_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Pest Control update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Pest_Control_update"
+    ]
   },
   {
     "date": "_13_JUNE_2006",
@@ -493,7 +1024,10 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Warriors' Guild",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Warriors%27_Guild"
+    ]
   },
   {
     "date": "_21_JUNE_2006",
@@ -504,18 +1038,35 @@
       "DEATH_TO_THE_DORGESHUUN"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Death to the Dorgeshuun!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Death_to_the_Dorgeshuun!"
+    ]
   },
   {
-    "date": "_04_JULY_2006",
-    "regions": [
-      12341
-    ],
+    "date": "_27_JUNE_2006",
+    "regions": [],
     "skills": [],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Tweaks and Bugfixes",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Tweaks_and_Bugfixes"
+    ]
+  },
+  {
+    "date": "_04_JULY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Trouble Brewing; Security and free-to-play update - the Stronghold of Security",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Trouble_Brewing",
+      "https://oldschool.runescape.wiki/w/Update:Security_and_free-to-play_update_-_the_Stronghold_of_Security"
+    ]
   },
   {
     "date": "_11_JULY_2006",
@@ -526,7 +1077,10 @@
       "FAIRYTALE_II__CURE_A_QUEEN"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Fairy Tale II - Cure a Queen",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Fairy_Tale_II_-_Cure_a_Queen"
+    ]
   },
   {
     "date": "_17_JULY_2006",
@@ -535,7 +1089,10 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Pyramid Plunder",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Pyramid_Plunder"
+    ]
   },
   {
     "date": "_24_JULY_2006",
@@ -550,8 +1107,43 @@
     "quests": [
       "LUNAR_DIPLOMACY"
     ],
-    "spells": [],
-    "description": "Chrono Continued historical release"
+    "spells": [
+      "BAKE_PIE",
+      "CURE_PLANT",
+      "NPC_CONTACT",
+      "CURE_OTHER",
+      "CURE_ME",
+      "CURE_GROUP",
+      "SUPERGLASS_MAKE",
+      "STRING_JEWELLERY",
+      "STAT_RESTORE_POT_SHARE",
+      "MAGIC_IMBUE",
+      "FERTILE_SOIL",
+      "BOOST_POTION_SHARE",
+      "ENERGY_TRANSFER",
+      "HEAL_OTHER",
+      "VENGEANCE_OTHER",
+      "VENGEANCE",
+      "HEAL_GROUP",
+      "MOONCLAN_TELEPORT",
+      "TELE_GROUP_MOONCLAN",
+      "WATERBIRTH_TELEPORT",
+      "TELE_GROUP_WATERBIRTH",
+      "BARBARIAN_TELEPORT",
+      "TELE_GROUP_BARBARIAN",
+      "KHAZARD_TELEPORT",
+      "TELE_GROUP_KHAZARD",
+      "FISHING_GUILD_TELEPORT",
+      "TELE_GROUP_FISHING_GUILD",
+      "CATHERBY_TELEPORT",
+      "TELE_GROUP_CATHERBY",
+      "ICE_PLATEAU_TELEPORT",
+      "TELE_GROUP_ICE_PLATEAU"
+    ],
+    "description": "Lunar Diplomacy",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Lunar_Diplomacy"
+    ]
   },
   {
     "date": "_31_JULY_2006",
@@ -560,10 +1152,24 @@
     "prayers": [],
     "quests": [],
     "spells": [
-      "ENCHANT_CROSSBOW_BOLT",
-      "LVL_6_ENCHANT"
+      "ENCHANT_CROSSBOW_BOLT"
     ],
-    "description": "Chrono Continued historical release"
+    "description": "Crossbows",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Crossbows"
+    ]
+  },
+  {
+    "date": "_07_AUGUST_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Gnome Cuisine",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Gnome_Cuisine"
+    ]
   },
   {
     "date": "_15_AUGUST_2006",
@@ -574,7 +1180,10 @@
       "THE_EYES_OF_GLOUPHRIE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Eyes of Glouphrie",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Eyes_of_Glouphrie"
+    ]
   },
   {
     "date": "_22_AUGUST_2006",
@@ -590,18 +1199,38 @@
     ],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "New f2p prayers, port to port transport and improved dragon axe",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:New_f2p_prayers,_port_to_port_transport_and_improved_dragon_axe"
+    ]
+  },
+  {
+    "date": "_29_AUGUST_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Demons, Dragons and Giants",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Demons,_Dragons_and_Giants"
+    ]
   },
   {
     "date": "_04_SEPTEMBER_2006",
-    "regions": [],
+    "regions": [
+      14386
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "DARKNESS_OF_HALLOWVALE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Myreque Pt III - Darkness of Hallowvale",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Myreque_Pt_III_-_Darkness_of_Hallowvale"
+    ]
   },
   {
     "date": "_20_SEPTEMBER_2006",
@@ -612,7 +1241,26 @@
       "THE_SLUG_MENACE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Slug Menace",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Slug_Menace"
+    ]
+  },
+  {
+    "date": "_27_SEPTEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [
+      "LUMBRIDGE_HOME_TELEPORT"
+    ],
+    "description": "Skill Tutors; Player interfaces; Area Sounds",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Skill_Tutors",
+      "https://oldschool.runescape.wiki/w/Update:Player_interfaces",
+      "https://oldschool.runescape.wiki/w/Update:Area_Sounds"
+    ]
   },
   {
     "date": "_02_OCTOBER_2006",
@@ -623,7 +1271,23 @@
       "ELEMENTAL_WORKSHOP_II"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Elemental Workshop II",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Elemental_Workshop_II"
+    ]
+  },
+  {
+    "date": "_18_OCTOBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Player-Owned House Costume Room; Capes of Achievement... and Goats!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Player-Owned_House_Costume_Room",
+      "https://oldschool.runescape.wiki/w/Update:Capes_of_Achievement..._and_Goats!"
+    ]
   },
   {
     "date": "_23_OCTOBER_2006",
@@ -634,7 +1298,22 @@
       "MY_ARMS_BIG_ADVENTURE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Would you like to see My Arm?",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Would_you_like_to_see_My_Arm%3F"
+    ]
+  },
+  {
+    "date": "_30_OCTOBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Hallowe'en Event - For ALL Players!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Hallowe%27en_Event_-_For_ALL_Players!"
+    ]
   },
   {
     "date": "_06_NOVEMBER_2006",
@@ -645,18 +1324,41 @@
       "ENLIGHTENED_JOURNEY"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Enlightened Journey",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Enlightened_Journey"
+    ]
+  },
+  {
+    "date": "_13_NOVEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Player gallery and more bank space",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Player_gallery_and_more_bank_space"
+    ]
   },
   {
     "date": "_21_NOVEMBER_2006",
-    "regions": [],
+    "regions": [
+      10029,
+      10811,
+      9272
+    ],
     "skills": [
       "HUNTER"
     ],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "HUNTER SKILL!; Concerning imps and other things...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:HUNTER_SKILL!",
+      "https://oldschool.runescape.wiki/w/Update:Concerning_imps_and_other_things..."
+    ]
   },
   {
     "date": "_28_NOVEMBER_2006",
@@ -667,7 +1369,22 @@
       "EAGLES_PEAK"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Eagles' Peak",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Eagles%27_Peak"
+    ]
+  },
+  {
+    "date": "_05_DECEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Treasure Trails, spiders and sheep",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Treasure_Trails,_spiders_and_sheep"
+    ]
   },
   {
     "date": "_12_DECEMBER_2006",
@@ -678,18 +1395,35 @@
       "ANIMAL_MAGNETISM"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Animal Magnetism",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Animal_Magnetism"
+    ]
   },
   {
-    "date": "_04_JANUARY_2007",
-    "regions": [
-      10039
-    ],
+    "date": "_18_DECEMBER_2006",
+    "regions": [],
     "skills": [],
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Christmas Update!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Christmas_Update!"
+    ]
+  },
+  {
+    "date": "_04_JANUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Scientific Breakthrough Announced!; Barbarian Assault",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Scientific_Breakthrough_Announced!",
+      "https://oldschool.runescape.wiki/w/Update:Barbarian_Assault"
+    ]
   },
   {
     "date": "_10_JANUARY_2007",
@@ -700,7 +1434,22 @@
       "CONTACT"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Contact!",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Contact!"
+    ]
+  },
+  {
+    "date": "_16_JANUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Interfaces and spooky wallpapers",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Interfaces_and_spooky_wallpapers"
+    ]
   },
   {
     "date": "_22_JANUARY_2007",
@@ -711,7 +1460,11 @@
       "LAIR_OF_TARN_RAZORLOR"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Lair of Tarn Razorlor",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Lair_of_Tarn_Razorlor",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
   },
   {
     "date": "_29_JANUARY_2007",
@@ -722,18 +1475,28 @@
       "COLD_WAR"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "What's black and white and goes green when it's finished?",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:What%27s_black_and_white_and_goes_green_when_it%27s_finished%3F"
+    ]
   },
   {
     "date": "_06_FEBRUARY_2007",
-    "regions": [],
+    "regions": [
+      9531,
+      9275,
+      9532
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
       "THE_FREMENNIK_ISLES"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Fremennik Isles",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Fremennik_Isles"
+    ]
   },
   {
     "date": "_12_FEBRUARY_2007",
@@ -744,7 +1507,24 @@
       "THE_GENERALS_SHADOW"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "A sq'irk a day...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:A_sq%27irk_a_day...",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
+  },
+  {
+    "date": "_14_FEBRUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Minigame updates; German Language Beta Launch \u2013 Some Information",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Minigame_updates",
+      "https://oldschool.runescape.wiki/w/Update:German_Language_Beta_Launch_%E2%80%93_Some_Information"
+    ]
   },
   {
     "date": "_19_FEBRUARY_2007",
@@ -755,12 +1535,15 @@
       "TOWER_OF_LIFE"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Tower of Life",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Tower_of_Life"
+    ]
   },
   {
     "date": "_06_MARCH_2007",
     "regions": [
-      10029
+      15148
     ],
     "skills": [],
     "prayers": [],
@@ -768,7 +1551,39 @@
       "THE_GREAT_BRAIN_ROBBERY"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "The Feldip Hills are alive with the sound of muuuusic!; Great Brain Robbery",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Feldip_Hills_are_alive_with_the_sound_of_muuuusic!",
+      "https://oldschool.runescape.wiki/w/Update:Great_Brain_Robbery"
+    ]
+  },
+  {
+    "date": "_13_MARCH_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Burgh de Rott Ramble",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Burgh_de_Rott_Ramble"
+    ]
+  },
+  {
+    "date": "_20_MARCH_2007",
+    "regions": [
+      10835,
+      10833
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Dorgesh-Kaan; Cows, Chickens, Rabbits and the Fishing Trawler",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Dorgesh-Kaan",
+      "https://oldschool.runescape.wiki/w/Update:Cows,_Chickens,_Rabbits_and_the_Fishing_Trawler"
+    ]
   },
   {
     "date": "_27_MARCH_2007",
@@ -779,7 +1594,22 @@
       "WHAT_LIES_BELOW"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "What Lies Below",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:What_Lies_Below"
+    ]
+  },
+  {
+    "date": "_02_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Easter Antics",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Easter_Antics"
+    ]
   },
   {
     "date": "_10_APRIL_2007",
@@ -790,7 +1620,34 @@
       "OLAFS_QUEST"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Olaf's Quest",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Olaf%27s_Quest"
+    ]
+  },
+  {
+    "date": "_11_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Olaf's Quest Slippery Bridge",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Olaf%27s_Quest_Slippery_Bridge"
+    ]
+  },
+  {
+    "date": "_18_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Wilderness Ditch",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Wilderness_Ditch"
+    ]
   },
   {
     "date": "_24_APRIL_2007",
@@ -801,7 +1658,36 @@
       "ANOTHER_SLICE_OF_HAM"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Password security; Another Slice of H.A.M.",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Password_security",
+      "https://oldschool.runescape.wiki/w/Update:Another_Slice_of_H.A.M."
+    ]
+  },
+  {
+    "date": "_30_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "24 Carat Update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:24_Carat_Update"
+    ]
+  },
+  {
+    "date": "_08_MAY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "The Achievement Diary; Small spiders, kalphites, scorpions and metal dragons",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Achievement_Diary",
+      "https://oldschool.runescape.wiki/w/Update:Small_spiders,_kalphites,_scorpions_and_metal_dragons"
+    ]
   },
   {
     "date": "_15_MAY_2007",
@@ -811,8 +1697,33 @@
     "quests": [
       "DREAM_MENTOR"
     ],
+    "spells": [
+      "MONSTER_EXAMINE",
+      "HUMIDIFY",
+      "HUNTER_KIT",
+      "STAT_SPY",
+      "DREAM",
+      "PLANK_MAKE",
+      "SPELLBOOK_SWAP",
+      "EDGEVILLE_HOME_TELEPORT",
+      "LUNAR_HOME_TELEPORT"
+    ],
+    "description": "Dream Mentor",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Dream_Mentor"
+    ]
+  },
+  {
+    "date": "_29_MAY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Varrock's New Look",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Varrock%27s_New_Look"
+    ]
   },
   {
     "date": "_04_JUNE_2007",
@@ -823,7 +1734,51 @@
       "GRIM_TALES"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Hair of the dog; Grim Tales",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Hair_of_the_dog",
+      "https://oldschool.runescape.wiki/w/Update:Grim_Tales"
+    ]
+  },
+  {
+    "date": "_11_JUNE_2007",
+    "regions": [
+      10307
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "The Dark Bow; Impetuous Impulses",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Dark_Bow",
+      "https://oldschool.runescape.wiki/w/Update:Impetuous_Impulses"
+    ]
+  },
+  {
+    "date": "_18_JUNE_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "The Dragonfire Shield; Game Improvements",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:The_Dragonfire_Shield",
+      "https://oldschool.runescape.wiki/w/Update:Game_Improvements"
+    ]
+  },
+  {
+    "date": "_26_JUNE_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Game Engine Update",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Game_Engine_Update"
+    ]
   },
   {
     "date": "_03_JULY_2007",
@@ -834,7 +1789,38 @@
       "BARBARIAN_TRAINING"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Skill sounds; Barbarian Training",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Skill_sounds",
+      "https://oldschool.runescape.wiki/w/Update:Barbarian_Training",
+      "https://oldschool.runescape.wiki/w/Miniquests"
+    ]
+  },
+  {
+    "date": "_09_JULY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "POH room increase and more; A bird in the hand...",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:POH_room_increase_and_more",
+      "https://oldschool.runescape.wiki/w/Update:A_bird_in_the_hand..."
+    ]
+  },
+  {
+    "date": "_17_JULY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Pest Control Update; Game Improvements (July 2007)",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Pest_Control_Update",
+      "https://oldschool.runescape.wiki/w/Update:Game_Improvements_(July_2007)"
+    ]
   },
   {
     "date": "_24_JULY_2007",
@@ -848,7 +1834,10 @@
       "KINGS_RANSOM"
     ],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "King's Ransom",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:King%27s_Ransom"
+    ]
   },
   {
     "date": "_06_AUGUST_2007",
@@ -857,7 +1846,10 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Chrono Continued historical release"
+    "description": "Clan Chat",
+    "sources": [
+      "https://oldschool.runescape.wiki/w/Update:Clan_Chat"
+    ]
   },
   {
     "date": "_10_AUGUST_2007",
@@ -866,6 +1858,6 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Old School backup — 10 August 2007"
+    "description": "10 August 2007 \u2014 Old School backup"
   }
 ]

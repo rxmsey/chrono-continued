@@ -55,9 +55,6 @@ public final class HistoricalRegionState
             return true;
         }
 
-        int y = (regionId & 255) << 6;
-        if (y >= 4160 && y < 5952) return gate == null || !selected.isBefore(gate);
-        if (y >= 8960) return gate == null || !selected.isBefore(gate);
         return false;
     }
 }

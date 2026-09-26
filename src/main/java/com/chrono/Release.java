@@ -39,23 +39,30 @@ public class Release {
     }
 
     public static void setReleases(Release[] releases) {
-        RELEASES = Arrays.asList(releases);
+        RELEASES = Arrays.stream(releases)
+            .sorted(Comparator.comparing(r -> r.date.getLocalDate()))
+            .collect(java.util.stream.Collectors.toList());
+        for (Release r : RELEASES) {
+            if (r.date == null || !HistoricalCutoff.isSupported(r.date.getLocalDate()))
+                throw new IllegalArgumentException("Unsupported historical release");
+            for (List<?> values : Arrays.asList(r.skills, r.prayers, r.quests, r.spells))
+                if (values != null && values.contains(null))
+                    throw new IllegalArgumentException("Unknown enum in release " + r.date);
+        }
     }
 
     public static Release getReleaseByDate(ReleaseDate date) {
-        for(Release r : RELEASES) {
-            if(r.getDate().equals(date)) return r;
-        }
-
-        return null;
+        return RELEASES.stream().filter(r -> r.date.getLocalDate().equals(date.getLocalDate()))
+            .findFirst().orElseThrow(() -> new IllegalArgumentException("Missing release: " + date));
     }
 
     public static List<Integer> getRegions(Release release) {
         LinkedHashSet<Integer> regions = new LinkedHashSet<>();
 
         for (Release r : RELEASES) {
+            if (r.date.getLocalDate().isAfter(release.date.getLocalDate())) break;
             if (r.regions != null) regions.addAll(r.getRegions());
-            if (r.equals(release)) break;
+
         }
 
         return new ArrayList<>(regions);
@@ -65,10 +72,12 @@ public class Release {
         List<Skill> skills = new ArrayList<>();
 
         for(Release r : RELEASES) {
+            if (r.date.getLocalDate().isAfter(release.date.getLocalDate())) break;
             if(r.skills != null) skills.addAll(r.getSkills());
-            if(r.equals(release)) break;
+
         }
 
+        skills.removeIf(HistoricalPermanentExclusions::isSkillPermanentlyLocked);
         return skills;
     }
 
@@ -76,8 +85,9 @@ public class Release {
         List<Prayer> prayers = new ArrayList<>();
 
         for(Release r : RELEASES) {
+            if (r.date.getLocalDate().isAfter(release.date.getLocalDate())) break;
             if(r.prayers != null) prayers.addAll(r.getPrayers());
-            if(r.equals(release)) break;
+
         }
 
         return prayers;
@@ -87,8 +97,9 @@ public class Release {
         List<Quest> quests = new ArrayList<>();
 
         for(Release r : RELEASES) {
+            if (r.date.getLocalDate().isAfter(release.date.getLocalDate())) break;
             if(r.quests != null) quests.addAll(r.getQuests());
-            if(r.equals(release)) break;
+
         }
 
         return quests;
@@ -98,8 +109,9 @@ public class Release {
         List<ChronoSpell> spells = new ArrayList<>();
 
         for(Release r : RELEASES) {
+            if (r.date.getLocalDate().isAfter(release.date.getLocalDate())) break;
             if(r.spells != null) spells.addAll(r.getSpells());
-            if(r.equals(release)) break;
+
         }
 
         return spells;

@@ -114,19 +114,8 @@ public class RegionLocker
 
 	public static RegionTypes getType(int regionId)
 	{
-		String id = Integer.toString(regionId);
-//		if (!id.equals("") && trailblazerRegions != null && trailblazerRegions.size() > 0) {
-//			for(int i = 0;i < trailblazerRegions.size();i++) {
-//				if (Arrays.asList(trailblazerRegions.get(i).regions).contains(id))
-//					return RegionTypes.UNLOCKED;
-//			}
-//		}
-		int y = getY(regionId);
-		if (y >= 4160 && y < 5952) return RegionTypes.UNLOCKED;
-		if (y >= 8960) return RegionTypes.UNLOCKED;
-		if (regions == null) return null;
-		return regions.get(id);
-	}
+        return HistoricalRegionState.isRegionUnlocked(regionId) ? RegionTypes.UNLOCKED : null;
+    }
 
 	public static boolean hasRegion(int regionId)
 	{

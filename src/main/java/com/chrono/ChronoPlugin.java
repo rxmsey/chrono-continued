@@ -1,8 +1,5 @@
 package com.chrono;
 
-import com.chrono.regionlocker.RegionTypes;
-import com.chrono.ui.UIButton;
-import com.chrono.ui.UILabel;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,12 +16,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
-import net.runelite.api.annotations.Varbit;
 import net.runelite.api.events.*;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.callback.ClientThread;
-import net.runelite.client.callback.Hooks;
+import net.runelite.client.callback.RenderCallback;
+import net.runelite.client.callback.RenderCallbackManager;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.chat.ChatMessageManager;
@@ -48,7 +46,6 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @PluginDescriptor(
@@ -63,13 +60,6 @@ public class ChronoPlugin extends Plugin {
 	private static final int SOUND_EFFECT_FAIL = 2277;
 	private static final int SOUND_EFFECT_INACTIVE = 2673;
 	private static final List<String> MENU_BLACKLIST = Arrays.asList("Use", "Take", "Wield","Empty", "Eat", "Wear", "Read", "Check", "Teleport", "Commune", "Drink", "Bury", "Scatter");
-
-	/* Widget IDs */
-	private static final int PRAYER_TAB = 35454979;
-	private static final int PRAYER_ORB = 10485777;
-	private static final int QUICK_PRAYER = 10485779;
-
-	private static final List<Integer> PRAYER_VARBITS = Arrays.asList(Varbits.PRAYER_PROTECT_FROM_MAGIC);
 
 	@Inject
 	private Client client;
@@ -110,7 +100,8 @@ public class ChronoPlugin extends Plugin {
 	private Gson gson;
 
 	@Inject
-	private Hooks hooks;
+	private RenderCallbackManager renderCallbackManager;
+    private volatile boolean maskScene;
 
 	@Inject
 	private ClientToolbar clientToolbar;
@@ -126,15 +117,24 @@ public class ChronoPlugin extends Plugin {
 	private NavigationButton navButton;
 
 	private Map<String, List<Widget>> skillOverlays;
+    private Set<Integer> sailingObjects = Collections.emptySet();
 
 	@Getter
 	private boolean mapEnabled;
 
 	/* Widgets */
-	private UILabel prayerLocked;
-	private UIButton quickPrayer;
 
-	private final Hooks.RenderableDrawListener drawListener = this::shouldDraw;
+	private final RenderCallback drawListener = new RenderCallback() {
+        @Override public boolean addEntity(Renderable entity, boolean ui) { return shouldDraw(entity, ui); }
+        @Override public boolean drawTile(Scene scene, Tile tile) {
+            return !maskScene || HistoricalRegionState.isTileUnlocked(
+                WorldPoint.fromLocalInstance(scene, tile.getLocalLocation(), tile.getPlane()));
+        }
+        @Override public boolean drawObject(Scene scene, TileObject object) {
+            return !maskScene || HistoricalRegionState.isTileUnlocked(
+                WorldPoint.fromLocalInstance(scene, object.getLocalLocation(), object.getPlane()));
+        }
+    };
 
 	@Provides
 	ChronoConfig provideConfig(ConfigManager configManager) {
@@ -161,7 +161,10 @@ public class ChronoPlugin extends Plugin {
 				.panel(panel)
 				.build();
 		clientToolbar.addNavigation(navButton);
-		hooks.registerRenderableDrawListener(drawListener);
+        maskScene = config.maskLockedScene();
+        renderCallbackManager.register(drawListener);
+        reloadScene();
+        clientThread.invokeLater(() -> { createLockedSkillOverlays(); refreshWidgets(); });
 	}
 
 	@Override
@@ -173,55 +176,56 @@ public class ChronoPlugin extends Plugin {
 		overlayManager.remove(historicalSceneMaskOverlay);
 		overlayManager.remove(historicalMinimapMaskOverlay);
 		clientToolbar.removeNavigation(navButton);
-		hooks.unregisterRenderableDrawListener(drawListener);
+        renderCallbackManager.unregister(drawListener);
+        reloadScene();
+        if (client.getGameState() == GameState.LOGGED_IN) updateQuests(false);
+        if (skillOverlays != null) skillOverlays.values().forEach(list -> list.forEach(w -> w.setHidden(true)));
+        for (ChronoSpell spell : ChronoSpell.values()) {
+            Widget widget = client.getWidget(spell.getPackedID());
+            if (widget != null) widget.setOpacity(0);
+        }
+        for (ChronoPrayer prayer : ChronoPrayer.values()) {
+            Widget widget = client.getWidget(prayer.getPackedID());
+            if (widget != null) widget.setOpacity(0);
+        }
 	}
 
 	private void loadDefinitions() {
-		Type defMapType = new TypeToken<Map<Integer, EntityDefinition>>() {}.getType();
-		EntityDefinition.itemDefinitions = loadDefinitionResource(defMapType, "items.json");
-		EntityDefinition.monsterDefinition = loadDefinitionResource(defMapType, "monsters.json");
+        Integer[] objects = loadDefinitionResource(Integer[].class, "sailing-objects.json");
+        sailingObjects = new HashSet<>(Arrays.asList(objects));
+        Type defMapType = new TypeToken<Map<Integer, EntityDefinition>>() {}.getType();
+        EntityDefinition.itemDefinitions = loadDefinitionResource(defMapType, "items.json");
+        EntityDefinition.monsterDefinition = loadDefinitionResource(defMapType, "monsters.json");
+        Release[] base = loadDefinitionResource(Release[].class, "releases.json");
+        Release[] continued = loadDefinitionResource(Release[].class, "releases-2005-2007.json");
+        Release[] merged = Arrays.copyOf(base, base.length + continued.length);
+        System.arraycopy(continued, 0, merged, base.length, continued.length);
+        Release.setReleases(merged);
+    }
 
-		Release[] base = loadDefinitionResource(Release[].class, "releases.json");
-		Release[] continued = loadDefinitionResource(Release[].class, "releases-2005-2007.json");
-		Release[] merged = Arrays.copyOf(base, base.length + continued.length);
-		System.arraycopy(continued, 0, merged, base.length, continued.length);
-		Release.setReleases(merged);
-	}
-
-
-	private <T> T loadDefinitionResource(Type type, String resource) {
-		// Load the resource as a stream and wrap it in a reader
-		InputStream resourceStream = ChronoPlugin.class.getResourceAsStream(resource);
-		assert resourceStream != null;
-		InputStreamReader definitionReader = new InputStreamReader(resourceStream);
-
-		// Load the objects from the JSON file
-		return gson.fromJson(definitionReader, type);
-	}
+    private <T> T loadDefinitionResource(Type type, String resource) {
+        try (InputStream stream = ChronoPlugin.class.getResourceAsStream(resource)) {
+            if (stream == null) throw new IllegalStateException("Missing resource: " + resource);
+            try (InputStreamReader reader = new InputStreamReader(stream, java.nio.charset.StandardCharsets.UTF_8)) {
+                return gson.fromJson(reader, type);
+            }
+        } catch (java.io.IOException ex) {
+            throw new IllegalStateException("Cannot read " + resource, ex);
+        }
+    }
 
 	@Subscribe
 	public void onConfigChanged(ConfigChanged e) {
-		if(!e.getGroup().equals(CONFIG_GROUP_KEY)) return;
+        if(!e.getGroup().equals(CONFIG_GROUP_KEY)) return;
+        maskScene = config.maskLockedScene();
+        if (e.getKey().equals("maskLockedScene")) reloadScene();
 
 		if(e.getKey().equals(CONFIG_RELEASE_DATE_KEY)) {
 			currentRelease = Release.getReleaseByDate(config.release());
 			HistoricalRegionState.setSelectedDate(config.release().getDate());
 			HistoricalRegionState.replaceWith(Release.getRegions(currentRelease));
-			clientThread.invokeLater(() -> this.updatePrayers());
-			clientThread.invokeLater(() -> this.updateQuests());
-			clientThread.invokeLater(() -> this.updateSkillOverlays());
-
-			clientThread.invokeLater(() -> {
-				Widget w = client.getWidget(14286848);
-				Object[] onLoadListener = w.getOnInvTransmitListener();
-
-				if (onLoadListener == null)
-				{
-					return;
-				}
-
-				client.runScript(onLoadListener);
-			});
+            clientThread.invokeLater(this::refreshWidgets);
+            reloadScene();
 
 			panel.updateDescription(currentRelease.getDescription());
 		}
@@ -229,66 +233,93 @@ public class ChronoPlugin extends Plugin {
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged e){
-		if(e.getGameState().equals(GameState.LOGGED_IN)) {
-
-		}
+        if (e.getGameState() == GameState.LOGGED_IN) clientThread.invokeLater(this::refreshWidgets);
 	}
 
-	@Subscribe
-	public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
-		if (HistoricalPermanentExclusions.isSailingMenuAction(e.getMenuOption(), e.getMenuTarget()))
-		{
-			e.consume();
-			client.playSoundEffect(SOUND_EFFECT_INACTIVE);
-			return;
-		}
-		if(e.getMenuOption().equals("Activate")) {
-			List<ChronoPrayer> prayers = Arrays.stream(ChronoPrayer.values()).filter(p -> e.getMenuTarget().contains(p.getName())).collect(Collectors.toList());
+    @Subscribe
+    public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
+        String option = HistoricalSpellRestrictions.clean(e.getMenuOption());
+        String target = HistoricalSpellRestrictions.clean(e.getMenuTarget());
+        Widget widget = e.getWidget();
+        int group = widget == null ? -1 : widget.getId() >>> 16;
+        if (HistoricalPermanentExclusions.isSailingMenuAction(option, target)
+            || (widget != null && HistoricalPermanentExclusions.isSailingWidget(widget.getId()))) {
+            deny(e); return;
+        }
+        // Quick prayers are a post-2007 feature and can activate locked prayers in one click.
+        if ((option.toLowerCase(java.util.Locale.ROOT).contains("quick-prayer")
+            || target.toLowerCase(java.util.Locale.ROOT).contains("quick-prayer"))
+            && !option.toLowerCase(java.util.Locale.ROOT).contains("deactivate")) {
+            deny(e); return;
+        }
+        if (option.equals("Activate") && (group == InterfaceID.PRAYERBOOK
+            || Arrays.stream(ChronoPrayer.values()).anyMatch(p -> p.getName().equalsIgnoreCase(target)))) {
+            boolean allowed = Arrays.stream(ChronoPrayer.values()).anyMatch(p ->
+                p.getName().equalsIgnoreCase(target) && Release.getPrayers(currentRelease).contains(p.getPrayer()));
+            if (!allowed) { deny(e); return; }
+        }
+        List<ChronoSpell> spells = Release.getSpells(currentRelease);
+        if (option.equals("Cast") || option.toLowerCase(java.util.Locale.ROOT).contains("autocast")) {
+            if (!HistoricalSpellRestrictions.allowed(target, spells)) { deny(e); return; }
+        }
+        if (group == InterfaceID.MAGIC_SPELLBOOK && e.getMenuAction() == net.runelite.api.MenuAction.WIDGET_TARGET
+            && !HistoricalSpellRestrictions.allowedWidget(widget.getId(), spells)) {
+            deny(e); return;
+        }
+        // Re-check a previously selected spell/item after changing the historical date.
+        if (e.getMenuAction().name().startsWith("WIDGET_TARGET_ON_")) {
+            Widget selected = client.getSelectedWidget();
+            if (selected != null && selected.getId() >>> 16 == InterfaceID.MAGIC_SPELLBOOK
+                && !HistoricalSpellRestrictions.allowedWidget(selected.getId(), spells)) {
+                deny(e); return;
+            }
+            if (selected != null && selected.getItemId() >= 0 && !isItemUnlocked(selected.getItemId())) {
+                deny(e); return;
+            }
+        }
+        if ((e.getMenuAction().name().startsWith("GAME_OBJECT_")
+            || e.getMenuAction() == net.runelite.api.MenuAction.WIDGET_TARGET_ON_GAME_OBJECT)
+            && sailingObjects.contains(e.getId())) {
+            deny(e); return;
+        }
+        NPC npc = e.getMenuEntry().getNpc();
+        if (npc != null && !option.equals("Examine")
+            && !EntityDefinition.isMonsterUnlocked(npc.getId(), config.release().getDate())) {
+            deny(e); return;
+        }
+        // Match action types as well as labels so new/custom item actions cannot bypass the gate.
+        boolean itemAction = e.isItemOp() || MENU_BLACKLIST.contains(option)
+            || e.getMenuAction().name().startsWith("GROUND_ITEM_")
+            || e.getMenuAction() == net.runelite.api.MenuAction.WIDGET_TARGET;
+        boolean disposal = option.equals("Drop") || option.equals("Destroy") || option.equals("Examine")
+            || option.startsWith("Deposit") || option.equals("Release") || option.equals("Remove");
+        int itemId = e.getItemId();
+        if (e.getMenuAction().name().startsWith("GROUND_ITEM_")) itemId = e.getId();
+        if (itemAction && !disposal && itemId >= 0 && !isItemUnlocked(itemId)) {
+            deny(e);
+            addWarningMessage("This item is unavailable or has no verified release date for "
+                + config.release().getName() + ".", false);
+        }
+    }
 
-			if(prayers.size() > 0) {
-				List<Prayer> unlockedPrayers = Release.getPrayers(currentRelease);
+    private void deny(MenuOptionClicked event) {
+        event.consume();
+        client.playSoundEffect(SOUND_EFFECT_INACTIVE);
+    }
 
-				if(!unlockedPrayers.contains(prayers.get(0).getPrayer())) {
-					e.consume();
-					client.playSoundEffect(SOUND_EFFECT_INACTIVE);
-				}
-			}
-		}
+    private void reloadScene() {
+        clientThread.invokeLater(() -> {
+            if (client.getGameState() == GameState.LOGGED_IN) client.setGameState(GameState.LOADING);
+        });
+    }
 
-		if(e.getMenuOption().equals("Cast")) {
-			if (!HistoricalSpellRestrictions.allowed(e.getMenuTarget(), config.release().getDate()))
-			{
-				e.consume();
-				client.playSoundEffect(SOUND_EFFECT_INACTIVE);
-				return;
-			}
-			List<ChronoSpell> unlockedSpells = Release.getSpells(currentRelease);
-			List<ChronoSpell> validSpells = unlockedSpells.stream().filter(s -> e.getMenuTarget().contains(s.getName())).collect(Collectors.toList());
-
-			if(validSpells.size() == 0) {
-				e.consume();
-				client.playSoundEffect(SOUND_EFFECT_INACTIVE);
-			}
-		}
-
-		if(MENU_BLACKLIST.contains(e.getMenuOption())) {
-			if(e.getItemId() < 0) return;
-
-			// Catch a weird special case where it says the item ID is 0 when theres no item
-			if(e.getItemId() == 0 && !e.getMenuTarget().equals("Dwarf Remains")) return;
-
-			int id = e.getItemId();
-
-			if(!isItemUnlocked(id)) {
-				EntityDefinition def = EntityDefinition.itemDefinitions.get(id);
-				if(def == null) return;
-
-				e.consume();
-				String was = def.getName().endsWith("s") ? "were" : "was";
-				addWarningMessage(def.getName()+" "+was+" released after "+config.release().getName()+".", true);
-			}
-		}
-	}
+    private void refreshWidgets() {
+        if (client.getGameState() != GameState.LOGGED_IN) return;
+        updatePrayers();
+        updateQuests();
+        updateSkillOverlays();
+        updateSpells();
+    }
 
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded e) {
@@ -296,13 +327,12 @@ public class ChronoPlugin extends Plugin {
 			this.createLockedSkillOverlays();
 		}
 		else if (e.getGroupId() == InterfaceID.TOPLEVEL_OSRS_STRETCH || e.getGroupId() == InterfaceID.TOPLEVEL) {
-			this.createPrayerLockWidgets();
-			this.updatePrayers();
+            this.updatePrayers();
 		}
 		else if(e.getGroupId() == InterfaceID.QUESTLIST) {
 			this.updateQuests();
 		}
-		else if(e.getGroupId() == 218) {
+		else if(e.getGroupId() == InterfaceID.MAGIC_SPELLBOOK) {
 			this.updateSpells();
 		}
 	}
@@ -310,11 +340,6 @@ public class ChronoPlugin extends Plugin {
 
 
 
-
-	@Subscribe
-	public void onVarbitChanged(VarbitChanged e) {
-		if(PRAYER_VARBITS.contains(e.getVarbitId())) updatePrayers();
-	}
 
 	@VisibleForTesting
 	boolean shouldDraw(Renderable renderable, boolean drawingUI) {
@@ -328,9 +353,8 @@ public class ChronoPlugin extends Plugin {
 
 			try {
 				return EntityDefinition.isMonsterUnlocked(npc.getId(), config.release().getDate());
-			} catch(ParseException e) {
-				e.printStackTrace();
-				return true;
+            } catch(ParseException e) {
+                return false;
 			}
 		}
 
@@ -348,11 +372,14 @@ public class ChronoPlugin extends Plugin {
 				.runeLiteFormattedMessage(chatMessage.build())
 				.build());
 
-		client.playSoundEffect(SOUND_EFFECT_FAIL);
+        if (playSound) client.playSoundEffect(SOUND_EFFECT_FAIL);
 	}
 
 	public boolean isItemUnlocked(int itemId) throws ParseException {
-		return EntityDefinition.isItemUnlocked(itemId, config.release().getDate());
+        ItemComposition item = client.getItemDefinition(itemId);
+        // A bank note is the same historical item, not an independent modern item.
+        if (item.getNote() != -1) itemId = item.getLinkedNoteId();
+        return EntityDefinition.isItemUnlocked(itemId, config.release().getDate());
 	}
 
 	private void createLockedSkillOverlays() {
@@ -387,94 +414,42 @@ public class ChronoPlugin extends Plugin {
 		skillOverlays.put(skill.getName(), widgets);
 	}
 
-	private void createPrayerLockWidgets() {
-		Widget prayerOrb = client.getWidget(PRAYER_ORB);
-		Widget orbWidget = prayerOrb.createChild(-1, WidgetType.GRAPHIC);
-		quickPrayer = new UIButton(orbWidget);
-		quickPrayer.setSize(prayerOrb.getWidth(), prayerOrb.getHeight());
-		quickPrayer.addAction("Disabled", () -> client.playSoundEffect(SOUND_EFFECT_FAIL));
-		quickPrayer.setVisibility(false);
+    private void updatePrayers() {
+        List<Prayer> unlocked = Release.getPrayers(currentRelease);
+        for (ChronoPrayer prayer : ChronoPrayer.values()) {
+            Widget parent = client.getWidget(prayer.getPackedID());
+            if (parent != null) parent.setOpacity(unlocked.contains(prayer.getPrayer()) ? 0 : 160);
+        }
+    }
 
-		Widget container = client.getWidget(35454976);
-		Widget prayerLabel = container.createChild(-1, WidgetType.TEXT);
-		prayerLocked = new UILabel(prayerLabel);
-		prayerLocked.setText("Prayers have not been released yet.");
-		prayerLocked.setColour(ColorScheme.BRAND_ORANGE.getRGB());
-		prayerLocked.setSize(150, 75);
-		prayerLocked.setPosition(getCenterX(container, 150), getCenterY(container, 75));
-		prayerLocked.setVisibility(false);
-	}
+    private void updateSpells() {
+        List<ChronoSpell> unlocked = Release.getSpells(currentRelease);
+        for (ChronoSpell spell : ChronoSpell.values()) {
+            Widget widget = client.getWidget(spell.getPackedID());
+            if (widget != null) widget.setOpacity(unlocked.contains(spell) ? 0 : 160);
+        }
+    }
 
-	private void updatePrayers() {
-		if(prayerLocked == null) return;
-		
-		// Prayers were released in May 2001, despite the skill being available before
-		if(currentRelease.getDate().getDate().before(ReleaseDate.MAY_2001.getDate())) {
-			client.getWidget(QUICK_PRAYER).setHidden(true);
-			client.getWidget(PRAYER_TAB).setHidden(true);
-			prayerLocked.setVisibility(true);
-			quickPrayer.setVisibility(true);
-		}
-		else {
-			client.getWidget(QUICK_PRAYER).setHidden(false);
-			client.getWidget(PRAYER_TAB).setHidden(false);
-			prayerLocked.setVisibility(false);
-			quickPrayer.setVisibility(false);
+    private void updateQuests() { updateQuests(true); }
 
-			List<Prayer> unlockedPrayers = Release.getPrayers(currentRelease);
-			int offset = 4; // IDs change due to updates occasionally, but will always change by the same amount
-			for(ChronoPrayer prayer : ChronoPrayer.values()) {
-				Widget parent = client.getWidget(prayer.getPackedID() + offset);
-				Widget original = parent.getChild(1);
-
-				if(original == null) continue;
-				if(unlockedPrayers.contains(prayer.getPrayer())) original.setSpriteId(prayer.getUnlockedSpriteID());
-				else original.setSpriteId(prayer.getLockedSpriteID());
-				original.revalidate();
-			}
-		}
-	}
-
-	private void updateSpells() {
-		Widget parent = client.getWidget(14286851);
-
-		if(parent == null) return;
-
-		List<ChronoSpell> unlockedSpells = Release.getSpells(currentRelease);
-		for(ChronoSpell spell : ChronoSpell.values()) {
-			if(unlockedSpells.contains(spell)) continue;
-
-			Widget spellWidget = client.getWidget(spell.getPackedID());
-
-			if(spellWidget == null) continue;
-
-			spellWidget.setSpriteId(spell.getLockedSpriteID());
-		}
-	}
-
-	private void updateQuests() {
-		Widget parent = client.getWidget(26148871);
-
-		if(parent == null) return;
-
-		Widget[] quests = parent.getChildren();
-		List<Quest> unlockedQuests = Release.getQuests(currentRelease);
-
-		for(Widget questWidget : quests) {
-			List<Quest> validQuests = unlockedQuests.stream().filter(q -> q.getName().contains(questWidget.getText())).collect(Collectors.toList());
-
-			// Quest is not unlocked and this is not a header
-			if(validQuests.size() == 0 && questWidget.getFontId() == 494) {
-				questWidget.setHasListener(false);
-				questWidget.setTextColor(Color.GRAY.getRGB());
-			}
-			else if(questWidget.getFontId() == 494 && questWidget.getTextColor() == Color.GRAY.getRGB()) {
-				questWidget.setHasListener(false);
-				int color = validQuests.get(0).getState(client) == QuestState.FINISHED ? Integer.parseInt("dc10d", 16) : Integer.parseInt("ff0000", 16);
-				questWidget.setTextColor(color);
-			}
-		}
-	}
+    private void updateQuests(boolean restrict) {
+        Widget parent = client.getWidget(InterfaceID.Questlist.LIST);
+        if (parent == null || parent.getChildren() == null) return;
+        List<Quest> unlocked = Release.getQuests(currentRelease);
+        for (Widget widget : parent.getChildren()) {
+            if (widget == null) continue;
+            String name = HistoricalSpellRestrictions.clean(widget.getText());
+            Quest quest = Arrays.stream(Quest.values()).filter(q -> q.getName().equalsIgnoreCase(name))
+                .findFirst().orElse(null);
+            if (quest == null) continue;
+            if (restrict && !unlocked.contains(quest)) widget.setTextColor(Color.GRAY.getRGB());
+            else {
+                QuestState state = quest.getState(client);
+                widget.setTextColor(state == QuestState.FINISHED ? 0x00ff00
+                    : state == QuestState.IN_PROGRESS ? 0xffff00 : 0xff0000);
+            }
+        }
+    }
 
 	private void updateSkillOverlays() {
 		if(this.skillOverlays == null) return;

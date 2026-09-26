@@ -15,12 +15,10 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayPriority;
 
 public class HistoricalSceneMaskOverlay extends Overlay
 {
     private static final Color VOID = new Color(0, 0, 0, 255);
-    private static final int RADIUS = 52;
     private final Client client;
     private final ChronoConfig config;
 
@@ -31,7 +29,7 @@ public class HistoricalSceneMaskOverlay extends Overlay
         this.config = config;
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);
-        setPriority(OverlayPriority.HIGHEST);
+        setPriority(Overlay.PRIORITY_HIGHEST);
     }
 
     @Override
@@ -42,34 +40,34 @@ public class HistoricalSceneMaskOverlay extends Overlay
             return null;
         }
 
-        WorldView worldView = client.getTopLevelWorldView();
-        WorldPoint centre = client.getLocalPlayer().getWorldLocation();
-        graphics.setColor(VOID);
+        WorldView worldView = client.getLocalPlayer().getWorldView();
+        Graphics2D copy = (Graphics2D) graphics.create();
+        copy.clip(new java.awt.Rectangle(client.getViewportXOffset(), client.getViewportYOffset(),
+            client.getViewportWidth(), client.getViewportHeight()));
+        copy.setColor(VOID);
+        try {
 
-        for (int dx = -RADIUS; dx <= RADIUS; dx++)
+        for (int dx = 0; dx < worldView.getSizeX(); dx++)
         {
-            for (int dy = -RADIUS; dy <= RADIUS; dy++)
+            for (int dy = 0; dy < worldView.getSizeY(); dy++)
             {
-                WorldPoint wp = new WorldPoint(centre.getX() + dx, centre.getY() + dy, centre.getPlane());
-                if (HistoricalRegionState.isTileUnlocked(wp))
-                {
-                    continue;
-                }
-
-                LocalPoint lp = LocalPoint.fromWorld(worldView, wp);
+                LocalPoint lp = LocalPoint.fromScene(dx, dy, worldView);
                 if (lp == null)
                 {
                     continue;
                 }
 
+                WorldPoint template = WorldPoint.fromLocalInstance(worldView.getScene(), lp, worldView.getPlane());
+                if (HistoricalRegionState.isTileUnlocked(template)) continue;
                 Polygon poly = Perspective.getCanvasTilePoly(client, lp);
                 if (poly != null)
                 {
-                    graphics.fillPolygon(poly);
+                    copy.fillPolygon(poly);
                 }
             }
         }
 
+        } finally { copy.dispose(); }
         return null;
     }
 }

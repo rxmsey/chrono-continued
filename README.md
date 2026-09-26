@@ -5,12 +5,14 @@ Chrono Continued is a continuation of the RuneLite **Chrono** plugin, extending 
 ## What it does
 
 - Keeps Chrono's original pre-2005 restrictions.
-- Adds selectable historical releases from 2005 through 10 August 2007.
+- Adds every dated game-update state from RuneScape's launch through 10 August 2007 while preserving the original monthly selector constants for saved configurations.
 - Unlocks quests, skills, prayers, spells, entities and major map regions according to release date.
 - Blacks out historically unavailable areas in the 3D scene, minimap and world map.
 - Treats unknown/post-2007 geography as locked by default.
 - Permanently excludes **Sailing**, which is outside the plugin's 2007 endpoint.
-- Blocks Ancient spellbook content before Desert Treasure and Dream Mentor spell additions before their historical release.
+- Gates standard, Ancient and Lunar spellbooks, including the Lunar Diplomacy and Dream Mentor batches.
+- Locks unknown or unverified item/NPC IDs instead of allowing them through.
+- Blocks modern Sailing interfaces, objects, actions and the Sailing skill itself.
 
 ## Historical endpoint
 
@@ -26,6 +28,8 @@ This project continues the BSD-2-Clause licensed Chrono plugin by IdylRS and pre
 
 Original project: `IdylRS/chrono-plugin`.
 
+The dated quest and miniquest source ledger is in [`docs/quest-sources.tsv`](docs/quest-sources.tsv). Release rows also carry the preserved Jagex announcement URLs used for their dates. The automated audit checks every selector, 146 quests and miniquests, 23 historical skills, 26 historical prayers, 127 historical spells, 24,735 item records, 3,000 NPC/monster records, region fail-closed behaviour, and the Sailing exclusion.
+
 ## Important limitation
 
-This is a RuneLite client plugin running against the modern Old School RuneScape server. It can restrict interactions and hide later content, but it cannot recreate deleted 2007 server mechanics, NPC behaviour, or the literal 2007 game cache.
+This is a RuneLite client plugin running against the modern Old School RuneScape server. It can restrict interactions and hide later content, but it cannot recreate deleted 2007 server mechanics, NPC behaviour, or the literal 2007 game cache. Region masking uses RuneScape's 64-by-64 map-region granularity, so a modern and historical location that share one region cannot be separated tile by tile from release metadata alone.

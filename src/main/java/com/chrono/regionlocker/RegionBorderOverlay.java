@@ -40,7 +40,6 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
-import net.runelite.client.ui.overlay.OverlayPriority;
 
 public class RegionBorderOverlay extends Overlay
 {
@@ -56,7 +55,7 @@ public class RegionBorderOverlay extends Overlay
 	private RegionBorderOverlay(Client client, ChronoConfig config)
 	{
 		setPosition(OverlayPosition.DYNAMIC);
-		setPriority(OverlayPriority.HIGH);
+		setPriority(Overlay.PRIORITY_HIGH);
 		setLayer(OverlayLayer.ABOVE_SCENE);
 		this.client = client;
 		this.config = config;
@@ -85,15 +84,15 @@ public class RegionBorderOverlay extends Overlay
 		GeneralPath path = new GeneralPath();
 		for (int x = startX; x <= endX; x += MAP_SQUARE_SIZE)
 		{
-			LocalPoint lp1 = LocalPoint.fromWorld(client, x, wp.getY() - CULL_CHUNK_BORDERS_RANGE);
-			LocalPoint lp2 = LocalPoint.fromWorld(client, x, wp.getY() + CULL_CHUNK_BORDERS_RANGE);
+			LocalPoint lp1 = LocalPoint.fromWorld(client.getTopLevelWorldView(), x, wp.getY() - CULL_CHUNK_BORDERS_RANGE);
+			LocalPoint lp2 = LocalPoint.fromWorld(client.getTopLevelWorldView(), x, wp.getY() + CULL_CHUNK_BORDERS_RANGE);
 
 			boolean first = true;
 			for (int y = lp1.getY(); y <= lp2.getY(); y += LOCAL_TILE_SIZE)
 			{
 				Point p = Perspective.localToCanvas(client,
-						new LocalPoint(lp1.getX() - LOCAL_TILE_SIZE / 2, y - LOCAL_TILE_SIZE / 2),
-						client.getPlane());
+						new LocalPoint(lp1.getX() - LOCAL_TILE_SIZE / 2, y - LOCAL_TILE_SIZE / 2, client.getTopLevelWorldView().getId()),
+						client.getTopLevelWorldView().getPlane());
 				if (p != null)
 				{
 					if (first)
@@ -110,15 +109,15 @@ public class RegionBorderOverlay extends Overlay
 		}
 		for (int y = startY; y <= endY; y += MAP_SQUARE_SIZE)
 		{
-			LocalPoint lp1 = LocalPoint.fromWorld(client, wp.getX() - CULL_CHUNK_BORDERS_RANGE, y);
-			LocalPoint lp2 = LocalPoint.fromWorld(client, wp.getX() + CULL_CHUNK_BORDERS_RANGE, y);
+			LocalPoint lp1 = LocalPoint.fromWorld(client.getTopLevelWorldView(), wp.getX() - CULL_CHUNK_BORDERS_RANGE, y);
+			LocalPoint lp2 = LocalPoint.fromWorld(client.getTopLevelWorldView(), wp.getX() + CULL_CHUNK_BORDERS_RANGE, y);
 
 			boolean first = true;
 			for (int x = lp1.getX(); x <= lp2.getX(); x += LOCAL_TILE_SIZE)
 			{
 				Point p = Perspective.localToCanvas(client,
-						new LocalPoint(x - LOCAL_TILE_SIZE / 2, lp1.getY() - LOCAL_TILE_SIZE / 2),
-						client.getPlane());
+						new LocalPoint(x - LOCAL_TILE_SIZE / 2, lp1.getY() - LOCAL_TILE_SIZE / 2, client.getTopLevelWorldView().getId()),
+						client.getTopLevelWorldView().getPlane());
 				if (p != null)
 				{
 					if (first)

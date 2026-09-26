@@ -2,32 +2,33 @@ package com.chrono;
 
 import lombok.Getter;
 import net.runelite.api.Skill;
+import net.runelite.api.gameval.InterfaceID;
 
 public enum ChronoSkill {
-    ATTACK(Skill.ATTACK, 20971521),
-    STRENGTH(Skill.STRENGTH, 20971522),
-    DEFENCE(Skill.DEFENCE, 20971523),
-    RANGED(Skill.RANGED, 20971524),
-    PRAYER(Skill.PRAYER, 20971525),
-    MAGIC(Skill.MAGIC, 20971526),
-    RUNECRAFT(Skill.RUNECRAFT, 20971527),
-    CONSTRUCTION(Skill.CONSTRUCTION, 20971528),
-    HITPOINTS(Skill.HITPOINTS, 20971529),
-    AGILITY(Skill.AGILITY, 20971530),
-    HERBLORE(Skill.HERBLORE, 20971531),
-    THIEVING(Skill.THIEVING, 20971532),
-    CRAFTING(Skill.CRAFTING, 20971533),
-    FLETCHING(Skill.FLETCHING, 20971534),
-    SLAYER(Skill.SLAYER, 20971535),
-    HUNTER(Skill.HUNTER, 20971536),
-    MINING(Skill.MINING, 20971537),
-    SMITHING(Skill.SMITHING, 20971538),
-    FISHING(Skill.FISHING, 20971539),
-    COOKING(Skill.COOKING, 20971540),
-    FIREMAKING(Skill.FIREMAKING, 20971541),
-    WOODCUTTING(Skill.WOODCUTTING, 20971542),
-    FARMING(Skill.FARMING, 20971543),
-    SAILING(Skill.SAILING, 20971544);
+    ATTACK(Skill.ATTACK, InterfaceID.Stats.ATTACK),
+    STRENGTH(Skill.STRENGTH, InterfaceID.Stats.STRENGTH),
+    DEFENCE(Skill.DEFENCE, InterfaceID.Stats.DEFENCE),
+    RANGED(Skill.RANGED, InterfaceID.Stats.RANGED),
+    PRAYER(Skill.PRAYER, InterfaceID.Stats.PRAYER),
+    MAGIC(Skill.MAGIC, InterfaceID.Stats.MAGIC),
+    RUNECRAFT(Skill.RUNECRAFT, InterfaceID.Stats.RUNECRAFT),
+    CONSTRUCTION(Skill.CONSTRUCTION, InterfaceID.Stats.CONSTRUCTION),
+    HITPOINTS(Skill.HITPOINTS, InterfaceID.Stats.HITPOINTS),
+    AGILITY(Skill.AGILITY, InterfaceID.Stats.AGILITY),
+    HERBLORE(Skill.HERBLORE, InterfaceID.Stats.HERBLORE),
+    THIEVING(Skill.THIEVING, InterfaceID.Stats.THIEVING),
+    CRAFTING(Skill.CRAFTING, InterfaceID.Stats.CRAFTING),
+    FLETCHING(Skill.FLETCHING, InterfaceID.Stats.FLETCHING),
+    SLAYER(Skill.SLAYER, InterfaceID.Stats.SLAYER),
+    HUNTER(Skill.HUNTER, InterfaceID.Stats.HUNTER),
+    MINING(Skill.MINING, InterfaceID.Stats.MINING),
+    SMITHING(Skill.SMITHING, InterfaceID.Stats.SMITHING),
+    FISHING(Skill.FISHING, InterfaceID.Stats.FISHING),
+    COOKING(Skill.COOKING, InterfaceID.Stats.COOKING),
+    FIREMAKING(Skill.FIREMAKING, InterfaceID.Stats.FIREMAKING),
+    WOODCUTTING(Skill.WOODCUTTING, InterfaceID.Stats.WOODCUTTING),
+    FARMING(Skill.FARMING, InterfaceID.Stats.FARMING),
+    SAILING(Skill.SAILING, InterfaceID.Stats.SAILING);
 
     @Getter
     private Skill skill;
