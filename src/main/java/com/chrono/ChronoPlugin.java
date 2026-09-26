@@ -12,6 +12,9 @@ import javax.inject.Inject;
 import com.chrono.regionlocker.RegionBorderOverlay;
 import com.chrono.regionlocker.RegionLocker;
 import com.chrono.regionlocker.RegionLockerOverlay;
+import com.chrono.regionlocker.HistoricalRegionState;
+import com.chrono.regionlocker.HistoricalSceneMaskOverlay;
+import com.chrono.regionlocker.HistoricalMinimapMaskOverlay;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +51,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @PluginDescriptor(
-		name = "Chrono",
+		name = "Chrono Continued",
 		description = "Travel back in time",
 		tags = {"time traveler", "by release"}
 )
@@ -79,6 +82,12 @@ public class ChronoPlugin extends Plugin {
 
 	@Inject
 	private RegionBorderOverlay regionBorderOverlay;
+
+	@Inject
+	private HistoricalSceneMaskOverlay historicalSceneMaskOverlay;
+
+	@Inject
+	private HistoricalMinimapMaskOverlay historicalMinimapMaskOverlay;
 
 	@Inject
 	@Getter
@@ -135,12 +144,17 @@ public class ChronoPlugin extends Plugin {
 	protected void startUp() {
 		loadDefinitions();
 		currentRelease = Release.getReleaseByDate(config.release());
+		HistoricalRegionState.setSelectedDate(config.release().getDate());
+		HistoricalRegionState.replaceWith(Release.getRegions(currentRelease));
 		overlayManager.add(itemOverlay);
+		overlayManager.add(regionLockerOverlay);
+		overlayManager.add(historicalSceneMaskOverlay);
+		overlayManager.add(historicalMinimapMaskOverlay);
 
 		panel = new ChronoPanel(this);
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "panel_icon.png");
 		navButton = NavigationButton.builder()
-				.tooltip("Chrono")
+				.tooltip("Chrono Continued")
 				.priority(5)
 				.icon(icon)
 				.panel(panel)
@@ -155,6 +169,8 @@ public class ChronoPlugin extends Plugin {
 		overlayManager.remove(itemOverlay);
 		overlayManager.remove(regionLockerOverlay);
 		overlayManager.remove(regionBorderOverlay);
+		overlayManager.remove(historicalSceneMaskOverlay);
+		overlayManager.remove(historicalMinimapMaskOverlay);
 		clientToolbar.removeNavigation(navButton);
 		hooks.unregisterRenderableDrawListener(drawListener);
 	}
@@ -164,7 +180,11 @@ public class ChronoPlugin extends Plugin {
 		EntityDefinition.itemDefinitions = loadDefinitionResource(defMapType, "items.json");
 		EntityDefinition.monsterDefinition = loadDefinitionResource(defMapType, "monsters.json");
 
-		Release.setReleases(loadDefinitionResource(Release[].class, "releases.json"));
+		Release[] base = loadDefinitionResource(Release[].class, "releases.json");
+		Release[] continued = loadDefinitionResource(Release[].class, "releases-2005-2007.json");
+		Release[] merged = Arrays.copyOf(base, base.length + continued.length);
+		System.arraycopy(continued, 0, merged, base.length, continued.length);
+		Release.setReleases(merged);
 	}
 
 
@@ -184,6 +204,8 @@ public class ChronoPlugin extends Plugin {
 
 		if(e.getKey().equals(CONFIG_RELEASE_DATE_KEY)) {
 			currentRelease = Release.getReleaseByDate(config.release());
+			HistoricalRegionState.setSelectedDate(config.release().getDate());
+			HistoricalRegionState.replaceWith(Release.getRegions(currentRelease));
 			clientThread.invokeLater(() -> this.updatePrayers());
 			clientThread.invokeLater(() -> this.updateQuests());
 			clientThread.invokeLater(() -> this.updateSkillOverlays());
@@ -213,6 +235,12 @@ public class ChronoPlugin extends Plugin {
 
 	@Subscribe
 	public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
+		if (HistoricalPermanentExclusions.isSailingMenuAction(e.getMenuOption(), e.getMenuTarget()))
+		{
+			e.consume();
+			client.playSoundEffect(SOUND_EFFECT_INACTIVE);
+			return;
+		}
 		if(e.getMenuOption().equals("Activate")) {
 			List<ChronoPrayer> prayers = Arrays.stream(ChronoPrayer.values()).filter(p -> e.getMenuTarget().contains(p.getName())).collect(Collectors.toList());
 
@@ -227,6 +255,12 @@ public class ChronoPlugin extends Plugin {
 		}
 
 		if(e.getMenuOption().equals("Cast")) {
+			if (!HistoricalSpellRestrictions.allowed(e.getMenuTarget(), config.release().getDate()))
+			{
+				e.consume();
+				client.playSoundEffect(SOUND_EFFECT_INACTIVE);
+				return;
+			}
 			List<ChronoSpell> unlockedSpells = Release.getSpells(currentRelease);
 			List<ChronoSpell> validSpells = unlockedSpells.stream().filter(s -> e.getMenuTarget().contains(s.getName())).collect(Collectors.toList());
 
