@@ -26,7 +26,8 @@ public enum ChronoSkill {
     COOKING(Skill.COOKING, 20971540),
     FIREMAKING(Skill.FIREMAKING, 20971541),
     WOODCUTTING(Skill.WOODCUTTING, 20971542),
-    FARMING(Skill.FARMING, 20971543);
+    FARMING(Skill.FARMING, 20971543),
+    SAILING(Skill.SAILING, 20971544);
 
     @Getter
     private Skill skill;
