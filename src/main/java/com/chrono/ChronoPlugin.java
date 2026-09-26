@@ -195,6 +195,8 @@ public class ChronoPlugin extends Plugin {
         sailingObjects = new HashSet<>(Arrays.asList(objects));
         Type defMapType = new TypeToken<Map<Integer, EntityDefinition>>() {}.getType();
         EntityDefinition.itemDefinitions = loadDefinitionResource(defMapType, "items.json");
+        Type overrideMapType = new TypeToken<Map<Integer, String>>() {}.getType();
+        EntityDefinition.itemReleaseOverrides = loadDefinitionResource(overrideMapType, "item-release-overrides.json");
         EntityDefinition.monsterDefinition = loadDefinitionResource(defMapType, "monsters.json");
         Release[] base = loadDefinitionResource(Release[].class, "releases.json");
         Release[] continued = loadDefinitionResource(Release[].class, "releases-2005-2007.json");
