@@ -1,0 +1,871 @@
+[
+  {
+    "date": "_07_FEBRUARY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ROVING_ELVES"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_15_FEBRUARY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "GHOSTS_AHOY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_28_FEBRUARY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ONE_SMALL_FAVOUR"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_07_MARCH_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "MOUNTAIN_DAUGHTER"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_14_MARCH_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_21_MARCH_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "BETWEEN_A_ROCK"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_APRIL_2005",
+    "regions": [
+      13358
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_FEUD"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_11_APRIL_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_GOLEM"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_18_APRIL_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "DESERT_TREASURE_I"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_26_APRIL_2005",
+    "regions": [
+      13099
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ICTHLARINS_LITTLE_HELPER"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_MAY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "TEARS_OF_GUTHIX"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_09_MAY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_17_MAY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ZOGRE_FLESH_EATERS"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_31_MAY_2005",
+    "regions": [
+      10810,
+      11678,
+      11679
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_LOST_TRIBE",
+      "THE_GIANT_DWARF"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_27_JUNE_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "RECRUITMENT_DRIVE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_11_JULY_2005",
+    "regions": [],
+    "skills": [
+      "FARMING"
+    ],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_19_JULY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "MOURNINGS_END_PART_I"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_26_JULY_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "FORGETTABLE_TALE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_01_AUGUST_2005",
+    "regions": [
+      10042
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_30_AUGUST_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "GARDEN_OF_TRANQUILLITY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_19_SEPTEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_26_SEPTEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "A_TAIL_OF_TWO_CATS"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_OCTOBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_17_OCTOBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "WANTED",
+      "MOURNINGS_END_PART_II"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_31_OCTOBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "RUM_DEAL"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_14_NOVEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "SHADOW_OF_THE_STORM"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_22_NOVEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "MAKING_HISTORY",
+      "THE_ENCHANTED_KEY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_28_NOVEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "RATCATCHERS"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_05_DECEMBER_2005",
+    "regions": [
+      13613
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "SPIRITS_OF_THE_ELID"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_19_DECEMBER_2005",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "DEVIOUS_MINDS"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [
+      "BONES_TO_PEACHES"
+    ],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_10_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_HAND_IN_THE_SAND"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_23_JANUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ENAKHRAS_LAMENT"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_07_FEBRUARY_2006",
+    "regions": [
+      14638,
+      14639,
+      14894,
+      14895,
+      15150,
+      15151
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "CABIN_FEVER"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_27_FEBRUARY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "FAIRYTALE_I__GROWING_PAINS"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_15_MARCH_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "RECIPE_FOR_DISASTER"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_22_MARCH_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "IN_AID_OF_THE_MYREQUE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_03_APRIL_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "A_SOULS_BANE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_10_APRIL_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "RAG_AND_BONE_MAN_I"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_18_APRIL_2006",
+    "regions": [
+      10537
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_02_MAY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "SWAN_SONG"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_22_MAY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ROYAL_TROUBLE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_31_MAY_2006",
+    "regions": [],
+    "skills": [
+      "CONSTRUCTION"
+    ],
+    "prayers": [],
+    "quests": [],
+    "spells": [
+      "TELEPORT_TO_HOUSE"
+    ],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_13_JUNE_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_21_JUNE_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "DEATH_TO_THE_DORGESHUUN"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_JULY_2006",
+    "regions": [
+      12341
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_11_JULY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "FAIRYTALE_II__CURE_A_QUEEN"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_17_JULY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_24_JULY_2006",
+    "regions": [
+      8252,
+      8253,
+      8508,
+      8509
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "LUNAR_DIPLOMACY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_31_JULY_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [
+      "ENCHANT_CROSSBOW_BOLT",
+      "LVL_6_ENCHANT"
+    ],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_15_AUGUST_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_EYES_OF_GLOUPHRIE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_22_AUGUST_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [
+      "SHARP_EYE",
+      "MYSTIC_WILL",
+      "HAWK_EYE",
+      "MYSTIC_LORE",
+      "EAGLE_EYE",
+      "MYSTIC_MIGHT"
+    ],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_SEPTEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "DARKNESS_OF_HALLOWVALE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_20_SEPTEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_SLUG_MENACE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_02_OCTOBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ELEMENTAL_WORKSHOP_II"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_23_OCTOBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "MY_ARMS_BIG_ADVENTURE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_06_NOVEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ENLIGHTENED_JOURNEY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_21_NOVEMBER_2006",
+    "regions": [],
+    "skills": [
+      "HUNTER"
+    ],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_28_NOVEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "EAGLES_PEAK"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_12_DECEMBER_2006",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ANIMAL_MAGNETISM"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_JANUARY_2007",
+    "regions": [
+      10039
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_10_JANUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "CONTACT"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_22_JANUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "LAIR_OF_TARN_RAZORLOR"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_29_JANUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "COLD_WAR"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_06_FEBRUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_FREMENNIK_ISLES"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_12_FEBRUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_GENERALS_SHADOW"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_19_FEBRUARY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "TOWER_OF_LIFE"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_06_MARCH_2007",
+    "regions": [
+      10029
+    ],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "THE_GREAT_BRAIN_ROBBERY"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_27_MARCH_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "WHAT_LIES_BELOW"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_10_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "OLAFS_QUEST"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_24_APRIL_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "ANOTHER_SLICE_OF_HAM"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_15_MAY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "DREAM_MENTOR"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_04_JUNE_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "GRIM_TALES"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_03_JULY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [
+      "BARBARIAN_TRAINING"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_24_JULY_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [
+      "CHIVALRY",
+      "PIETY"
+    ],
+    "quests": [
+      "KINGS_RANSOM"
+    ],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_06_AUGUST_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Chrono Continued historical release"
+  },
+  {
+    "date": "_10_AUGUST_2007",
+    "regions": [],
+    "skills": [],
+    "prayers": [],
+    "quests": [],
+    "spells": [],
+    "description": "Old School backup — 10 August 2007"
+  }
+]
