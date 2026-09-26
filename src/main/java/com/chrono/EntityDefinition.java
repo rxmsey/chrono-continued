@@ -4,6 +4,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -15,12 +16,17 @@ public class EntityDefinition {
     private String lastUpdated;
     static Map<Integer, EntityDefinition> itemDefinitions;
     static Map<Integer, EntityDefinition> monsterDefinition;
+    static Map<Integer, String> itemReleaseOverrides = Collections.emptyMap();
 
     // Unknown IDs and missing/invalid dates remain locked. IDs are never used as a date proxy.
     static boolean isUnlocked(EntityDefinition def, Date selected) {
-        if (def == null || def.releaseDate == null || selected == null) return false;
+        return isUnlockedDate(def == null ? null : def.releaseDate, selected);
+    }
+
+    private static boolean isUnlockedDate(String releaseDate, Date selected) {
+        if (releaseDate == null || selected == null) return false;
         try {
-            LocalDate introduced = LocalDate.parse(def.releaseDate);
+            LocalDate introduced = LocalDate.parse(releaseDate);
             LocalDate date = selected.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             return HistoricalCutoff.isSupported(introduced) && !introduced.isAfter(date);
         } catch (DateTimeParseException ex) {
@@ -29,8 +35,16 @@ public class EntityDefinition {
     }
 
     public static boolean isItemUnlocked(int id, Date selected) throws java.text.ParseException {
-        return isUnlocked(itemDefinitions == null ? null : itemDefinitions.get(id), selected);
+        EntityDefinition def = itemDefinitions == null ? null : itemDefinitions.get(id);
+        if (def == null) return false;
+
+        String release = def.releaseDate;
+        if (release == null && itemReleaseOverrides != null) {
+            release = itemReleaseOverrides.get(id);
+        }
+        return isUnlockedDate(release, selected);
     }
+
     public static boolean isMonsterUnlocked(int id, Date selected) throws java.text.ParseException {
         return isUnlocked(monsterDefinition == null ? null : monsterDefinition.get(id), selected);
     }
