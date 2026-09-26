@@ -121,7 +121,7 @@ public class RegionLockerOverlay extends Overlay
 				Rectangle2D textBounds = fm.getStringBounds(regionText, graphics);
 				Rectangle regionRect = new Rectangle(xPos, yPos, regionPixelSize, regionPixelSize);
 
-				RegionTypes regionType = RegionLocker.getType(regionId);
+				RegionTypes regionType = HistoricalRegionState.isRegionUnlocked(regionId) ? RegionTypes.UNLOCKED : null;
 				boolean containsRegion = (regionType != null) ^ config.invertMapOverlay();
 				boolean unlockable = regionType == RegionTypes.UNLOCKABLE;
 				boolean blacklisted = regionType == RegionTypes.BLACKLISTED;
@@ -140,8 +140,6 @@ public class RegionLockerOverlay extends Overlay
 					{
 						color = config.mapOverlayColor();
 					}
-					if (regionRect.contains(mousePos.getX(), mousePos.getY()))
-						color = color.brighter();
 					graphics.setColor(color);
 					graphics.fillRect(xPos, yPos, regionPixelSize, regionPixelSize);
 				}
