@@ -45,6 +45,31 @@ public interface ChronoConfig extends Config
 	// Environment Looks
 
 	@ConfigItem(
+			keyName = "maskLockedScene",
+			name = "Black out locked world",
+			description = "Paint historically unavailable tiles black in the 3D scene",
+			position = 19,
+			section = environmentSettings
+	)
+	default boolean maskLockedScene()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			keyName = "maskLockedMinimap",
+			name = "Black out locked minimap",
+			description = "Paint historically unavailable tiles black on the minimap",
+			position = 20,
+			section = environmentSettings
+	)
+	default boolean maskLockedMinimap()
+	{
+		return true;
+	}
+
+
+	@ConfigItem(
 			keyName = "renderLockedRegions",
 			name = "Locked chunk shader",
 			description = "Adds graphical change to all chunk that are locked",
@@ -167,7 +192,7 @@ public interface ChronoConfig extends Config
 	)
 	default Color mapOverlayColor()
 	{
-		return new Color(200, 16, 0, 100);
+		return new Color(0, 0, 0, 255);
 	}
 
 	@Alpha
@@ -193,7 +218,7 @@ public interface ChronoConfig extends Config
 	)
 	default Color blacklistedOverlayColor()
 	{
-		return new Color(0, 0, 0, 200);
+		return new Color(0, 0, 0, 255);
 	}
 
 	@ConfigItem(
@@ -205,7 +230,7 @@ public interface ChronoConfig extends Config
 	)
 	default boolean drawMapGrid()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
