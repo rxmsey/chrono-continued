@@ -50,6 +50,17 @@ public class Release {
         return null;
     }
 
+    public static List<Integer> getRegions(Release release) {
+        LinkedHashSet<Integer> regions = new LinkedHashSet<>();
+
+        for (Release r : RELEASES) {
+            if (r.regions != null) regions.addAll(r.getRegions());
+            if (r.equals(release)) break;
+        }
+
+        return new ArrayList<>(regions);
+    }
+
     public static List<Skill> getSkills(Release release) {
         List<Skill> skills = new ArrayList<>();
 
