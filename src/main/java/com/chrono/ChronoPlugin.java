@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.annotations.Varbit;
 import net.runelite.api.events.*;
+import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.callback.Hooks;
@@ -291,14 +292,14 @@ public class ChronoPlugin extends Plugin {
 
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded e) {
-		if(e.getGroupId() == WidgetInfo.SKILLS_CONTAINER.getGroupId()) {
+		if(e.getGroupId() == InterfaceID.STATS) {
 			this.createLockedSkillOverlays();
 		}
-		else if (e.getGroupId() == WidgetInfo.RESIZABLE_VIEWPORT_PRAYER_TAB.getGroupId() || e.getGroupId() == WidgetInfo.FIXED_VIEWPORT_PRAYER_TAB.getGroupId()) {
+		else if (e.getGroupId() == InterfaceID.TOPLEVEL_OSRS_STRETCH || e.getGroupId() == InterfaceID.TOPLEVEL) {
 			this.createPrayerLockWidgets();
 			this.updatePrayers();
 		}
-		else if(e.getGroupId() == WidgetInfo.QUESTLIST_BOX.getGroupId()) {
+		else if(e.getGroupId() == InterfaceID.QUESTLIST) {
 			this.updateQuests();
 		}
 		else if(e.getGroupId() == 218) {
