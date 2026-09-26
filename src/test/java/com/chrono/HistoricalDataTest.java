@@ -39,6 +39,9 @@ public class HistoricalDataTest {
         try (Reader reader = resource("items.json")) {
             EntityDefinition.itemDefinitions = GSON.fromJson(reader, new TypeToken<Map<Integer, EntityDefinition>>(){}.getType());
         }
+        try (Reader reader = resource("item-release-overrides.json")) {
+            EntityDefinition.itemReleaseOverrides = GSON.fromJson(reader, new TypeToken<Map<Integer, String>>(){}.getType());
+        }
         try (Reader reader = resource("monsters.json")) {
             EntityDefinition.monsterDefinition = GSON.fromJson(reader, new TypeToken<Map<Integer, EntityDefinition>>(){}.getType());
         }
@@ -84,6 +87,23 @@ public class HistoricalDataTest {
             }
         }
     }
+    @Test public void verifiedLegacyItemDateGapsAreRecoveredWithoutOpeningUnknownItems() throws Exception {
+        assertEquals(3, EntityDefinition.itemReleaseOverrides.size());
+
+        // Half plain pizza is a real consumable state from the 11 June 2001 pizza update.
+        assertFalse(EntityDefinition.isItemUnlocked(2291, date("2001-06-10")));
+        assertTrue(EntityDefinition.isItemUnlocked(2291, date("2001-06-11")));
+        assertTrue(EntityDefinition.isItemUnlocked(2292, date("2001-06-11")));
+
+        // ID 9947 was introduced in a hidden update between 6 and 13 November 2006.
+        // Use the end of the documented window so it can never unlock early.
+        assertFalse(EntityDefinition.isItemUnlocked(9947, date("2006-11-12")));
+        assertTrue(EntityDefinition.isItemUnlocked(9947, date("2006-11-13")));
+
+        // Null-date interface/modern placeholders remain fail-closed unless explicitly verified.
+        assertFalse(EntityDefinition.isItemUnlocked(11117, date("2007-08-10")));
+    }
+
     @Test public void missingAndMalformedEntityDatesAreLocked() throws Exception {
         assertFalse(EntityDefinition.isItemUnlocked(Integer.MAX_VALUE, date("2007-08-10")));
         assertFalse(EntityDefinition.isMonsterUnlocked(Integer.MAX_VALUE, date("2007-08-10")));
