@@ -54,6 +54,18 @@ public interface RewindConfig extends Config
 		return false;
 	}
 
+	@ConfigItem(
+			keyName = "unlockHomeTeleport",
+			name = "Unlock Home Teleport",
+			description = "Allow Home Teleport regardless of the selected historical date",
+			position = 3,
+			section = generalSettings
+	)
+	default boolean unlockHomeTeleport()
+	{
+		return false;
+	}
+
 	// Environment Looks
 
 	@ConfigItem(
