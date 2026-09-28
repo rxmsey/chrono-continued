@@ -46,13 +46,19 @@ public class ChronoSkillOverlay extends Overlay
         }
 
         List<Skill> unlocked = Release.getSkills(plugin.getCurrentRelease());
-        Widget[] children = stats.getChildren();
-        if (children == null)
+        renderSkillWidgets(graphics, stats.getStaticChildren(), unlocked);
+        renderSkillWidgets(graphics, stats.getDynamicChildren(), unlocked);
+        return null;
+    }
+
+    private static void renderSkillWidgets(Graphics2D graphics, Widget[] widgets, List<Skill> unlocked)
+    {
+        if (widgets == null)
         {
-            return null;
+            return;
         }
 
-        for (Widget widget : children)
+        for (Widget widget : widgets)
         {
             if (widget == null || widget.isHidden())
             {
@@ -72,11 +78,9 @@ public class ChronoSkillOverlay extends Overlay
                 ChronoItemOverlay.paintLocked(graphics, widget.getBounds());
             }
         }
-
-        return null;
     }
 
-    private static Skill skillForWidget(Widget widget)
+    static Skill skillForWidget(Widget widget)
     {
         String[] actions = widget.getActions();
         if (actions == null)
