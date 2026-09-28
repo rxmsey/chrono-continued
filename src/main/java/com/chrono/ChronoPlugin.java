@@ -182,7 +182,6 @@ public class ChronoPlugin extends Plugin {
 		clientToolbar.removeNavigation(navButton);
         renderCallbackManager.unregister(drawListener);
         reloadScene();
-        if (client.getGameState() == GameState.LOGGED_IN) updateQuests(false);
         for (ChronoSpell spell : ChronoSpell.values()) {
             Widget widget = client.getWidget(spell.getPackedID());
             if (widget != null) widget.setOpacity(0);
@@ -321,7 +320,6 @@ public class ChronoPlugin extends Plugin {
     private void refreshWidgets() {
         if (client.getGameState() != GameState.LOGGED_IN) return;
         updatePrayers();
-        updateQuests();
         updateSpells();
     }
 
@@ -329,9 +327,6 @@ public class ChronoPlugin extends Plugin {
 	public void onWidgetLoaded(WidgetLoaded e) {
 		if (e.getGroupId() == InterfaceID.TOPLEVEL_OSRS_STRETCH || e.getGroupId() == InterfaceID.TOPLEVEL) {
             this.updatePrayers();
-		}
-		else if(e.getGroupId() == InterfaceID.QUESTLIST) {
-			this.updateQuests();
 		}
 		else if(e.getGroupId() == InterfaceID.MAGIC_SPELLBOOK) {
 			this.updateSpells();
@@ -396,27 +391,6 @@ public class ChronoPlugin extends Plugin {
         for (ChronoSpell spell : ChronoSpell.values()) {
             Widget widget = client.getWidget(spell.getPackedID());
             if (widget != null) widget.setOpacity(unlocked.contains(spell) ? 0 : 160);
-        }
-    }
-
-    private void updateQuests() { updateQuests(true); }
-
-    private void updateQuests(boolean restrict) {
-        Widget parent = client.getWidget(InterfaceID.Questlist.LIST);
-        if (parent == null || parent.getChildren() == null) return;
-        List<Quest> unlocked = Release.getQuests(currentRelease);
-        for (Widget widget : parent.getChildren()) {
-            if (widget == null) continue;
-            String name = HistoricalSpellRestrictions.clean(widget.getText());
-            Quest quest = Arrays.stream(Quest.values()).filter(q -> q.getName().equalsIgnoreCase(name))
-                .findFirst().orElse(null);
-            if (quest == null) continue;
-            if (restrict && !unlocked.contains(quest)) widget.setTextColor(Color.GRAY.getRGB());
-            else {
-                QuestState state = quest.getState(client);
-                widget.setTextColor(state == QuestState.FINISHED ? 0x00ff00
-                    : state == QuestState.IN_PROGRESS ? 0xffff00 : 0xff0000);
-            }
         }
     }
 
