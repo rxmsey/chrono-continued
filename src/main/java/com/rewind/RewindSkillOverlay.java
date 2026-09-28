@@ -2,12 +2,10 @@ package com.rewind;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.List;
 import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
-import net.runelite.api.Point;
 import net.runelite.api.Skill;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.Widget;
@@ -16,12 +14,8 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
 /**
- * Greys locked skills by resolving the live Stats-tab widgets from their
- * "View <skill> guide" action rather than relying on component positions.
- *
- * The native Stats tooltip is drawn in the same widget layer. While a skill
- * is hovered, temporarily suppress the grey masks so the XP tooltip remains
- * fully readable instead of being painted over by this overlay.
+ * Hides historically unavailable skills from the Stats tab entirely.
+ * A skill reappears normally once it is available at the selected release.
  */
 public class RewindSkillOverlay extends Overlay
 {
@@ -52,47 +46,24 @@ public class RewindSkillOverlay extends Overlay
         }
 
         List<Skill> unlocked = Release.getSkills(plugin.getCurrentRelease());
-        Point mouse = client.getMouseCanvasPosition();
-
-        // RuneScape's skill XP tooltip is rendered beneath RuneLite overlays.
-        // If the cursor is over a skill, don't draw the masks for this frame;
-        // otherwise the masks obscure the tooltip text.
-        if (isMouseOverSkill(stats.getStaticChildren(), mouse)
-            || isMouseOverSkill(stats.getDynamicChildren(), mouse))
-        {
-            return null;
-        }
-
-        renderSkillWidgets(graphics, stats.getStaticChildren(), unlocked);
-        renderSkillWidgets(graphics, stats.getDynamicChildren(), unlocked);
+        updateSkillWidgets(stats.getStaticChildren(), unlocked);
+        updateSkillWidgets(stats.getDynamicChildren(), unlocked);
         return null;
     }
 
-    private static boolean isMouseOverSkill(Widget[] widgets, Point mouse)
+    void restoreAllSkills()
     {
-        if (widgets == null || mouse == null)
+        Widget stats = client.getWidget(InterfaceID.Stats.UNIVERSE);
+        if (stats == null)
         {
-            return false;
+            return;
         }
 
-        for (Widget widget : widgets)
-        {
-            if (widget == null || widget.isHidden() || skillForWidget(widget) == null)
-            {
-                continue;
-            }
-
-            Rectangle bounds = widget.getBounds();
-            if (bounds != null && bounds.contains(mouse.getX(), mouse.getY()))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        restoreSkillWidgets(stats.getStaticChildren());
+        restoreSkillWidgets(stats.getDynamicChildren());
     }
 
-    private static void renderSkillWidgets(Graphics2D graphics, Widget[] widgets, List<Skill> unlocked)
+    private static void updateSkillWidgets(Widget[] widgets, List<Skill> unlocked)
     {
         if (widgets == null)
         {
@@ -101,7 +72,7 @@ public class RewindSkillOverlay extends Overlay
 
         for (Widget widget : widgets)
         {
-            if (widget == null || widget.isHidden())
+            if (widget == null)
             {
                 continue;
             }
@@ -114,9 +85,22 @@ public class RewindSkillOverlay extends Overlay
 
             boolean locked = HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)
                 || !unlocked.contains(skill);
-            if (locked)
+            widget.setHidden(locked);
+        }
+    }
+
+    private static void restoreSkillWidgets(Widget[] widgets)
+    {
+        if (widgets == null)
+        {
+            return;
+        }
+
+        for (Widget widget : widgets)
+        {
+            if (widget != null && skillForWidget(widget) != null)
             {
-                RewindItemOverlay.paintLocked(graphics, widget.getBounds());
+                widget.setHidden(false);
             }
         }
     }
