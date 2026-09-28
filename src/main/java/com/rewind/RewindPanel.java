@@ -1,73 +1,259 @@
 package com.rewind;
 
-import com.rewind.Release;
-
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.datatransfer.StringSelection;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 
-public class RewindPanel extends PluginPanel implements ActionListener {
-    private RewindPlugin plugin;
+/** Player-facing summary of the currently selected historical release. */
+public class RewindPanel extends PluginPanel
+{
+    private final RewindPlugin plugin;
+    private final JLabel dateValue = valueLabel();
+    private final JLabel description = new JLabel();
+    private final JLabel regionsValue = valueLabel();
+    private final JLabel questsValue = valueLabel();
+    private final JLabel skillsValue = valueLabel();
+    private final JLabel prayersValue = valueLabel();
+    private final JLabel spellsValue = valueLabel();
+    private final JLabel geValue = valueLabel();
+    private final JButton geToggle = new JButton();
+    private final JPanel timelineSelector = card();
+    private final JComboBox<ReleaseDate> timelineDates = new JComboBox<>();
 
-    private JButton myButton;
-    private JLabel description;
-    private JLabel title;
-
-    public RewindPanel(RewindPlugin plugin) {
+    public RewindPanel(RewindPlugin plugin)
+    {
         this.plugin = plugin;
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setBackground(ColorScheme.DARK_GRAY_COLOR);
 
-        // Set layout to GridBagLayout
-        setLayout(new GridBagLayout());
+        JPanel content = new JPanel();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
-        // Create GridBagConstraints object to set component constraints
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Set title constraints
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(0, 0, 10, 0); // add padding
-        title = new JLabel("Rewind");
+        JLabel title = new JLabel("Rewind");
         title.setFont(FontManager.getRunescapeBoldFont());
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        add(title, gbc);
+        title.setForeground(Color.WHITE);
+        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(title);
 
-        // Set label and button constraints for second row
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(5, 0, 5, 3); // add padding
-        myButton = new JButton("Copy Unlocked Region IDs");
-        myButton.addActionListener(this);
-        add(myButton, gbc);
+        JLabel subtitle = new JLabel("<html>Experience Old School RuneScape<br>through its historical timeline.</html>");
+        subtitle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+        subtitle.setBorder(new EmptyBorder(3, 0, 12, 0));
+        subtitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        content.add(subtitle);
 
-        // Set label and button constraints for second row
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(5, 0, 5, 3); // add padding
-        description = new JLabel();
-        description.setText(plugin.getCurrentRelease().getDescription());
-        add(description, gbc);
+        content.add(sectionTitle("CURRENT DATE"));
+        JPanel dateCard = card();
+        dateValue.setFont(FontManager.getRunescapeBoldFont());
+        dateValue.setForeground(Color.WHITE);
+        dateValue.setAlignmentX(Component.LEFT_ALIGNMENT);
+        dateCard.add(dateValue);
+        description.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+        description.setBorder(new EmptyBorder(6, 0, 0, 0));
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
+        dateCard.add(description);
+
+        JButton changeTimeline = new JButton("Change Timeline");
+        changeTimeline.setFocusable(false);
+        changeTimeline.setAlignmentX(Component.LEFT_ALIGNMENT);
+        changeTimeline.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        changeTimeline.setToolTipText("Choose a historical date");
+        changeTimeline.addActionListener(e -> toggleTimelineSelector());
+        dateCard.add(Box.createVerticalStrut(8));
+        dateCard.add(changeTimeline);
+        content.add(dateCard);
+
+        buildTimelineSelector();
+        timelineSelector.setVisible(false);
+        content.add(Box.createVerticalStrut(6));
+        content.add(timelineSelector);
+        content.add(Box.createVerticalStrut(10));
+
+        content.add(sectionTitle("TIMELINE PROGRESS"));
+        JPanel unlockCard = card();
+        unlockCard.add(row("Regions", regionsValue));
+        unlockCard.add(row("Quests", questsValue));
+        unlockCard.add(row("Skills", skillsValue));
+        unlockCard.add(row("Prayers", prayersValue));
+        unlockCard.add(row("Spells", spellsValue));
+        content.add(unlockCard);
+        content.add(Box.createVerticalStrut(10));
+
+        content.add(sectionTitle("ACCESS"));
+        JPanel accessCard = card();
+        accessCard.add(row("Grand Exchange", geValue));
+        geToggle.setFocusable(false);
+        geToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        geToggle.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        geToggle.setToolTipText("Toggle the Grand Exchange historical access override");
+        geToggle.addActionListener(e -> toggleGrandExchange());
+        accessCard.add(Box.createVerticalStrut(8));
+        accessCard.add(geToggle);
+        content.add(accessCard);
+
+        add(content, BorderLayout.NORTH);
+        refresh();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String regions = Release.getRegions(plugin.getCurrentRelease()).toString().replace("[", "").replace("]", "");
-        StringSelection stringSelection = new StringSelection(regions);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
+    public void refresh()
+    {
+        Release release = plugin.getCurrentRelease();
+        if (release == null)
+        {
+            return;
+        }
+
+        dateValue.setText(release.getDate().getName());
+        description.setText(html(release.getDescription()));
+        Release finalRelease = Release.getReleaseByDate(ReleaseDate._10_AUGUST_2007);
+        regionsValue.setText(progress(Release.getRegions(release).size(), Release.getRegions(finalRelease).size()));
+        questsValue.setText(progress(Release.getQuests(release).size(), Release.getQuests(finalRelease).size()));
+        skillsValue.setText(progress(Release.getSkills(release).size(), Release.getSkills(finalRelease).size()));
+        prayersValue.setText(progress(Release.getPrayers(release).size(), Release.getPrayers(finalRelease).size()));
+        spellsValue.setText(progress(Release.getSpells(release).size(), Release.getSpells(finalRelease).size()));
+        boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
+        geValue.setText(geUnlocked ? "Enabled" : "Locked");
+        geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
     }
 
-    public void updateDescription(String desc) {
-        String text = "<html>"+desc+"</html>";
-        description.setText(text);
+    private void toggleGrandExchange()
+    {
+        boolean enable = !plugin.getConfig().unlockGrandExchange();
+        plugin.getConfigManager().setConfiguration(
+            RewindPlugin.CONFIG_GROUP_KEY,
+            "unlockGrandExchange",
+            enable);
+    }
+
+    private void buildTimelineSelector()
+    {
+        JLabel label = new JLabel("Choose a historical date");
+        label.setForeground(Color.WHITE);
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        timelineSelector.add(label);
+        timelineSelector.add(Box.createVerticalStrut(6));
+
+        DefaultComboBoxModel<ReleaseDate> model = new DefaultComboBoxModel<>();
+        for (ReleaseDate date : ReleaseDate.values())
+        {
+            if (HistoricalCutoff.isSupported(date.getLocalDate()))
+            {
+                model.addElement(date);
+            }
+        }
+        timelineDates.setModel(model);
+        timelineDates.setMaximumSize(new Dimension(Integer.MAX_VALUE, 28));
+        timelineDates.setAlignmentX(Component.LEFT_ALIGNMENT);
+        timelineSelector.add(timelineDates);
+        timelineSelector.add(Box.createVerticalStrut(8));
+
+        JPanel actions = new JPanel(new GridLayout(1, 2, 6, 0));
+        actions.setOpaque(false);
+        actions.setAlignmentX(Component.LEFT_ALIGNMENT);
+        actions.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+
+        JButton cancel = new JButton("Cancel");
+        cancel.setFocusable(false);
+        cancel.addActionListener(e -> timelineSelector.setVisible(false));
+        actions.add(cancel);
+
+        JButton apply = new JButton("Apply");
+        apply.setFocusable(false);
+        apply.addActionListener(e -> applyTimelineSelection());
+        actions.add(apply);
+        timelineSelector.add(actions);
+    }
+
+    private void toggleTimelineSelector()
+    {
+        boolean show = !timelineSelector.isVisible();
+        if (show)
+        {
+            timelineDates.setSelectedItem(plugin.getConfig().release());
+        }
+        timelineSelector.setVisible(show);
+        revalidate();
+        repaint();
+    }
+
+    private void applyTimelineSelection()
+    {
+        ReleaseDate current = plugin.getConfig().release();
+        ReleaseDate selected = (ReleaseDate) timelineDates.getSelectedItem();
+        if (selected != null && selected != current)
+        {
+            plugin.getConfigManager().setConfiguration(
+                RewindPlugin.CONFIG_GROUP_KEY,
+                RewindPlugin.CONFIG_RELEASE_DATE_KEY,
+                selected);
+        }
+        timelineSelector.setVisible(false);
+        revalidate();
+        repaint();
+    }
+
+    /** Kept for the existing config-change call site. */
+    public void updateDescription(String ignored)
+    {
+        refresh();
+    }
+
+    private static JLabel sectionTitle(String text)
+    {
+        JLabel label = new JLabel(text);
+        label.setFont(FontManager.getRunescapeSmallFont());
+        label.setForeground(ColorScheme.BRAND_ORANGE);
+        label.setBorder(new EmptyBorder(0, 0, 4, 0));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return label;
+    }
+
+    private static JPanel card()
+    {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+        panel.setBorder(new EmptyBorder(8, 8, 8, 8));
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 180));
+        return panel;
+    }
+
+    private static JPanel row(String name, JLabel value)
+    {
+        JPanel row = new JPanel(new BorderLayout());
+        row.setOpaque(false);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
+        JLabel key = new JLabel(name);
+        key.setForeground(Color.WHITE);
+        row.add(key, BorderLayout.WEST);
+        row.add(value, BorderLayout.EAST);
+        return row;
+    }
+
+    private static JLabel valueLabel()
+    {
+        JLabel label = new JLabel();
+        label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+        return label;
+    }
+
+    private static String progress(int current, int total)
+    {
+        return current + " / " + total;
+    }
+
+    private static String html(String text)
+    {
+        if (text == null || text.trim().isEmpty())
+        {
+            return "<html><i>No release notes for this date.</i></html>";
+        }
+        return "<html>" + text + "</html>";
     }
 }
