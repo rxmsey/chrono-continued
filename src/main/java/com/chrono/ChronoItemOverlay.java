@@ -12,9 +12,11 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.text.ParseException;
 import javax.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 
+@Slf4j
 public class ChronoItemOverlay extends WidgetItemOverlay {
 
     private final ItemManager itemManager;
@@ -45,7 +47,7 @@ public class ChronoItemOverlay extends WidgetItemOverlay {
                 graphics.drawImage(image, (int) bounds.getX(), (int) bounds.getY(), null);
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.warn("Unable to determine historical availability for item {}", itemId, e);
         }
     }
 
