@@ -256,6 +256,11 @@ public class RewindPlugin extends Plugin {
             if (panel != null) panel.refresh();
 		}
 
+		if (e.getKey().equals("unlockHomeTeleport")) {
+            clientThread.invokeLater(this::updateSpells);
+            if (panel != null) panel.refresh();
+		}
+
 		if(e.getKey().equals(CONFIG_RELEASE_DATE_KEY)) {
 			currentRelease = Release.getReleaseByDate(config.release());
             updateUnlockedQuestNames();
@@ -505,8 +510,25 @@ public class RewindPlugin extends Plugin {
         }
     }
 
+    List<RewindSpell> getUnlockedSpells() {
+        List<RewindSpell> unlocked = new ArrayList<>(Release.getSpells(currentRelease));
+        if (config.unlockHomeTeleport()) {
+            addVisibleHomeTeleport(unlocked, RewindSpell.LUMBRIDGE_HOME_TELEPORT);
+            addVisibleHomeTeleport(unlocked, RewindSpell.EDGEVILLE_HOME_TELEPORT);
+            addVisibleHomeTeleport(unlocked, RewindSpell.LUNAR_HOME_TELEPORT);
+        }
+        return unlocked;
+    }
+
+    private void addVisibleHomeTeleport(List<RewindSpell> spells, RewindSpell homeTeleport) {
+        Widget widget = client.getWidget(homeTeleport.getPackedID());
+        if (widget != null && !widget.isHidden() && !spells.contains(homeTeleport)) {
+            spells.add(homeTeleport);
+        }
+    }
+
     private void updateSpells() {
-        List<RewindSpell> unlocked = Release.getSpells(currentRelease);
+        List<RewindSpell> unlocked = getUnlockedSpells();
         for (RewindSpell spell : RewindSpell.values()) {
             Widget widget = client.getWidget(spell.getPackedID());
             if (widget != null) widget.setOpacity(unlocked.contains(spell) ? 0 : 160);
