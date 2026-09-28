@@ -13,6 +13,7 @@ import net.runelite.api.coords.WorldPoint;
 public final class HistoricalRegionState
 {
     private static final Set<Integer> unlocked = new HashSet<>();
+    private static final Set<Integer> additionallyUnlocked = new HashSet<>();
     private static final Map<Integer, LocalDate> timedRegions = new HashMap<>();
     private static LocalDate selected = LocalDate.of(2005, 1, 31);
 
@@ -32,6 +33,15 @@ public final class HistoricalRegionState
         }
     }
 
+    public static synchronized void setAdditionallyUnlocked(Collection<Integer> regions)
+    {
+        additionallyUnlocked.clear();
+        if (regions != null)
+        {
+            additionallyUnlocked.addAll(regions);
+        }
+    }
+
     public static synchronized void gateRegion(int regionId, LocalDate release)
     {
         timedRegions.put(regionId, release);
@@ -44,17 +54,19 @@ public final class HistoricalRegionState
 
     public static synchronized boolean isRegionUnlocked(int regionId)
     {
+        // User-forced exceptions (currently the Grand Exchange) are true overrides:
+        // they must win over both release-list absence and any future timed gate.
+        if (additionallyUnlocked.contains(regionId))
+        {
+            return true;
+        }
+
         LocalDate gate = timedRegions.get(regionId);
         if (gate != null && selected.isBefore(gate))
         {
             return false;
         }
 
-        if (unlocked.contains(regionId))
-        {
-            return true;
-        }
-
-        return false;
+        return unlocked.contains(regionId);
     }
 }

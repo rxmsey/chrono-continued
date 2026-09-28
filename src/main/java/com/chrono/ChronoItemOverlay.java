@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.text.ParseException;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.ui.overlay.WidgetItemOverlay;
 
@@ -25,6 +26,8 @@ public class ChronoItemOverlay extends WidgetItemOverlay
         showOnInventory();
         showOnEquipment();
         showOnBank();
+        // Include the shop stock pane itself, not only the player's shop-side inventory.
+        showOnInterfaces(InterfaceID.SHOPMAIN, InterfaceID.GE_OFFERS, InterfaceID.GE_PRICELIST);
     }
 
     @Override

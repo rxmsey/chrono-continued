@@ -42,6 +42,18 @@ public interface ChronoConfig extends Config
 		return ReleaseDate.JANUARY_2001;
 	}
 
+	@ConfigItem(
+			keyName = "unlockGrandExchange",
+			name = "Unlock Grand Exchange",
+			description = "Allow access to the Grand Exchange while keeping items newer than the selected date blocked",
+			position = 2,
+			section = generalSettings
+	)
+	default boolean unlockGrandExchange()
+	{
+		return false;
+	}
+
 	// Environment Looks
 
 	@ConfigItem(
