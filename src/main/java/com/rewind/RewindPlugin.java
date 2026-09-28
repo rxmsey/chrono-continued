@@ -196,6 +196,7 @@ public class RewindPlugin extends Plugin {
 	protected void shutDown() {
 		RegionLocker.renderLockedRegions = false;
 		overlayManager.remove(itemOverlay);
+		skillOverlay.restoreAllSkills();
 		overlayManager.remove(skillOverlay);
 		overlayManager.remove(abilityOverlay);
 		overlayManager.remove(regionLockerOverlay);
