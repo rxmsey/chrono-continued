@@ -252,6 +252,7 @@ public class RewindPlugin extends Plugin {
 		if (e.getKey().equals("unlockGrandExchange")) {
 			updateAdditionalRegions();
 			reloadScene();
+            if (panel != null) panel.refresh();
 		}
 
 		if(e.getKey().equals(CONFIG_RELEASE_DATE_KEY)) {
