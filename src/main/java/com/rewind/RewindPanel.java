@@ -21,6 +21,8 @@ public class RewindPanel extends PluginPanel
     private final JLabel spellsValue = valueLabel();
     private final JLabel geValue = valueLabel();
     private final JButton geToggle = new JButton();
+    private final JLabel homeTeleportValue = valueLabel();
+    private final JButton homeTeleportToggle = new JButton();
     private final JPanel timelineSelector = card();
     private final JComboBox<ReleaseDate> timelineDates = new JComboBox<>();
 
@@ -94,6 +96,15 @@ public class RewindPanel extends PluginPanel
         geToggle.addActionListener(e -> toggleGrandExchange());
         accessCard.add(Box.createVerticalStrut(8));
         accessCard.add(geToggle);
+        accessCard.add(Box.createVerticalStrut(10));
+        accessCard.add(row("Home Teleport", homeTeleportValue));
+        homeTeleportToggle.setFocusable(false);
+        homeTeleportToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        homeTeleportToggle.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        homeTeleportToggle.setToolTipText("Toggle the Home Teleport historical access override");
+        homeTeleportToggle.addActionListener(e -> toggleHomeTeleport());
+        accessCard.add(Box.createVerticalStrut(8));
+        accessCard.add(homeTeleportToggle);
         content.add(accessCard);
 
         add(content, BorderLayout.NORTH);
@@ -119,6 +130,9 @@ public class RewindPanel extends PluginPanel
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
+        boolean homeTeleportUnlocked = plugin.getConfig().unlockHomeTeleport();
+        homeTeleportValue.setText(homeTeleportUnlocked ? "Enabled" : "Locked");
+        homeTeleportToggle.setText(homeTeleportUnlocked ? "Disable Access" : "Enable Access");
     }
 
     private void toggleGrandExchange()
@@ -127,6 +141,15 @@ public class RewindPanel extends PluginPanel
         plugin.getConfigManager().setConfiguration(
             RewindPlugin.CONFIG_GROUP_KEY,
             "unlockGrandExchange",
+            enable);
+    }
+
+    private void toggleHomeTeleport()
+    {
+        boolean enable = !plugin.getConfig().unlockHomeTeleport();
+        plugin.getConfigManager().setConfiguration(
+            RewindPlugin.CONFIG_GROUP_KEY,
+            "unlockHomeTeleport",
             enable);
     }
 
