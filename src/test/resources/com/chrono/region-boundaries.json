@@ -1,0 +1,659 @@
+[
+  {
+    "name": "Dorgesh-Kaan",
+    "date": "2007-03-20",
+    "regions": [
+      10835,
+      10834
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Dorgesh-Kaan",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Keldagrim",
+    "date": "2005-05-31",
+    "regions": [
+      11423,
+      11422,
+      11679,
+      11678
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Keldagrim",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Burgh de Rott",
+    "date": "2006-03-22",
+    "regions": [
+      13874,
+      13873,
+      14130,
+      14129
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Burgh_de_Rott",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Meiyerditch",
+    "date": "2006-09-04",
+    "regions": [
+      14132,
+      14387,
+      14386,
+      14385
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Meiyerditch",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Port Phasmatys",
+    "date": "2005-02-15",
+    "regions": [
+      14646
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Port_Phasmatys",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mountain Camp",
+    "date": "2005-03-07",
+    "regions": [
+      11065
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mountain_Camp",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Void Knights' Outpost",
+    "date": "2006-04-18",
+    "regions": [
+      10537
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Void_Knights'_Outpost",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Dorgesh-Kaan South Dungeon",
+    "date": "2007-03-20",
+    "regions": [
+      10833
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Dorgesh-Kaan_South_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Dorgeshuun Mines",
+    "date": "2005-05-31",
+    "regions": [
+      12950,
+      13206
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Dorgeshuun_Mines",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Lumbridge Swamp Caves",
+    "date": "2005-03-14",
+    "regions": [
+      12693,
+      12949
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Lumbridge_Swamp_Caves",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Chasm of Tears",
+    "date": "2005-05-04",
+    "regions": [
+      12948
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Chasm_of_Tears",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Brine Rat Cavern",
+    "date": "2007-04-10",
+    "regions": [
+      10910
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Brine_Rat_Cavern",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Enakhra's Temple",
+    "date": "2006-01-23",
+    "regions": [
+      12423
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Enakhra's_Temple",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Evil Chicken's Lair",
+    "date": "2006-03-15",
+    "regions": [
+      9796
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Evil_Chicken's_Lair",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Experiment Cave",
+    "date": "2005-01-31",
+    "regions": [
+      14235,
+      13979
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Experiment_Cave",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Fremennik Slayer Dungeon",
+    "date": "2005-01-26",
+    "regions": [
+      10907,
+      10908,
+      11164
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Fremennik_Slayer_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "H.A.M. Hideout",
+    "date": "2005-02-22",
+    "regions": [
+      12694
+    ],
+    "source": "https://oldschool.runescape.wiki/w/H.A.M._Hideout",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "H.A.M. Store room",
+    "date": "2006-06-21",
+    "regions": [
+      10321
+    ],
+    "source": "https://oldschool.runescape.wiki/w/H.A.M._Store_room",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Jatizso Mines",
+    "date": "2007-02-06",
+    "regions": [
+      9631
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Jatizso_Mines",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Jiggig Burial Tomb",
+    "date": "2005-05-17",
+    "regions": [
+      9875,
+      9874
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Jiggig_Burial_Tomb",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "KGP Headquarters",
+    "date": "2007-01-29",
+    "regions": [
+      10658
+    ],
+    "source": "https://oldschool.runescape.wiki/w/KGP_Headquarters",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Lunar Isle Mine",
+    "date": "2006-07-24",
+    "regions": [
+      9377
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Lunar_Isle_Mine",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Meiyerditch Mine",
+    "date": "2006-09-04",
+    "regions": [
+      9544
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Meiyerditch_Mine",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Miscellania Dungeon",
+    "date": "2006-05-22",
+    "regions": [
+      10144,
+      10400
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Miscellania_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mogre Camp",
+    "date": "2006-03-15",
+    "regions": [
+      11924
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mogre_Camp",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mos Le'Harmless Caves",
+    "date": "2006-07-04",
+    "regions": [
+      14994,
+      14995,
+      15251
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mos_Le'Harmless_Caves",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mouse Hole",
+    "date": "2007-06-04",
+    "regions": [
+      9046
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mouse_Hole",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Shadow Dungeon",
+    "date": "2005-04-18",
+    "regions": [
+      10575,
+      10831
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Shadow_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Smoke Dungeon",
+    "date": "2005-04-18",
+    "regions": [
+      12946,
+      13202
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Smoke_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Sophanem Dungeon",
+    "date": "2007-01-10",
+    "regions": [
+      13200
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Sophanem_Dungeon",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Stronghold of Security",
+    "date": "2006-07-04",
+    "regions": [
+      7505,
+      8017,
+      8530,
+      9297
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Stronghold_of_Security",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Tarn's Lair",
+    "date": "2007-01-22",
+    "regions": [
+      12616,
+      12615
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Tarn's_Lair",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Temple of Light",
+    "date": "2005-10-17",
+    "regions": [
+      7496
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Temple_of_Light",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Dungeon of Tolna",
+    "date": "2006-04-03",
+    "regions": [
+      13209
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Dungeon_of_Tolna",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Tunnel of Chaos",
+    "date": "2007-03-27",
+    "regions": [
+      12625
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Tunnel_of_Chaos",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Werewolf Agility Course",
+    "date": "2005-01-31",
+    "regions": [
+      14234
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Werewolf_Agility_Course",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Ardougne Rat Pits",
+    "date": "2005-11-28",
+    "regions": [
+      10646
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Ardougne_Rat_Pits",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Barbarian Assault",
+    "date": "2007-01-04",
+    "regions": [
+      7508,
+      7509,
+      10322
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Barbarian_Assault",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Barrows",
+    "date": "2005-05-09",
+    "regions": [
+      14131,
+      14231
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Barrows",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Blast Furnace",
+    "date": "2005-08-23",
+    "regions": [
+      7757
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Blast_Furnace",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Brimhaven Agility Arena",
+    "date": "2004-07-27",
+    "regions": [
+      11157
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Brimhaven_Agility_Arena",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Burthorpe Games Room",
+    "date": "2004-11-24",
+    "regions": [
+      8781
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Burthorpe_Games_Room",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Castle Wars",
+    "date": "2004-12-13",
+    "regions": [
+      9520,
+      9620
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Castle_Wars",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Fishing Trawler",
+    "date": "2003-07-28",
+    "regions": [
+      7499
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Fishing_Trawler",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mage Training Arena",
+    "date": "2006-01-04",
+    "regions": [
+      13462,
+      13463
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mage_Training_Arena",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Pest Control",
+    "date": "2006-04-18",
+    "regions": [
+      10536
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Pest_Control",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Pyramid Plunder",
+    "date": "2006-07-17",
+    "regions": [
+      7749
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Pyramid_Plunder",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Rogues' Den",
+    "date": "2005-06-22",
+    "regions": [
+      11854,
+      11855,
+      12109,
+      12110,
+      12111
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Rogues'_Den",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Sorceress's Garden",
+    "date": "2007-02-12",
+    "regions": [
+      11605
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Sorceress's_Garden",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Trouble Brewing",
+    "date": "2006-07-04",
+    "regions": [
+      15150
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Trouble_Brewing",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Tzhaar Fight Caves",
+    "date": "2005-10-04",
+    "regions": [
+      9551
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Tzhaar_Fight_Caves",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Tzhaar Fight Pits",
+    "date": "2005-09-19",
+    "regions": [
+      9552
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Tzhaar_Fight_Pits",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Air Altar",
+    "date": "2004-03-29",
+    "regions": [
+      11339
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Air_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Body Altar",
+    "date": "2004-03-29",
+    "regions": [
+      10059
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Body_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Chaos Altar",
+    "date": "2004-03-29",
+    "regions": [
+      9035
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Chaos_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Cosmic Altar",
+    "date": "2004-03-29",
+    "regions": [
+      8523
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Cosmic_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Death Altar",
+    "date": "2005-10-17",
+    "regions": [
+      8779
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Death_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Earth Altar",
+    "date": "2004-03-29",
+    "regions": [
+      10571
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Earth_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Fire Altar",
+    "date": "2004-03-29",
+    "regions": [
+      10315
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Fire_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Mind Altar",
+    "date": "2004-03-29",
+    "regions": [
+      11083
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mind_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Nature Altar",
+    "date": "2004-03-29",
+    "regions": [
+      9547
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Nature_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Water Altar",
+    "date": "2004-03-29",
+    "regions": [
+      10827
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Water_Altar",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Rune Essence Mine",
+    "date": "2004-03-29",
+    "regions": [
+      11595
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Rune_Essence_Mine",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Fremennik Isles",
+    "date": "2007-02-06",
+    "regions": [
+      9276,
+      9532
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Fremennik_Isles",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Iceberg",
+    "date": "2007-01-29",
+    "regions": [
+      10558,
+      10559
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Iceberg",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Jiggig",
+    "date": "2005-05-17",
+    "regions": [
+      9775
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Jiggig",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Pirates' Cove",
+    "date": "2006-07-24",
+    "regions": [
+      8763
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Pirates'_Cove",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Ratcatchers Mansion",
+    "date": "2005-11-28",
+    "regions": [
+      11343
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Ratcatchers_Mansion",
+    "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Outer TzHaar city",
+    "date": "2005-09-19",
+    "regions": [
+      9808
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Update:Massive_minigame_-_Fight_Pits",
+    "reason": "9808 is the outer city/entrance, not Fight Caves (9551). Inner-city regions are deliberately excluded."
+  }
+]

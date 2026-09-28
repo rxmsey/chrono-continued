@@ -15,7 +15,9 @@
   },
   {
     "date": "_15_FEBRUARY_2005",
-    "regions": [],
+    "regions": [
+      14646
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -29,7 +31,9 @@
   },
   {
     "date": "_22_FEBRUARY_2005",
-    "regions": [],
+    "regions": [
+      12694
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -67,7 +71,9 @@
   },
   {
     "date": "_07_MARCH_2005",
-    "regions": [],
+    "regions": [
+      11065
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -81,7 +87,10 @@
   },
   {
     "date": "_14_MARCH_2005",
-    "regions": [],
+    "regions": [
+      12693,
+      12949
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -160,7 +169,11 @@
   {
     "date": "_18_APRIL_2005",
     "regions": [
-      12845
+      12845,
+      10575,
+      10831,
+      12946,
+      13202
     ],
     "skills": [],
     "prayers": [],
@@ -217,7 +230,9 @@
   },
   {
     "date": "_04_MAY_2005",
-    "regions": [],
+    "regions": [
+      12948
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -232,7 +247,8 @@
   {
     "date": "_09_MAY_2005",
     "regions": [
-      14131
+      14131,
+      14231
     ],
     "skills": [],
     "prayers": [],
@@ -245,7 +261,11 @@
   },
   {
     "date": "_17_MAY_2005",
-    "regions": [],
+    "regions": [
+      9875,
+      9874,
+      9775
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -264,7 +284,10 @@
       10810,
       11678,
       11679,
-      11423
+      11423,
+      11422,
+      12950,
+      13206
     ],
     "skills": [],
     "prayers": [],
@@ -310,7 +333,13 @@
   },
   {
     "date": "_22_JUNE_2005",
-    "regions": [],
+    "regions": [
+      11854,
+      11855,
+      12109,
+      12110,
+      12111
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -444,7 +473,9 @@
   },
   {
     "date": "_23_AUGUST_2005",
-    "regions": [],
+    "regions": [
+      7757
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -498,7 +529,10 @@
   },
   {
     "date": "_19_SEPTEMBER_2005",
-    "regions": [],
+    "regions": [
+      9552,
+      9808
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -530,7 +564,7 @@
   {
     "date": "_04_OCTOBER_2005",
     "regions": [
-      9808
+      9551
     ],
     "skills": [],
     "prayers": [],
@@ -543,7 +577,10 @@
   },
   {
     "date": "_17_OCTOBER_2005",
-    "regions": [],
+    "regions": [
+      7496,
+      8779
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -631,7 +668,10 @@
   },
   {
     "date": "_28_NOVEMBER_2005",
-    "regions": [],
+    "regions": [
+      10646,
+      11343
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -689,7 +729,10 @@
   },
   {
     "date": "_04_JANUARY_2006",
-    "regions": [],
+    "regions": [
+      13462,
+      13463
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -741,7 +784,9 @@
   },
   {
     "date": "_23_JANUARY_2006",
-    "regions": [],
+    "regions": [
+      12423
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -772,7 +817,6 @@
       14639,
       14894,
       14895,
-      15150,
       15151
     ],
     "skills": [],
@@ -826,7 +870,10 @@
   },
   {
     "date": "_15_MARCH_2006",
-    "regions": [],
+    "regions": [
+      9796,
+      11924
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -853,7 +900,10 @@
   {
     "date": "_22_MARCH_2006",
     "regions": [
-      13874
+      13874,
+      13873,
+      14130,
+      14129
     ],
     "skills": [],
     "prayers": [],
@@ -880,7 +930,9 @@
   },
   {
     "date": "_03_APRIL_2006",
-    "regions": [],
+    "regions": [
+      13209
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -910,7 +962,8 @@
   {
     "date": "_18_APRIL_2006",
     "regions": [
-      10537
+      10537,
+      10536
     ],
     "skills": [],
     "prayers": [],
@@ -976,7 +1029,10 @@
   },
   {
     "date": "_22_MAY_2006",
-    "regions": [],
+    "regions": [
+      10144,
+      10400
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1031,7 +1087,9 @@
   },
   {
     "date": "_21_JUNE_2006",
-    "regions": [],
+    "regions": [
+      10321
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1057,7 +1115,16 @@
   },
   {
     "date": "_04_JULY_2006",
-    "regions": [],
+    "regions": [
+      14994,
+      14995,
+      15251,
+      7505,
+      8017,
+      8530,
+      9297,
+      15150
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -1084,7 +1151,9 @@
   },
   {
     "date": "_17_JULY_2006",
-    "regions": [],
+    "regions": [
+      7749
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -1100,7 +1169,9 @@
       8252,
       8253,
       8508,
-      8509
+      8509,
+      9377,
+      8763
     ],
     "skills": [],
     "prayers": [],
@@ -1219,7 +1290,11 @@
   {
     "date": "_04_SEPTEMBER_2006",
     "regions": [
-      14386
+      14386,
+      14132,
+      14387,
+      14385,
+      9544
     ],
     "skills": [],
     "prayers": [],
@@ -1414,7 +1489,11 @@
   },
   {
     "date": "_04_JANUARY_2007",
-    "regions": [],
+    "regions": [
+      7508,
+      7509,
+      10322
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -1427,7 +1506,9 @@
   },
   {
     "date": "_10_JANUARY_2007",
-    "regions": [],
+    "regions": [
+      13200
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1453,7 +1534,10 @@
   },
   {
     "date": "_22_JANUARY_2007",
-    "regions": [],
+    "regions": [
+      12616,
+      12615
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1468,7 +1552,11 @@
   },
   {
     "date": "_29_JANUARY_2007",
-    "regions": [],
+    "regions": [
+      10658,
+      10558,
+      10559
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1485,7 +1573,9 @@
     "regions": [
       9531,
       9275,
-      9532
+      9532,
+      9631,
+      9276
     ],
     "skills": [],
     "prayers": [],
@@ -1500,7 +1590,9 @@
   },
   {
     "date": "_12_FEBRUARY_2007",
-    "regions": [],
+    "regions": [
+      11605
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1573,7 +1665,8 @@
     "date": "_20_MARCH_2007",
     "regions": [
       10835,
-      10833
+      10833,
+      10834
     ],
     "skills": [],
     "prayers": [],
@@ -1587,7 +1680,9 @@
   },
   {
     "date": "_27_MARCH_2007",
-    "regions": [],
+    "regions": [
+      12625
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1613,7 +1708,9 @@
   },
   {
     "date": "_10_APRIL_2007",
-    "regions": [],
+    "regions": [
+      10910
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1727,7 +1824,9 @@
   },
   {
     "date": "_04_JUNE_2007",
-    "regions": [],
+    "regions": [
+      9046
+    ],
     "skills": [],
     "prayers": [],
     "quests": [

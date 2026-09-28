@@ -1,7 +1,6 @@
 package com.chrono.regionlocker;
 
 import com.chrono.ChronoConfig;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -18,7 +17,6 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 
 public class HistoricalSceneMaskOverlay extends Overlay
 {
-    private static final Color VOID = new Color(0, 0, 0, 255);
     private final Client client;
     private final ChronoConfig config;
 
@@ -44,7 +42,7 @@ public class HistoricalSceneMaskOverlay extends Overlay
         Graphics2D copy = (Graphics2D) graphics.create();
         copy.clip(new java.awt.Rectangle(client.getViewportXOffset(), client.getViewportYOffset(),
             client.getViewportWidth(), client.getViewportHeight()));
-        copy.setColor(VOID);
+        copy.setColor(config.shaderGrayColor());
         try {
 
         for (int dx = 0; dx < worldView.getSizeX(); dx++)

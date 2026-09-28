@@ -1663,7 +1663,9 @@
   },
   {
     "date": "_28_JULY_2003",
-    "regions": [],
+    "regions": [
+      7499
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2083,7 +2085,18 @@
   },
   {
     "date": "_29_MARCH_2004",
-    "regions": [],
+    "regions": [
+      11339,
+      10059,
+      9035,
+      8523,
+      10571,
+      10315,
+      11083,
+      9547,
+      10827,
+      11595
+    ],
     "skills": [
       "RUNECRAFT"
     ],
@@ -2354,7 +2367,9 @@
   },
   {
     "date": "_27_JULY_2004",
-    "regions": [],
+    "regions": [
+      11157
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -2638,7 +2653,9 @@
   },
   {
     "date": "_24_NOVEMBER_2004",
-    "regions": [],
+    "regions": [
+      8781
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -2727,7 +2744,10 @@
   },
   {
     "date": "_13_DECEMBER_2004",
-    "regions": [],
+    "regions": [
+      9520,
+      9620
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -2767,7 +2787,6 @@
   {
     "date": "DECEMBER_2004",
     "regions": [
-      9520,
       9776,
       10794,
       10795,
@@ -2841,7 +2860,11 @@
   },
   {
     "date": "_26_JANUARY_2005",
-    "regions": [],
+    "regions": [
+      10907,
+      10908,
+      11164
+    ],
     "skills": [
       "SLAYER"
     ],
@@ -2865,7 +2888,10 @@
       13623,
       13624,
       13879,
-      14135
+      14135,
+      14235,
+      13979,
+      14234
     ],
     "skills": [],
     "prayers": [],

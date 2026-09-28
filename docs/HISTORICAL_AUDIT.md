@@ -20,7 +20,7 @@ This audit covers the plugin's selectable timeline from 4 January 2001 through t
 | Spells | 127 historical standard, Ancient, and Lunar spells; post-backup spell widgets fail closed |
 | Items | 24,735 definitions checked; exact dates are inclusive; missing/malformed dates fail closed; three verified legacy ID gaps are restored by a curated override ledger |
 | NPCs/monsters | 3,000 definitions checked; exact dates are inclusive; missing, malformed, unknown, and post-backup IDs remain locked |
-| Regions | 298 cumulative regions; historically added location anchors checked; unknown surface, underground, and instance-template regions remain masked |
+| Regions | Superseded by `REGION_AUDIT_2026_09_28.md`: 390 configured regions, with 69 explicitly reviewed groups. Original anchor-only validation was incomplete; legacy dates and later expansions still require review. |
 | Sailing | Skill, UI groups, 1,250 current Sailing object IDs, and Sailing-labelled actions remain permanently unavailable |
 
 ## Enforcement and compatibility fixes

@@ -97,6 +97,9 @@ public class ChronoPlugin extends Plugin {
 	private ChronoItemOverlay itemOverlay;
 
 	@Inject
+	private ChronoSkillOverlay skillOverlay;
+
+	@Inject
 	private Gson gson;
 
 	@Inject
@@ -116,7 +119,6 @@ public class ChronoPlugin extends Plugin {
 	private ChronoPanel panel;
 	private NavigationButton navButton;
 
-	private Map<String, List<Widget>> skillOverlays;
     private Set<Integer> sailingObjects = Collections.emptySet();
 
 	@Getter
@@ -148,6 +150,7 @@ public class ChronoPlugin extends Plugin {
 		HistoricalRegionState.setSelectedDate(config.release().getDate());
 		HistoricalRegionState.replaceWith(Release.getRegions(currentRelease));
 		overlayManager.add(itemOverlay);
+		overlayManager.add(skillOverlay);
 		overlayManager.add(regionLockerOverlay);
 		overlayManager.add(historicalSceneMaskOverlay);
 		overlayManager.add(historicalMinimapMaskOverlay);
@@ -164,13 +167,14 @@ public class ChronoPlugin extends Plugin {
         maskScene = config.maskLockedScene();
         renderCallbackManager.register(drawListener);
         reloadScene();
-        clientThread.invokeLater(() -> { createLockedSkillOverlays(); refreshWidgets(); });
+        clientThread.invokeLater(this::refreshWidgets);
 	}
 
 	@Override
 	protected void shutDown() {
 		RegionLocker.renderLockedRegions = false;
 		overlayManager.remove(itemOverlay);
+		overlayManager.remove(skillOverlay);
 		overlayManager.remove(regionLockerOverlay);
 		overlayManager.remove(regionBorderOverlay);
 		overlayManager.remove(historicalSceneMaskOverlay);
@@ -179,7 +183,6 @@ public class ChronoPlugin extends Plugin {
         renderCallbackManager.unregister(drawListener);
         reloadScene();
         if (client.getGameState() == GameState.LOGGED_IN) updateQuests(false);
-        if (skillOverlays != null) skillOverlays.values().forEach(list -> list.forEach(w -> w.setHidden(true)));
         for (ChronoSpell spell : ChronoSpell.values()) {
             Widget widget = client.getWidget(spell.getPackedID());
             if (widget != null) widget.setOpacity(0);
@@ -319,16 +322,12 @@ public class ChronoPlugin extends Plugin {
         if (client.getGameState() != GameState.LOGGED_IN) return;
         updatePrayers();
         updateQuests();
-        updateSkillOverlays();
         updateSpells();
     }
 
 	@Subscribe
 	public void onWidgetLoaded(WidgetLoaded e) {
-		if(e.getGroupId() == InterfaceID.STATS) {
-			this.createLockedSkillOverlays();
-		}
-		else if (e.getGroupId() == InterfaceID.TOPLEVEL_OSRS_STRETCH || e.getGroupId() == InterfaceID.TOPLEVEL) {
+		if (e.getGroupId() == InterfaceID.TOPLEVEL_OSRS_STRETCH || e.getGroupId() == InterfaceID.TOPLEVEL) {
             this.updatePrayers();
 		}
 		else if(e.getGroupId() == InterfaceID.QUESTLIST) {
@@ -384,38 +383,6 @@ public class ChronoPlugin extends Plugin {
         return EntityDefinition.isItemUnlocked(itemId, config.release().getDate());
 	}
 
-	private void createLockedSkillOverlays() {
-		List<ChronoSkill> skillWidgets = Arrays.asList(ChronoSkill.values());
-		this.skillOverlays = new HashMap<>();
-
-		skillWidgets.forEach(skill -> addSkillOverlay(skill.getSkill(), skill.getWidgetID()));
-	}
-
-	private void addSkillOverlay(Skill skill, int widgetID) {
-		Widget skillWidget = client.getWidget(widgetID);
-		if(skillWidget == null) return;
-
-		boolean isUnlocked = Release.getSkills(currentRelease).contains(skill);
-		List<Widget> widgets = new ArrayList<>();
-
-		Widget icon = skillWidget.createChild(-1, WidgetType.GRAPHIC);
-		Widget level = skillWidget.createChild(-1, WidgetType.GRAPHIC);
-		level.setSpriteId(176);
-		level.setSize(36, 36);
-		level.setPos(28, -2);
-		level.setOpacity(90);
-		level.setHidden(isUnlocked);
-		icon.setSpriteId(174);
-		icon.setSize(36, 36);
-		icon.setPos(-2, -2);
-		icon.setOpacity(90);
-		icon.setHidden(isUnlocked);
-
-		widgets.add(icon);
-		widgets.add(level);
-		skillOverlays.put(skill.getName(), widgets);
-	}
-
     private void updatePrayers() {
         List<Prayer> unlocked = Release.getPrayers(currentRelease);
         for (ChronoPrayer prayer : ChronoPrayer.values()) {
@@ -452,20 +419,6 @@ public class ChronoPlugin extends Plugin {
             }
         }
     }
-
-	private void updateSkillOverlays() {
-		if(this.skillOverlays == null) return;
-
-		List<Skill> unlocked = Release.getSkills(currentRelease);
-
-		for(Skill skill : Skill.values()) {
-			boolean hide = unlocked.contains(skill);
-			List<Widget> overlay = this.skillOverlays.get(skill.getName());
-			if(overlay != null && overlay.size() > 0) {
-				overlay.forEach(widget -> widget.setHidden(hide));
-			}
-		}
-	}
 
 	public static int getCenterX(Widget window, int width) {
 		return (window.getWidth() / 2) - (width / 2);

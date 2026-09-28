@@ -46,8 +46,8 @@ public interface ChronoConfig extends Config
 
 	@ConfigItem(
 			keyName = "maskLockedScene",
-			name = "Black out locked world",
-			description = "Paint historically unavailable tiles black in the 3D scene",
+			name = "Mask locked world",
+			description = "Cover historically unavailable world tiles using Locked region color",
 			position = 19,
 			section = environmentSettings
 	)
@@ -58,8 +58,8 @@ public interface ChronoConfig extends Config
 
 	@ConfigItem(
 			keyName = "maskLockedMinimap",
-			name = "Black out locked minimap",
-			description = "Paint historically unavailable tiles black on the minimap",
+			name = "Mask locked minimap",
+			description = "Cover historically unavailable minimap tiles using Locked region color",
 			position = 20,
 			section = environmentSettings
 	)
@@ -72,6 +72,7 @@ public interface ChronoConfig extends Config
 	@ConfigItem(
 			keyName = "renderLockedRegions",
 			name = "Locked chunk shader",
+			hidden = true,
 			description = "Adds graphical change to all chunk that are locked",
 			position = 21,
 			section = environmentSettings
@@ -84,8 +85,8 @@ public interface ChronoConfig extends Config
 	@Alpha
 	@ConfigItem(
 			keyName = "shaderGrayColor",
-			name = "Chunk shader color",
-			description = "The color of the locked chunks in the shader",
+			name = "Locked region color",
+			description = "Color and opacity of locked regions in the world and minimap; changes apply immediately",
 			position = 22,
 			section = environmentSettings
 	)
@@ -98,6 +99,7 @@ public interface ChronoConfig extends Config
 	@ConfigItem(
 			keyName = "shaderGrayAmount",
 			name = "Chunk shader opacity",
+			hidden = true,
 			description = "The amount of gray scale that is applied to a locked chunk in the shader (alpha only)",
 			position = 23,
 			section = environmentSettings
@@ -110,6 +112,7 @@ public interface ChronoConfig extends Config
 	@ConfigItem(
 			keyName = "hardBorder",
 			name = "Hard chunk border",
+			hidden = true,
 			description = "True = hard border cutoff, False = chunk border gradient",
 			position = 24,
 			section = environmentSettings
