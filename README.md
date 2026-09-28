@@ -1,6 +1,8 @@
-# Chrono Continued
+# Rewind
 
-Chrono Continued is a continuation of the RuneLite **Chrono** plugin, extending its "By Release" account restrictions beyond January 2005 through the RuneScape backup dated **10 August 2007**, the snapshot that became the basis of Old School RuneScape.
+Experience Old School RuneScape through its historical timeline.
+
+Rewind is a continuation of the RuneLite **Chrono** plugin, extending its "By Release" account restrictions beyond January 2005 through the RuneScape backup dated **10 August 2007**, the snapshot that became the basis of Old School RuneScape.
 
 ## What it does
 
@@ -33,3 +35,11 @@ The dated quest and miniquest source ledger is in [`docs/quest-sources.tsv`](doc
 ## Important limitation
 
 This is a RuneLite client plugin running against the modern Old School RuneScape server. It can restrict interactions and hide later content, but it cannot recreate deleted 2007 server mechanics, NPC behaviour, or the literal 2007 game cache. Region masking uses RuneScape's 64-by-64 map-region granularity, so a modern and historical location that share one region cannot be separated tile by tile from release metadata alone.
+
+## Compatibility and input handling
+
+Rewind keeps the existing `chrono` configuration group, all setting keys and release selector constants, and RuneLite's `chronoplugin` enabled/disabled key. The Plugin Hub entry ID remains `chrono-continued` so existing installations receive the update. Java classes, packages, bundled resources, and the development launcher use Rewind names. Upstream licence and attribution are preserved.
+
+Minimap input reads an immutable snapshot produced on the client thread. Ordinary game/UI clicks pass through; only left-click sequences targeting a known locked minimap tile are consumed. Hidden/unavailable minimaps, logout/loading, and open context menus clear the snapshot. Minimap blocking remains active independently of the visual mask setting.
+
+Build and run the regression tests with Java 11 and `./gradlew clean build`.
