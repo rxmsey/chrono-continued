@@ -665,9 +665,13 @@ public class RewindPlugin extends Plugin {
     }
 
     void testCompletionNotification() {
-        String date = currentRelease == null ? "Historical timeline" : currentRelease.getDate().getName();
-        CompletionProgress progress = getCompletionProgress();
-        completionOverlay.show("Cook's Assistant", date, progress.getCompleted(), progress.getAvailable());
+        // Swing button callbacks run off the client thread. Queue the same popup
+        // path used by real completions so the preview behaves identically in-game.
+        clientThread.invokeLater(() -> {
+            String date = currentRelease == null ? "Historical timeline" : currentRelease.getDate().getName();
+            CompletionProgress progress = getCompletionProgress();
+            completionOverlay.show("Cook's Assistant", date, progress.getCompleted(), progress.getAvailable());
+        });
     }
 
     private void showCompletionPopup(String objective) {
