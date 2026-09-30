@@ -615,21 +615,29 @@ public class RewindPlugin extends Plugin {
         if (!completionSnapshotReady || currentRelease == null) return;
         Skill skill = event.getSkill();
         Integer target = getHistoricalSkillTargets().get(skill);
-        if (target == null || event.getLevel() < target) return;
-        String key = "skill:" + skill.name() + ":" + target;
-        if (completionSnapshot.add(key)) {
-            showCompletionPopup(skill.getName() + " " + target);
+        if (target != null && event.getLevel() >= target) {
+            String key = "skill:" + skill.name() + ":" + target;
+            if (completionSnapshot.add(key)) {
+                showCompletionPopup(skill.getName() + " " + target);
+            }
         }
+        checkQuestCompletions();
     }
 
     @Subscribe
-    public void onQuestChanged(QuestChanged event) {
-        if (!completionSnapshotReady || currentRelease == null) return;
-        Quest quest = event.getQuest();
-        if (!Release.getQuests(currentRelease).contains(quest) || !isQuestComplete(quest)) return;
-        String key = "quest:" + quest.name();
-        if (completionSnapshot.add(key)) {
-            showCompletionPopup(quest.getName());
+    public void onGameTick(GameTick event) {
+        checkQuestCompletions();
+    }
+
+    private void checkQuestCompletions() {
+        if (!completionSnapshotReady || currentRelease == null
+            || client.getGameState() != GameState.LOGGED_IN) return;
+        for (Quest quest : Release.getQuests(currentRelease)) {
+            String key = "quest:" + quest.name();
+            if (!completionSnapshot.contains(key) && isQuestComplete(quest)) {
+                completionSnapshot.add(key);
+                showCompletionPopup(quest.getName());
+            }
         }
     }
 
