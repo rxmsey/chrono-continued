@@ -8,7 +8,10 @@ import net.runelite.client.ui.PluginPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /** Player-facing summary of the currently selected historical release. */
@@ -189,7 +192,7 @@ public class RewindPanel extends PluginPanel
     {
         completionDetails.removeAll();
 
-        JPanel questRows = card();
+        JPanel questRows = objectiveList();
         for (Quest quest : plugin.getAvailableCompletionQuests())
         {
             boolean done = plugin.isQuestComplete(quest);
@@ -199,7 +202,7 @@ public class RewindPanel extends PluginPanel
 
         completionDetails.add(Box.createVerticalStrut(6));
 
-        JPanel skillRows = card();
+        JPanel skillRows = objectiveList();
         Map<Skill, Integer> levels = plugin.getAvailableCompletionSkills();
         for (Map.Entry<Skill, Integer> target : plugin.getHistoricalSkillTargets().entrySet())
         {
@@ -217,22 +220,61 @@ public class RewindPanel extends PluginPanel
 
     private static void addExpandableSection(JPanel parent, String title, JPanel rows)
     {
-        JButton toggle = new JButton("\u25B6  " + title);
-        toggle.setFocusable(false);
-        toggle.setHorizontalAlignment(SwingConstants.LEFT);
-        toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        toggle.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(ColorScheme.DARK_GRAY_COLOR),
+            new EmptyBorder(7, 8, 7, 8)));
+        header.setAlignmentX(Component.LEFT_ALIGNMENT);
+        header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+
+        JLabel label = new JLabel(title);
+        label.setForeground(Color.WHITE);
+        header.add(label, BorderLayout.WEST);
+
+        BasicArrowButton arrow = new BasicArrowButton(SwingConstants.EAST);
+        arrow.setFocusable(false);
+        arrow.setBorderPainted(false);
+        arrow.setContentAreaFilled(false);
+        arrow.setPreferredSize(new Dimension(18, 18));
+        header.add(arrow, BorderLayout.EAST);
+
         rows.setVisible(false);
-        toggle.addActionListener(e ->
+
+        Runnable toggle = () ->
         {
             boolean show = !rows.isVisible();
             rows.setVisible(show);
-            toggle.setText((show ? "\u25BC  " : "\u25B6  ") + title);
+            arrow.setDirection(show ? SwingConstants.SOUTH : SwingConstants.EAST);
             parent.revalidate();
             parent.repaint();
-        });
-        parent.add(toggle);
+        };
+
+        arrow.addActionListener(e -> toggle.run());
+        MouseAdapter click = new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                toggle.run();
+            }
+        };
+        header.addMouseListener(click);
+        label.addMouseListener(click);
+
+        parent.add(header);
         parent.add(rows);
+    }
+
+    private static JPanel objectiveList()
+    {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+        panel.setBorder(new EmptyBorder(6, 8, 4, 8));
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        return panel;
     }
 
     private static JPanel objectiveRow(boolean complete, String objective)
