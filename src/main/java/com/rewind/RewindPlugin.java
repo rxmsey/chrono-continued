@@ -671,6 +671,10 @@ public class RewindPlugin extends Plugin {
         if (panel != null) panel.refresh();
     }
 
+    boolean isClientStateReadable() {
+        return client.getGameState() == GameState.LOGGED_IN && client.isClientThread();
+    }
+
     CompletionProgress getCompletionProgress() {
         if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) {
             return new CompletionProgress(0, 0, 0, 0);
