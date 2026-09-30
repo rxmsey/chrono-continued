@@ -29,6 +29,7 @@ public class RewindPanel extends PluginPanel
     private final JLabel completionValue = valueLabel();
     private final JLabel completionQuestsValue = valueLabel();
     private final JLabel completionSkillsValue = valueLabel();
+    private final JLabel completionActivitiesValue = valueLabel();
     private final JPanel completionDetails = card();
     private final JPanel eraProgress = card();
     private final Map<Integer, JLabel> eraValues = new LinkedHashMap<>();
@@ -104,6 +105,7 @@ public class RewindPanel extends PluginPanel
         completionCard.add(row("Historical completion", completionValue));
         completionCard.add(row("Quests", completionQuestsValue));
         completionCard.add(row("Skill milestones", completionSkillsValue));
+        completionCard.add(row("Activities", completionActivitiesValue));
         JButton viewCompletion = new JButton("View Completion Log");
         viewCompletion.setFocusable(false);
         viewCompletion.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -179,6 +181,7 @@ public class RewindPanel extends PluginPanel
         completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
+        completionActivitiesValue.setText(progress(completion.getCompletedActivities(), completion.getAvailableActivities()));
         refreshEraProgress();
         if (completionDetails.isVisible() && plugin.isClientStateReadable()) rebuildCompletionDetails();
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
@@ -260,6 +263,21 @@ public class RewindPanel extends PluginPanel
                 target.getKey().getName() + " " + target.getValue() + " (current " + currentLevel + ")"));
         }
         addExpandableSection(completionDetails, "SKILL MILESTONES", skillRows);
+
+        completionDetails.add(Box.createVerticalStrut(6));
+
+        JPanel activityRows = objectiveList();
+        if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isBarrowsComplete(),
+                "Loot the Barrows reward chest"));
+        }
+        else
+        {
+            activityRows.add(objectiveRow(false, "No activities for this milestone"));
+        }
+        addExpandableSection(completionDetails, "ACTIVITIES", activityRows);
 
         completionDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         completionDetails.revalidate();
