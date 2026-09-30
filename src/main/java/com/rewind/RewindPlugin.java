@@ -636,6 +636,15 @@ public class RewindPlugin extends Plugin {
     @Subscribe
     public void onGameTick(GameTick event) {
         checkQuestCompletions();
+        checkActivityCompletions();
+    }
+
+    private void checkActivityCompletions() {
+        if (!completionSnapshotReady || currentRelease == null) return;
+        String key = "activity:barrows_chest";
+        if (isBarrowsAvailable(currentRelease) && isBarrowsComplete() && completionSnapshot.add(key)) {
+            showCompletionPopup("Barrows reward chest");
+        }
     }
 
     private void checkQuestCompletions() {
@@ -660,6 +669,9 @@ public class RewindPlugin extends Plugin {
             if (client.getRealSkillLevel(entry.getKey()) >= entry.getValue()) {
                 completionSnapshot.add("skill:" + entry.getKey().name() + ":" + entry.getValue());
             }
+        }
+        if (isBarrowsAvailable(currentRelease) && isBarrowsComplete()) {
+            completionSnapshot.add("activity:barrows_chest");
         }
         completionSnapshotReady = true;
     }
