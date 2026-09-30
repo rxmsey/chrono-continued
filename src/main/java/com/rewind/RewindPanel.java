@@ -197,14 +197,8 @@ public class RewindPanel extends PluginPanel
             rebuildCompletionDetails();
         }
 
-        boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
-        geValue.setText(geUnlocked ? "Enabled" : "Locked");
-        geValue.setForeground(geUnlocked ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
-        geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
-        boolean homeTeleportUnlocked = plugin.getConfig().unlockHomeTeleport();
-        homeTeleportValue.setText(homeTeleportUnlocked ? "Enabled" : "Locked");
-        homeTeleportValue.setForeground(homeTeleportUnlocked ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
-        homeTeleportToggle.setText(homeTeleportUnlocked ? "Disable Access" : "Enable Access");
+        updateGrandExchangeState(plugin.getConfig().unlockGrandExchange());
+        updateHomeTeleportState(plugin.getConfig().unlockHomeTeleport());
     }
 
     private void refreshEraProgress()
@@ -440,6 +434,20 @@ public class RewindPanel extends PluginPanel
         return row;
     }
 
+    void updateGrandExchangeState(boolean enabled)
+    {
+        geValue.setText(enabled ? "Enabled" : "Locked");
+        geValue.setForeground(enabled ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
+        geToggle.setText(enabled ? "Disable Access" : "Enable Access");
+    }
+
+    void updateHomeTeleportState(boolean enabled)
+    {
+        homeTeleportValue.setText(enabled ? "Enabled" : "Locked");
+        homeTeleportValue.setForeground(enabled ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
+        homeTeleportToggle.setText(enabled ? "Disable Access" : "Enable Access");
+    }
+
     private void toggleGrandExchange()
     {
         boolean enable = !plugin.getConfig().unlockGrandExchange();
@@ -447,6 +455,7 @@ public class RewindPanel extends PluginPanel
             RewindPlugin.CONFIG_GROUP_KEY,
             "unlockGrandExchange",
             enable);
+        updateGrandExchangeState(enable);
     }
 
     private void toggleHomeTeleport()
@@ -457,11 +466,7 @@ public class RewindPanel extends PluginPanel
             "unlockHomeTeleport",
             enable);
 
-        // Reflect the requested state immediately. ConfigChanged can fire before the
-        // config proxy has refreshed, which previously made this row always appear
-        // as Enabled / Disable Access even after turning it off.
-        homeTeleportValue.setText(enable ? "Enabled" : "Locked");
-        homeTeleportToggle.setText(enable ? "Disable Access" : "Enable Access");
+        updateHomeTeleportState(enable);
     }
 
     private void buildTimelineSelector()
