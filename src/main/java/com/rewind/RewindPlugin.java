@@ -281,7 +281,12 @@ public class RewindPlugin extends Plugin {
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged e){
         historicalMinimapInputBlocker.clear();
-        if (e.getGameState() == GameState.LOGGED_IN) clientThread.invokeLater(this::refreshWidgets);
+        if (e.getGameState() == GameState.LOGGED_IN) {
+            clientThread.invokeLater(() -> {
+                refreshWidgets();
+                if (panel != null) panel.refresh();
+            });
+        }
 	}
 
     @Subscribe
@@ -613,7 +618,7 @@ public class RewindPlugin extends Plugin {
 
         int completedMilestones = 0;
         int availableMilestones = 0;
-        final int[] milestones = {10, 20, 30, 40, 50, 60, 70, 80, 90, 99};
+        final int[] milestones = completionMilestones();
         for (Skill skill : Release.getSkills(currentRelease)) {
             if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) {
                 continue;
@@ -629,6 +634,15 @@ public class RewindPlugin extends Plugin {
 
         return new CompletionProgress(
             completedQuests, availableQuests.size(), completedMilestones, availableMilestones);
+    }
+
+    /**
+     * Milestones are intentionally sparse and meaningful rather than every ten levels.
+     * 20/40/60/80 show substantial progression, 70 marks the classic high-level tier,
+     * and 99 remains the mastery objective.
+     */
+    static int[] completionMilestones() {
+        return new int[] {20, 40, 60, 70, 80, 99};
     }
 
     List<Quest> getAvailableCompletionQuests() {
