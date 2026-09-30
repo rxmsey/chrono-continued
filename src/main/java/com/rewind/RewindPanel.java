@@ -133,7 +133,14 @@ public class RewindPanel extends PluginPanel
         accessCard.add(homeTeleportToggle);
         content.add(accessCard);
 
-        add(content, BorderLayout.NORTH);
+        // Completion details can be much taller than the sidebar viewport.
+        // Keep the whole panel scrollable so expanding the log is actually visible.
+        JScrollPane scrollPane = new JScrollPane(content);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.getViewport().setBackground(ColorScheme.DARK_GRAY_COLOR);
+        add(scrollPane, BorderLayout.CENTER);
         refresh();
     }
 
@@ -171,6 +178,7 @@ public class RewindPanel extends PluginPanel
         boolean show = !completionDetails.isVisible();
         if (show) rebuildCompletionDetails();
         completionDetails.setVisible(show);
+        completionDetails.getParent().revalidate();
         revalidate();
         repaint();
     }
