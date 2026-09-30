@@ -770,14 +770,14 @@ public class RewindPlugin extends Plugin {
     CompletionProgress getEraProgress(int year) {
         if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN)
         {
-            return new CompletionProgress(0, 0, 0, 0);
+            return new CompletionProgress(0, 0, 0, 0, 0, 0);
         }
 
         // Future eras relative to the player's selected timeline are intentionally
         // unavailable. The final 10 August 2007 endpoint exposes every era.
         if (year > currentRelease.getDate().getLocalDate().getYear())
         {
-            return new CompletionProgress(0, 0, 0, 0);
+            return new CompletionProgress(0, 0, 0, 0, 0, 0);
         }
 
         Release eraRelease = null;
@@ -793,7 +793,7 @@ public class RewindPlugin extends Plugin {
 
         if (eraRelease == null)
         {
-            return new CompletionProgress(0, 0, 0, 0);
+            return new CompletionProgress(0, 0, 0, 0, 0, 0);
         }
 
         List<Quest> quests = Release.getQuests(eraRelease);
