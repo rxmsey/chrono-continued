@@ -171,12 +171,11 @@ public class RewindPanel extends PluginPanel
 
         dateValue.setText(release.getDate().getName());
         description.setText(html(release.getDescription()));
-        Release finalRelease = Release.getReleaseByDate(ReleaseDate._10_AUGUST_2007);
-        regionsValue.setText(progress(Release.getRegions(release).size(), Release.getRegions(finalRelease).size()));
-        questsValue.setText(progress(Release.getQuests(release).size(), Release.getQuests(finalRelease).size()));
-        skillsValue.setText(progress(Release.getSkills(release).size(), Release.getSkills(finalRelease).size()));
-        prayersValue.setText(progress(Release.getPrayers(release).size(), Release.getPrayers(finalRelease).size()));
-        spellsValue.setText(progress(Release.getSpells(release).size(), Release.getSpells(finalRelease).size()));
+        regionsValue.setText(Integer.toString(Release.getRegions(release).size()));
+        questsValue.setText(Integer.toString(Release.getQuests(release).size()));
+        skillsValue.setText(Integer.toString(Release.getSkills(release).size()));
+        prayersValue.setText(Integer.toString(Release.getPrayers(release).size()));
+        spellsValue.setText(Integer.toString(Release.getSpells(release).size()));
         CompletionProgress completion = plugin.getCompletionProgress();
         completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
