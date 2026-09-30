@@ -40,7 +40,6 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.NavigationButton;
-import net.runelite.client.Notifier;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ImageUtil;
 
@@ -129,7 +128,7 @@ public class RewindPlugin extends Plugin {
 	private ClientToolbar clientToolbar;
 
     @Inject
-    private Notifier notifier;
+    private RewindCompletionOverlay completionOverlay;
 
 	@Getter
 	private Release currentRelease;
@@ -657,17 +656,14 @@ public class RewindPlugin extends Plugin {
 
     void testCompletionNotification() {
         String date = currentRelease == null ? "Historical timeline" : currentRelease.getDate().getName();
-        notifier.notify("Rewind Completion — Cook's Assistant — TEST (" + date + ")");
-        addWarningMessage("Historical milestone completed: Cook's Assistant. (Test)", false);
+        CompletionProgress progress = getCompletionProgress();
+        completionOverlay.show("Cook's Assistant", date, progress.getCompleted(), progress.getAvailable());
     }
 
     private void showCompletionPopup(String objective) {
         CompletionProgress progress = getCompletionProgress();
-        String message = "Rewind Completion — " + objective + " — "
-            + progress.getCompleted() + " / " + progress.getAvailable()
-            + " (" + currentRelease.getDate().getName() + ")";
-        notifier.notify(message);
-        addWarningMessage("Historical milestone completed: " + objective + ".", false);
+        completionOverlay.show(objective, currentRelease.getDate().getName(),
+            progress.getCompleted(), progress.getAvailable());
         if (panel != null) panel.refresh();
     }
 
