@@ -306,6 +306,12 @@ public class RewindPanel extends PluginPanel
             RewindPlugin.CONFIG_GROUP_KEY,
             "unlockHomeTeleport",
             enable);
+
+        // Reflect the requested state immediately. ConfigChanged can fire before the
+        // config proxy has refreshed, which previously made this row always appear
+        // as Enabled / Disable Access even after turning it off.
+        homeTeleportValue.setText(enable ? "Enabled" : "Locked");
+        homeTeleportToggle.setText(enable ? "Disable Access" : "Enable Access");
     }
 
     private void buildTimelineSelector()
