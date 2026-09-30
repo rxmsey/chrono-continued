@@ -463,6 +463,13 @@ public class RewindPlugin extends Plugin {
             int spellWidget = spellDefinition.getIntValue(ParamID.SPELL_BUTTON);
             if (allowedWidgets.contains(spellWidget)) {
                 spells[write++] = enumIndex;
+            } else {
+                // The native redraw only lays out entries left in the spell array.
+                // Explicitly hide excluded widgets during that same redraw pass so
+                // their old/default bounds cannot remain stacked under Home Teleport
+                // and produce a giant ghost context menu.
+                Widget spell = client.getWidget(spellWidget);
+                if (spell != null) spell.setHidden(true);
             }
         }
 
