@@ -926,13 +926,24 @@ public class RewindPlugin extends Plugin {
         }
 
         Release eraRelease = null;
+        LocalDate selectedDate = currentRelease.getDate().getLocalDate();
         for (Release release : Release.getRELEASES())
         {
-            int releaseYear = release.getDate().getLocalDate().getYear();
+            LocalDate releaseDate = release.getDate().getLocalDate();
+            int releaseYear = releaseDate.getYear();
+
             if (releaseYear > year)
             {
                 break;
             }
+
+            // For the currently selected year, never count releases that are still
+            // in the future relative to the chosen historical date.
+            if (year == selectedDate.getYear() && releaseDate.isAfter(selectedDate))
+            {
+                break;
+            }
+
             eraRelease = release;
         }
 
