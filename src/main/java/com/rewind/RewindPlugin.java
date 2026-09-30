@@ -767,6 +767,36 @@ public class RewindPlugin extends Plugin {
      */
     private static void applyQuestRequirements(Map<Skill, Integer> r, Quest q) {
         switch (q) {
+            case THE_GOLEM: require(r, Skill.CRAFTING, 20); break;
+            case TEARS_OF_GUTHIX:
+                require(r, Skill.CRAFTING, 20); require(r, Skill.MINING, 20); break;
+            case THE_GIANT_DWARF:
+                require(r, Skill.CRAFTING, 12); require(r, Skill.MAGIC, 33); break;
+            case THE_LOST_TRIBE: require(r, Skill.MINING, 17); break;
+            case ONE_SMALL_FAVOUR: require(r, Skill.CRAFTING, 25); break;
+            case BETWEEN_A_ROCK:
+                require(r, Skill.DEFENCE, 30); require(r, Skill.MINING, 40); break;
+            case SPIRITS_OF_THE_ELID:
+                require(r, Skill.MAGIC, 33); require(r, Skill.MINING, 37); break;
+            case RUM_DEAL: require(r, Skill.CRAFTING, 42); break;
+            case CABIN_FEVER: require(r, Skill.CRAFTING, 45); break;
+            case THE_HAND_IN_THE_SAND: require(r, Skill.CRAFTING, 49); break;
+            case ENAKHRAS_LAMENT: require(r, Skill.CRAFTING, 50); break;
+            case DARKNESS_OF_HALLOWVALE:
+                require(r, Skill.CRAFTING, 32); require(r, Skill.MAGIC, 33);
+                require(r, Skill.MINING, 20); break;
+            case THE_SLUG_MENACE: require(r, Skill.CRAFTING, 30); break;
+            case ELEMENTAL_WORKSHOP_II: require(r, Skill.MAGIC, 20); break;
+            case ENLIGHTENED_JOURNEY: require(r, Skill.CRAFTING, 36); break;
+            case ANIMAL_MAGNETISM: require(r, Skill.CRAFTING, 19); break;
+            case COLD_WAR: require(r, Skill.CRAFTING, 30); break;
+            case THE_GREAT_BRAIN_ROBBERY:
+                require(r, Skill.CRAFTING, 16); require(r, Skill.CONSTRUCTION, 30);
+                require(r, Skill.PRAYER, 50); break;
+            case GRIM_TALES:
+                require(r, Skill.AGILITY, 59); require(r, Skill.FARMING, 45);
+                require(r, Skill.HERBLORE, 52); require(r, Skill.THIEVING, 58);
+                require(r, Skill.WOODCUTTING, 71); break;
             case DRAGON_SLAYER_I: require(r, Skill.MAGIC, 33); break;
             case HEROES_QUEST:
                 require(r, Skill.COOKING, 53); require(r, Skill.FISHING, 53);
