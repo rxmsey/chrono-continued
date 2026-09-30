@@ -106,15 +106,6 @@ public class RewindPanel extends PluginPanel
         completionCard.add(Box.createVerticalStrut(8));
         completionCard.add(viewCompletion);
 
-        JButton testNotification = new JButton("Test Completion Notification");
-        testNotification.setFocusable(false);
-        testNotification.setAlignmentX(Component.LEFT_ALIGNMENT);
-        testNotification.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        testNotification.setToolTipText("Preview a Cook's Assistant completion notification");
-        testNotification.addActionListener(e -> plugin.testCompletionNotification());
-        completionCard.add(Box.createVerticalStrut(6));
-        completionCard.add(testNotification);
-
         content.add(completionCard);
         content.add(Box.createVerticalStrut(6));
         completionDetails.setVisible(false);
