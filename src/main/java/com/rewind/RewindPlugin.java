@@ -49,6 +49,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 
@@ -618,17 +620,11 @@ public class RewindPlugin extends Plugin {
 
         int completedMilestones = 0;
         int availableMilestones = 0;
-        final int[] milestones = completionMilestones();
-        for (Skill skill : Release.getSkills(currentRelease)) {
-            if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) {
-                continue;
-            }
-            int level = client.getRealSkillLevel(skill);
-            for (int milestone : milestones) {
-                availableMilestones++;
-                if (level >= milestone) {
-                    completedMilestones++;
-                }
+        final Map<Skill, Integer> targets = getHistoricalSkillTargets();
+        for (Map.Entry<Skill, Integer> entry : targets.entrySet()) {
+            availableMilestones++;
+            if (client.getRealSkillLevel(entry.getKey()) >= entry.getValue()) {
+                completedMilestones++;
             }
         }
 
@@ -637,12 +633,51 @@ public class RewindPlugin extends Plugin {
     }
 
     /**
-     * Milestones are intentionally sparse and meaningful rather than every ten levels.
-     * 20/40/60/80 show substantial progression, 70 marks the classic high-level tier,
-     * and 99 remains the mastery objective.
+     * Each historical skill has one current target. A newly released skill starts
+     * modestly and its target grows with time in the timeline, capped by the era.
+     * This keeps January 2001 focused on experiencing the launch game rather than
+     * asking the player to max skills immediately.
      */
-    static int[] completionMilestones() {
-        return new int[] {20, 40, 60, 70, 80, 99};
+    Map<Skill, Integer> getHistoricalSkillTargets() {
+        Map<Skill, Integer> targets = new LinkedHashMap<>();
+        if (currentRelease == null) return targets;
+
+        LocalDate selected = currentRelease.getDate().getLocalDate();
+        for (Skill skill : Release.getSkills(currentRelease)) {
+            if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) continue;
+
+            LocalDate introduced = skillIntroductionDate(skill);
+            long months = Math.max(0, ChronoUnit.MONTHS.between(introduced.withDayOfMonth(1), selected.withDayOfMonth(1)));
+            int maturityTarget;
+            if (months < 3) maturityTarget = 20;
+            else if (months < 6) maturityTarget = 30;
+            else if (months < 12) maturityTarget = 40;
+            else if (months < 24) maturityTarget = 50;
+            else if (months < 36) maturityTarget = 60;
+            else maturityTarget = 70;
+
+            int eraCap;
+            switch (selected.getYear()) {
+                case 2001: eraCap = 30; break;
+                case 2002: eraCap = 40; break;
+                case 2003: eraCap = 50; break;
+                case 2004: eraCap = 60; break;
+                case 2005: eraCap = 70; break;
+                case 2006: eraCap = 75; break;
+                default: eraCap = 80; break;
+            }
+            targets.put(skill, Math.min(maturityTarget, eraCap));
+        }
+        return targets;
+    }
+
+    private LocalDate skillIntroductionDate(Skill skill) {
+        for (Release release : Release.getRELEASES()) {
+            if (release.getSkills() != null && release.getSkills().contains(skill)) {
+                return release.getDate().getLocalDate();
+            }
+        }
+        return ReleaseDate._04_JANUARY_2001.getLocalDate();
     }
 
     List<Quest> getAvailableCompletionQuests() {
