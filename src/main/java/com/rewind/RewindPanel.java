@@ -259,10 +259,18 @@ public class RewindPanel extends PluginPanel
         completionDetails.removeAll();
 
         JPanel questRows = objectiveList();
-        for (Quest quest : plugin.getAvailableCompletionQuests())
+        java.util.List<Quest> milestoneQuests = plugin.getAvailableCompletionQuests();
+        if (milestoneQuests.isEmpty())
         {
-            boolean done = plugin.isQuestComplete(quest);
-            questRows.add(objectiveRow(done, quest.getName()));
+            questRows.add(emptyStateRow("No quest objective at this date."));
+        }
+        else
+        {
+            for (Quest quest : milestoneQuests)
+            {
+                boolean done = plugin.isQuestComplete(quest);
+                questRows.add(objectiveRow(done, quest.getName()));
+            }
         }
         addExpandableSection(completionDetails, "QUESTS", questRows);
 
@@ -614,7 +622,7 @@ public class RewindPanel extends PluginPanel
 
     private static String progress(int current, int total)
     {
-        return current + " / " + total;
+        return total == 0 ? "—" : current + " / " + total;
     }
 
     private static String html(String text)
