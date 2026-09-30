@@ -3,9 +3,7 @@ package com.rewind;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
-import net.runelite.client.ui.overlay.OverlayUtil;
 
 import javax.inject.Inject;
 import java.awt.*;
@@ -28,7 +26,6 @@ public class RewindCompletionOverlay extends Overlay
     @Inject
     RewindCompletionOverlay()
     {
-        setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ALWAYS_ON_TOP);
         setPriority(OverlayPriority.HIGHEST);
     }
@@ -49,9 +46,10 @@ public class RewindCompletionOverlay extends Overlay
             return null;
         }
 
-        Rectangle viewport = graphics.getClipBounds();
-        int x = viewport == null ? 0 : Math.max(0, (viewport.width - WIDTH) / 2);
-        int y = viewport == null ? 35 : Math.max(35, viewport.y + 55);
+        Rectangle clip = graphics.getClipBounds();
+        int canvasWidth = clip == null ? 765 : clip.x + clip.width;
+        int x = Math.max(0, (canvasWidth - WIDTH) / 2);
+        int y = 55;
 
         // OSRS-style dark framed notification with warm gold trim.
         graphics.setColor(new Color(20, 16, 12, 238));
