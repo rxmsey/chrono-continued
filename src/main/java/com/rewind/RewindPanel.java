@@ -169,8 +169,13 @@ public class RewindPanel extends PluginPanel
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
         completionActivitiesValue.setText(progress(completion.getCompletedActivities(), completion.getAvailableActivities()));
-        rebuildEraProgress();
-        if (completionDetails.isVisible()) rebuildCompletionDetails();
+        // Quest/skill state is client-thread state. Startup constructs this Swing panel
+        // off the client thread, so defer era/detail reads until the logged-in refresh.
+        if (plugin.isClientStateReadable())
+        {
+            rebuildEraProgress();
+            if (completionDetails.isVisible()) rebuildCompletionDetails();
+        }
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
