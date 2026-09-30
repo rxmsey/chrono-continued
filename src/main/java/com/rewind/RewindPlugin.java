@@ -274,7 +274,15 @@ public class RewindPlugin extends Plugin {
 			HistoricalRegionState.setSelectedDate(config.release().getDate());
 			HistoricalRegionState.replaceWith(Release.getRegions(currentRelease));
             updateAdditionalRegions();
-            clientThread.invokeLater(this::refreshWidgets);
+            // Changing timeline changes which objectives exist. Re-seed instead of
+            // treating already-completed objectives in the newly selected date as
+            // fresh completions.
+            completionSnapshotReady = false;
+            clientThread.invokeLater(() -> {
+                refreshWidgets();
+                seedCompletionSnapshot();
+                if (panel != null) panel.refresh();
+            });
             reloadScene();
 
 			panel.updateDescription(currentRelease.getDescription());
