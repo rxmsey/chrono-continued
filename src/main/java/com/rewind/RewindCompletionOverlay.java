@@ -5,6 +5,7 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
+import net.runelite.client.ui.overlay.OverlayUtil;
 
 import javax.inject.Inject;
 import java.awt.*;
@@ -27,8 +28,8 @@ public class RewindCompletionOverlay extends Overlay
     @Inject
     RewindCompletionOverlay()
     {
-        setPosition(OverlayPosition.TOP_CENTER);
-        setLayer(OverlayLayer.ABOVE_WIDGETS);
+        setPosition(OverlayPosition.DYNAMIC);
+        setLayer(OverlayLayer.ALWAYS_ON_TOP);
         setPriority(OverlayPriority.HIGHEST);
     }
 
@@ -48,8 +49,9 @@ public class RewindCompletionOverlay extends Overlay
             return null;
         }
 
-        int x = 0;
-        int y = 0;
+        Rectangle viewport = graphics.getClipBounds();
+        int x = viewport == null ? 0 : Math.max(0, (viewport.width - WIDTH) / 2);
+        int y = viewport == null ? 35 : Math.max(35, viewport.y + 55);
 
         // OSRS-style dark framed notification with warm gold trim.
         graphics.setColor(new Color(20, 16, 12, 238));
@@ -73,11 +75,11 @@ public class RewindCompletionOverlay extends Overlay
         return new Dimension(WIDTH, HEIGHT);
     }
 
-    private static void drawCentered(Graphics2D graphics, String text, int y, Font font, Color color)
+    private static void drawCentered(Graphics2D graphics, int x, String text, int y, Font font, Color color)
     {
         graphics.setFont(font);
         graphics.setColor(color);
         FontMetrics metrics = graphics.getFontMetrics();
-        graphics.drawString(text, (WIDTH - metrics.stringWidth(text)) / 2, y);
+        graphics.drawString(text, x + (WIDTH - metrics.stringWidth(text)) / 2, y);
     }
 }
