@@ -1,5 +1,7 @@
 package com.rewind;
 
+import net.runelite.api.Quest;
+import net.runelite.api.Skill;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
@@ -7,6 +9,7 @@ import net.runelite.client.ui.PluginPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Map;
 
 /** Player-facing summary of the currently selected historical release. */
 public class RewindPanel extends PluginPanel
@@ -22,6 +25,7 @@ public class RewindPanel extends PluginPanel
     private final JLabel completionValue = valueLabel();
     private final JLabel completionQuestsValue = valueLabel();
     private final JLabel completionSkillsValue = valueLabel();
+    private final JPanel completionDetails = card();
     private final JLabel geValue = valueLabel();
     private final JButton geToggle = new JButton();
     private final JLabel homeTeleportValue = valueLabel();
@@ -94,7 +98,17 @@ public class RewindPanel extends PluginPanel
         completionCard.add(row("Historical completion", completionValue));
         completionCard.add(row("Quests", completionQuestsValue));
         completionCard.add(row("Skill milestones", completionSkillsValue));
+        JButton viewCompletion = new JButton("View Completion Log");
+        viewCompletion.setFocusable(false);
+        viewCompletion.setAlignmentX(Component.LEFT_ALIGNMENT);
+        viewCompletion.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        viewCompletion.addActionListener(e -> toggleCompletionDetails());
+        completionCard.add(Box.createVerticalStrut(8));
+        completionCard.add(viewCompletion);
         content.add(completionCard);
+        content.add(Box.createVerticalStrut(6));
+        completionDetails.setVisible(false);
+        content.add(completionDetails);
         content.add(Box.createVerticalStrut(10));
 
         content.add(sectionTitle("ACCESS"));
@@ -142,12 +156,63 @@ public class RewindPanel extends PluginPanel
         completionValue.setText(completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
+        if (completionDetails.isVisible()) rebuildCompletionDetails();
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
         boolean homeTeleportUnlocked = plugin.getConfig().unlockHomeTeleport();
         homeTeleportValue.setText(homeTeleportUnlocked ? "Enabled" : "Locked");
         homeTeleportToggle.setText(homeTeleportUnlocked ? "Disable Access" : "Enable Access");
+    }
+
+    private void toggleCompletionDetails()
+    {
+        boolean show = !completionDetails.isVisible();
+        if (show) rebuildCompletionDetails();
+        completionDetails.setVisible(show);
+        revalidate();
+        repaint();
+    }
+
+    private void rebuildCompletionDetails()
+    {
+        completionDetails.removeAll();
+
+        JLabel questHeader = sectionTitle("QUESTS");
+        completionDetails.add(questHeader);
+        for (Quest quest : plugin.getAvailableCompletionQuests())
+        {
+            boolean done = plugin.isQuestComplete(quest);
+            completionDetails.add(objectiveRow(done, quest.getName()));
+        }
+
+        completionDetails.add(Box.createVerticalStrut(8));
+        completionDetails.add(sectionTitle("SKILL MILESTONES"));
+        final int[] milestones = {10, 20, 30, 40, 50, 60, 70, 80, 90, 99};
+        for (Map.Entry<Skill, Integer> entry : plugin.getAvailableCompletionSkills().entrySet())
+        {
+            for (int milestone : milestones)
+            {
+                completionDetails.add(objectiveRow(
+                    entry.getValue() >= milestone,
+                    entry.getKey().getName() + " " + milestone));
+            }
+        }
+
+        completionDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        completionDetails.revalidate();
+        completionDetails.repaint();
+    }
+
+    private static JPanel objectiveRow(boolean complete, String objective)
+    {
+        JPanel row = new JPanel(new BorderLayout());
+        row.setOpaque(false);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+        JLabel label = new JLabel((complete ? "\u2713 " : "\u25CB ") + objective);
+        label.setForeground(complete ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
+        row.add(label, BorderLayout.WEST);
+        return row;
     }
 
     private void toggleGrandExchange()
