@@ -655,6 +655,12 @@ public class RewindPlugin extends Plugin {
         completionSnapshotReady = true;
     }
 
+    void testCompletionNotification() {
+        String date = currentRelease == null ? "Historical timeline" : currentRelease.getDate().getName();
+        notifier.notify("Rewind Completion — Cook's Assistant — TEST (" + date + ")");
+        addWarningMessage("Historical milestone completed: Cook's Assistant. (Test)", false);
+    }
+
     private void showCompletionPopup(String objective) {
         CompletionProgress progress = getCompletionProgress();
         String message = "Rewind Completion — " + objective + " — "
