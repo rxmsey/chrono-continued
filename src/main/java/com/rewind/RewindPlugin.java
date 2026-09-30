@@ -1110,29 +1110,127 @@ public class RewindPlugin extends Plugin {
      */
     private static void applyQuestRequirements(Map<Skill, Integer> r, Quest q) {
         switch (q) {
-            case THE_GOLEM: require(r, Skill.CRAFTING, 20); break;
+            case THE_KNIGHTS_SWORD:
+                require(r, Skill.MINING, 10); break;
+            case SCORPION_CATCHER:
+                require(r, Skill.PRAYER, 31); break;
+            case TRIBAL_TOTEM:
+                require(r, Skill.THIEVING, 21); break;
+            case FISHING_CONTEST:
+                require(r, Skill.FISHING, 10); break;
+            case TEMPLE_OF_IKOV:
+                require(r, Skill.RANGED, 40); require(r, Skill.THIEVING, 42); break;
+            case HOLY_GRAIL:
+                require(r, Skill.ATTACK, 20); break;
+            case SEA_SLUG:
+                require(r, Skill.FIREMAKING, 30); break;
+            case JUNGLE_POTION:
+                require(r, Skill.HERBLORE, 3); break;
+            case THE_GRAND_TREE:
+                require(r, Skill.AGILITY, 25); break;
+            case SHILO_VILLAGE:
+                require(r, Skill.AGILITY, 32); require(r, Skill.CRAFTING, 20); break;
+            case UNDERGROUND_PASS:
+                require(r, Skill.RANGED, 25); break;
+            case THE_TOURIST_TRAP:
+                require(r, Skill.FLETCHING, 10); require(r, Skill.SMITHING, 20); break;
+            case WATCHTOWER:
+                require(r, Skill.AGILITY, 25); require(r, Skill.HERBLORE, 14);
+                require(r, Skill.MAGIC, 14); require(r, Skill.MINING, 40);
+                require(r, Skill.THIEVING, 15); break;
+            case THE_DIG_SITE:
+                require(r, Skill.AGILITY, 10); require(r, Skill.HERBLORE, 10);
+                require(r, Skill.THIEVING, 25); break;
+            case BIG_CHOMPY_BIRD_HUNTING:
+                require(r, Skill.COOKING, 30); require(r, Skill.FLETCHING, 5);
+                require(r, Skill.RANGED, 30); break;
+            case ELEMENTAL_WORKSHOP_I:
+                require(r, Skill.CRAFTING, 20); require(r, Skill.MINING, 20);
+                require(r, Skill.SMITHING, 20); break;
+            case TROLL_STRONGHOLD:
+                require(r, Skill.AGILITY, 15); break;
+            case TAI_BWO_WANNAI_TRIO:
+                require(r, Skill.AGILITY, 15); require(r, Skill.COOKING, 30);
+                require(r, Skill.FISHING, 5); break;
+            case REGICIDE:
+                require(r, Skill.AGILITY, 56); require(r, Skill.CRAFTING, 10); break;
+            case EADGARS_RUSE:
+                require(r, Skill.HERBLORE, 31); break;
+            case SHADES_OF_MORTTON:
+                require(r, Skill.CRAFTING, 20); require(r, Skill.FIREMAKING, 5);
+                require(r, Skill.HERBLORE, 15); break;
+            case HORROR_FROM_THE_DEEP:
+                require(r, Skill.AGILITY, 35); break;
+            case HAUNTED_MINE:
+                require(r, Skill.CRAFTING, 35); break;
+            case TROLL_ROMANCE:
+                require(r, Skill.AGILITY, 28); break;
+            case IN_SEARCH_OF_THE_MYREQUE:
+                require(r, Skill.AGILITY, 25); break;
+            case CREATURE_OF_FENKENSTRAIN:
+                require(r, Skill.CRAFTING, 20); require(r, Skill.THIEVING, 25); break;
+            case ROVING_ELVES:
+                require(r, Skill.AGILITY, 56); break;
+            case GHOSTS_AHOY:
+                require(r, Skill.AGILITY, 25); require(r, Skill.COOKING, 20); break;
+            case MOUNTAIN_DAUGHTER:
+                require(r, Skill.AGILITY, 20); break;
+            case THE_FEUD:
+                require(r, Skill.THIEVING, 30); break;
+            case ZOGRE_FLESH_EATERS:
+                require(r, Skill.HERBLORE, 8); require(r, Skill.RANGED, 30);
+                require(r, Skill.SMITHING, 4); break;
+            case THE_GOLEM:
+                require(r, Skill.CRAFTING, 20); require(r, Skill.THIEVING, 25); break;
             case TEARS_OF_GUTHIX:
-                require(r, Skill.CRAFTING, 20); require(r, Skill.MINING, 20); break;
-            case THE_GIANT_DWARF:
-                require(r, Skill.CRAFTING, 12); require(r, Skill.MAGIC, 33); break;
-            case THE_LOST_TRIBE: require(r, Skill.MINING, 17); break;
-            case ONE_SMALL_FAVOUR: require(r, Skill.CRAFTING, 25); break;
-            case BETWEEN_A_ROCK:
-                require(r, Skill.DEFENCE, 30); require(r, Skill.MINING, 40); break;
-            case SPIRITS_OF_THE_ELID:
-                require(r, Skill.MAGIC, 33); require(r, Skill.MINING, 37); break;
-            case RUM_DEAL: require(r, Skill.CRAFTING, 42); break;
-            case CABIN_FEVER: require(r, Skill.CRAFTING, 45); break;
-            case THE_HAND_IN_THE_SAND: require(r, Skill.CRAFTING, 49); break;
-            case ENAKHRAS_LAMENT: require(r, Skill.CRAFTING, 50); break;
-            case DARKNESS_OF_HALLOWVALE:
-                require(r, Skill.CRAFTING, 32); require(r, Skill.MAGIC, 33);
+                require(r, Skill.CRAFTING, 20); require(r, Skill.FIREMAKING, 49);
                 require(r, Skill.MINING, 20); break;
-            case THE_SLUG_MENACE: require(r, Skill.CRAFTING, 30); break;
-            case ELEMENTAL_WORKSHOP_II: require(r, Skill.MAGIC, 20); break;
-            case ENLIGHTENED_JOURNEY: require(r, Skill.CRAFTING, 36); break;
-            case ANIMAL_MAGNETISM: require(r, Skill.CRAFTING, 19); break;
-            case COLD_WAR: require(r, Skill.CRAFTING, 30); break;
+            case THE_GIANT_DWARF:
+                require(r, Skill.CRAFTING, 12); require(r, Skill.FIREMAKING, 16);
+                require(r, Skill.MAGIC, 33); require(r, Skill.THIEVING, 14); break;
+            case THE_LOST_TRIBE:
+                require(r, Skill.AGILITY, 13); require(r, Skill.MINING, 17);
+                require(r, Skill.THIEVING, 13); break;
+            case ONE_SMALL_FAVOUR:
+                require(r, Skill.AGILITY, 36); require(r, Skill.CRAFTING, 25);
+                require(r, Skill.HERBLORE, 18); require(r, Skill.SMITHING, 30); break;
+            case BETWEEN_A_ROCK:
+                require(r, Skill.DEFENCE, 30); require(r, Skill.MINING, 40);
+                require(r, Skill.SMITHING, 50); break;
+            case SPIRITS_OF_THE_ELID:
+                require(r, Skill.MAGIC, 33); require(r, Skill.MINING, 37);
+                require(r, Skill.RANGED, 37); require(r, Skill.THIEVING, 37); break;
+            case RUM_DEAL:
+                require(r, Skill.CRAFTING, 42); require(r, Skill.FARMING, 40);
+                require(r, Skill.FISHING, 50); require(r, Skill.PRAYER, 47);
+                require(r, Skill.SLAYER, 42); break;
+            case CABIN_FEVER:
+                require(r, Skill.AGILITY, 42); require(r, Skill.CRAFTING, 45);
+                require(r, Skill.RANGED, 40); require(r, Skill.SMITHING, 50); break;
+            case THE_HAND_IN_THE_SAND:
+                require(r, Skill.CRAFTING, 49); require(r, Skill.THIEVING, 17); break;
+            case ENAKHRAS_LAMENT:
+                require(r, Skill.CRAFTING, 50); require(r, Skill.FIREMAKING, 45);
+                require(r, Skill.MAGIC, 39); require(r, Skill.PRAYER, 43); break;
+            case DARKNESS_OF_HALLOWVALE:
+                require(r, Skill.AGILITY, 26); require(r, Skill.CONSTRUCTION, 5);
+                require(r, Skill.CRAFTING, 32); require(r, Skill.MAGIC, 33);
+                require(r, Skill.MINING, 20); require(r, Skill.STRENGTH, 40);
+                require(r, Skill.THIEVING, 22); break;
+            case THE_SLUG_MENACE:
+                require(r, Skill.CRAFTING, 30); require(r, Skill.RUNECRAFT, 30);
+                require(r, Skill.SLAYER, 30); require(r, Skill.THIEVING, 30); break;
+            case ELEMENTAL_WORKSHOP_II:
+                require(r, Skill.MAGIC, 20); require(r, Skill.SMITHING, 30); break;
+            case ENLIGHTENED_JOURNEY:
+                require(r, Skill.CRAFTING, 36); require(r, Skill.FARMING, 30);
+                require(r, Skill.FIREMAKING, 20); break;
+            case ANIMAL_MAGNETISM:
+                require(r, Skill.CRAFTING, 19); require(r, Skill.RANGED, 30);
+                require(r, Skill.SLAYER, 18); require(r, Skill.WOODCUTTING, 35); break;
+            case COLD_WAR:
+                require(r, Skill.AGILITY, 30); require(r, Skill.CONSTRUCTION, 34);
+                require(r, Skill.CRAFTING, 30); require(r, Skill.HUNTER, 10); break;
             case THE_GREAT_BRAIN_ROBBERY:
                 require(r, Skill.CRAFTING, 16); require(r, Skill.CONSTRUCTION, 30);
                 require(r, Skill.PRAYER, 50); break;
@@ -1140,14 +1238,14 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.AGILITY, 59); require(r, Skill.FARMING, 45);
                 require(r, Skill.HERBLORE, 52); require(r, Skill.THIEVING, 58);
                 require(r, Skill.WOODCUTTING, 71); break;
-            case DRAGON_SLAYER_I: require(r, Skill.MAGIC, 33); break;
             case HEROES_QUEST:
                 require(r, Skill.COOKING, 53); require(r, Skill.FISHING, 53);
-                require(r, Skill.MINING, 50); require(r, Skill.HERBLORE, 25); break;
-            case LOST_CITY: require(r, Skill.CRAFTING, 31); require(r, Skill.WOODCUTTING, 36); break;
+                require(r, Skill.HERBLORE, 25); require(r, Skill.MINING, 50); break;
+            case LOST_CITY:
+                require(r, Skill.CRAFTING, 31); require(r, Skill.WOODCUTTING, 36); break;
             case FAMILY_CREST:
-                require(r, Skill.MINING, 40); require(r, Skill.SMITHING, 40);
-                require(r, Skill.MAGIC, 59); require(r, Skill.CRAFTING, 40); break;
+                require(r, Skill.CRAFTING, 40); require(r, Skill.MAGIC, 59);
+                require(r, Skill.MINING, 40); require(r, Skill.SMITHING, 40); break;
             case LEGENDS_QUEST:
                 require(r, Skill.AGILITY, 50); require(r, Skill.CRAFTING, 50);
                 require(r, Skill.HERBLORE, 45); require(r, Skill.MAGIC, 56);
@@ -1159,24 +1257,85 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.SLAYER, 10); require(r, Skill.THIEVING, 53); break;
             case MOURNINGS_END_PART_I:
                 require(r, Skill.RANGED, 60); require(r, Skill.THIEVING, 50); break;
-            case MOURNINGS_END_PART_II: require(r, Skill.AGILITY, 56); break;
-            case RECIPE_FOR_DISASTER:
-                require(r, Skill.COOKING, 70); break;
+            case MOURNINGS_END_PART_II:
+                require(r, Skill.AGILITY, 56); break;
             case SWAN_SONG:
-                require(r, Skill.MAGIC, 66); require(r, Skill.COOKING, 62);
-                require(r, Skill.FISHING, 62); require(r, Skill.SMITHING, 45);
-                require(r, Skill.FIREMAKING, 42); require(r, Skill.CRAFTING, 40); break;
+                require(r, Skill.CRAFTING, 40); require(r, Skill.COOKING, 62);
+                require(r, Skill.FIREMAKING, 42); require(r, Skill.FISHING, 62);
+                require(r, Skill.MAGIC, 66); require(r, Skill.SMITHING, 45); break;
             case LUNAR_DIPLOMACY:
-                require(r, Skill.MAGIC, 65); require(r, Skill.DEFENCE, 40);
-                require(r, Skill.WOODCUTTING, 55); require(r, Skill.MINING, 60);
-                require(r, Skill.CRAFTING, 61); require(r, Skill.FIREMAKING, 49); break;
+                require(r, Skill.CRAFTING, 61); require(r, Skill.DEFENCE, 40);
+                require(r, Skill.FIREMAKING, 49); require(r, Skill.HERBLORE, 5);
+                require(r, Skill.MAGIC, 65); require(r, Skill.MINING, 60);
+                require(r, Skill.WOODCUTTING, 55); break;
             case DREAM_MENTOR:
-                // Combat level is a composite requirement, so individual combat-skill
-                // targets continue to use their historical/content-driven goals.
+                // 85 Combat is composite, so do not invent per-skill requirements.
                 break;
             case KINGS_RANSOM:
-                require(r, Skill.MAGIC, 45); require(r, Skill.DEFENCE, 65); break;
-            default: break;
+                require(r, Skill.DEFENCE, 65); require(r, Skill.MAGIC, 45); break;
+            case FORGETTABLE_TALE:
+                require(r, Skill.COOKING, 22); require(r, Skill.FARMING, 17); break;
+            case GARDEN_OF_TRANQUILLITY:
+                require(r, Skill.FARMING, 25); break;
+            case SKIPPY_AND_THE_MOGRES:
+                require(r, Skill.COOKING, 20); break;
+            case SHADOW_OF_THE_STORM:
+                require(r, Skill.CRAFTING, 30); break;
+            case DEVIOUS_MINDS:
+                require(r, Skill.FLETCHING, 50); require(r, Skill.RUNECRAFT, 50);
+                require(r, Skill.SMITHING, 65); break;
+            case IN_AID_OF_THE_MYREQUE:
+                require(r, Skill.CRAFTING, 25); require(r, Skill.MAGIC, 7);
+                require(r, Skill.MINING, 15); break;
+            case ROYAL_TROUBLE:
+                require(r, Skill.AGILITY, 40); require(r, Skill.SLAYER, 40); break;
+            case DEATH_TO_THE_DORGESHUUN:
+                require(r, Skill.AGILITY, 23); require(r, Skill.THIEVING, 23); break;
+            case FAIRYTALE_II__CURE_A_QUEEN:
+                require(r, Skill.FARMING, 49); require(r, Skill.HERBLORE, 57);
+                require(r, Skill.THIEVING, 40); break;
+            case THE_EYES_OF_GLOUPHRIE:
+                require(r, Skill.CONSTRUCTION, 5); require(r, Skill.MAGIC, 46); break;
+            case MY_ARMS_BIG_ADVENTURE:
+                require(r, Skill.FARMING, 29); require(r, Skill.WOODCUTTING, 10); break;
+            case EAGLES_PEAK:
+                require(r, Skill.HUNTER, 27); break;
+            case LAIR_OF_TARN_RAZORLOR:
+                require(r, Skill.SLAYER, 40); break;
+            case THE_FREMENNIK_ISLES:
+                require(r, Skill.AGILITY, 40); require(r, Skill.CONSTRUCTION, 20);
+                require(r, Skill.CRAFTING, 46); require(r, Skill.WOODCUTTING, 56); break;
+            case TOWER_OF_LIFE:
+                require(r, Skill.CONSTRUCTION, 10); break;
+            case WHAT_LIES_BELOW:
+                require(r, Skill.RUNECRAFT, 35); break;
+            case OLAFS_QUEST:
+                require(r, Skill.FIREMAKING, 40); require(r, Skill.WOODCUTTING, 50); break;
+            case ANOTHER_SLICE_OF_HAM:
+                require(r, Skill.ATTACK, 15); require(r, Skill.PRAYER, 25); break;
+            case BARBARIAN_TRAINING:
+                require(r, Skill.AGILITY, 15); require(r, Skill.CRAFTING, 11);
+                require(r, Skill.FARMING, 15); require(r, Skill.FIREMAKING, 35);
+                require(r, Skill.FISHING, 55); require(r, Skill.HERBLORE, 4);
+                require(r, Skill.SMITHING, 5); require(r, Skill.STRENGTH, 35); break;
+            case MAGE_ARENA_I:
+                require(r, Skill.MAGIC, 60); break;
+            case RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST:
+                require(r, Skill.COOKING, 10); break;
+            case RECIPE_FOR_DISASTER__EVIL_DAVE:
+                require(r, Skill.COOKING, 25); break;
+            case RECIPE_FOR_DISASTER__PIRATE_PETE:
+                require(r, Skill.COOKING, 31); require(r, Skill.CRAFTING, 42); break;
+            case RECIPE_FOR_DISASTER__LUMBRIDGE_GUIDE:
+                require(r, Skill.COOKING, 40); break;
+            case RECIPE_FOR_DISASTER__SKRACH_UGLOGWEE:
+                require(r, Skill.COOKING, 41); require(r, Skill.FIREMAKING, 20); break;
+            case RECIPE_FOR_DISASTER__KING_AWOWOGEI:
+                require(r, Skill.AGILITY, 48); require(r, Skill.COOKING, 70); break;
+            // Quests not listed here have no direct mandatory skill requirement.
+            // Prerequisite quest requirements are already represented cumulatively.
+            default:
+                break;
         }
     }
 
