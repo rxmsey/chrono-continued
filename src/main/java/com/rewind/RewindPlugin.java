@@ -637,6 +637,19 @@ public class RewindPlugin extends Plugin {
     @Subscribe
     public void onGameTick(GameTick event) {
         checkQuestCompletions();
+        checkActivityCompletions();
+    }
+
+    private void checkActivityCompletions() {
+        if (!completionSnapshotReady || currentRelease == null
+            || client.getGameState() != GameState.LOGGED_IN
+            || !isBarrowsAvailable(currentRelease)) return;
+
+        String key = "activity:barrows_chest";
+        if (!completionSnapshot.contains(key) && isBarrowsComplete()) {
+            completionSnapshot.add(key);
+            showCompletionPopup("Barrows reward chest");
+        }
     }
 
     private void checkQuestCompletions() {
@@ -662,6 +675,9 @@ public class RewindPlugin extends Plugin {
                 completionSnapshot.add("skill:" + entry.getKey().name() + ":" + entry.getValue());
             }
         }
+        if (isBarrowsAvailable(currentRelease) && isBarrowsComplete()) {
+            completionSnapshot.add("activity:barrows_chest");
+        }
         completionSnapshotReady = true;
     }
 
@@ -678,7 +694,7 @@ public class RewindPlugin extends Plugin {
 
     CompletionProgress getCompletionProgress() {
         if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) {
-            return new CompletionProgress(0, 0, 0, 0);
+            return new CompletionProgress(0, 0, 0, 0, 0, 0);
         }
 
         List<Quest> availableQuests = getAvailableCompletionQuests();
@@ -703,8 +719,13 @@ public class RewindPlugin extends Plugin {
             }
         }
 
+        int availableActivities = isBarrowsAvailable(currentRelease) ? 1 : 0;
+        int completedActivities = availableActivities > 0 && isBarrowsComplete() ? 1 : 0;
+
         return new CompletionProgress(
-            completedQuests, availableQuests.size(), completedMilestones, availableMilestones);
+            completedQuests, availableQuests.size(),
+            completedMilestones, availableMilestones,
+            completedActivities, availableActivities);
     }
 
     /**
@@ -795,8 +816,26 @@ public class RewindPlugin extends Plugin {
             }
         }
 
+        int availableActivities = isBarrowsAvailable(eraRelease) ? 1 : 0;
+        int completedActivities = availableActivities > 0 && isBarrowsComplete() ? 1 : 0;
+
         return new CompletionProgress(
-            completedQuests, quests.size(), completedSkills, targets.size());
+            completedQuests, quests.size(),
+            completedSkills, targets.size(),
+            completedActivities, availableActivities);
+    }
+
+    boolean isBarrowsAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._09_MAY_2005.getLocalDate());
+    }
+
+    boolean isBarrowsComplete() {
+        // RuneLite's total Barrows reward-chest counter. Keep the numeric varp id
+        // here so this remains compatible even when generated gameval constants move.
+        return client.getGameState() == GameState.LOGGED_IN
+            && client.getVarpValue(1502) > 0;
     }
 
     private static int historicalSkillCap(int year) {
