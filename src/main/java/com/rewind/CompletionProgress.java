@@ -24,6 +24,6 @@ public class CompletionProgress
     public int getPercentage()
     {
         int available = getAvailable();
-        return available == 0 ? 100 : (int) Math.round(getCompleted() * 100.0 / available);
+        return available == 0 ? 0 : (int) Math.round(getCompleted() * 100.0 / available);
     }
 }
