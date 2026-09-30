@@ -21,6 +21,7 @@ import net.runelite.api.*;
 import net.runelite.api.events.*;
 import net.runelite.api.gameval.DBTableID;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.callback.ClientThread;
@@ -63,6 +64,11 @@ import java.util.List;
 )
 public class RewindPlugin extends Plugin {
     private static final String COMPLETION_FIGHT_CAVES_KEY = "completionFightCaves";
+    private static final String COMPLETION_FIGHTER_TORSO_KEY = "completionFighterTorso";
+    private static final String COMPLETION_VOID_TOP_KEY = "completionVoidTop";
+    private static final String COMPLETION_VOID_ROBE_KEY = "completionVoidRobe";
+    private static final String COMPLETION_VOID_GLOVES_KEY = "completionVoidGloves";
+    private static final String COMPLETION_VOID_HELM_KEY = "completionVoidHelm";
 
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
@@ -637,6 +643,66 @@ public class RewindPlugin extends Plugin {
     }
 
     @Subscribe
+    public void onItemContainerChanged(ItemContainerChanged event) {
+        ItemContainer container = event.getItemContainer();
+        if (container == null) return;
+
+        boolean torsoBefore = isFighterTorsoComplete();
+        boolean voidBefore = isVoidSetComplete();
+
+        for (Item item : container.getItems())
+        {
+            if (item == null || item.getQuantity() <= 0) continue;
+
+            switch (item.getId())
+            {
+                case ItemID.BARBASSAULT_PENANCE_FIGHTER_TORSO:
+                    writeProfileFlag(COMPLETION_FIGHTER_TORSO_KEY);
+                    break;
+                case ItemID.PEST_VOID_KNIGHT_TOP:
+                    writeProfileFlag(COMPLETION_VOID_TOP_KEY);
+                    break;
+                case ItemID.PEST_VOID_KNIGHT_ROBES:
+                    writeProfileFlag(COMPLETION_VOID_ROBE_KEY);
+                    break;
+                case ItemID.PEST_VOID_KNIGHT_GLOVES:
+                    writeProfileFlag(COMPLETION_VOID_GLOVES_KEY);
+                    break;
+                case ItemID.GAME_PEST_MAGE_HELM:
+                case ItemID.GAME_PEST_ARCHER_HELM:
+                case ItemID.GAME_PEST_MELEE_HELM:
+                    writeProfileFlag(COMPLETION_VOID_HELM_KEY);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (completionSnapshotReady && currentRelease != null)
+        {
+            if (!torsoBefore && isFighterTorsoAvailable(currentRelease)
+                && isFighterTorsoComplete()
+                && completionSnapshot.add("activity:fighter_torso"))
+            {
+                showCompletionPopup("Fighter torso");
+            }
+
+            if (!voidBefore && isVoidSetAvailable(currentRelease)
+                && isVoidSetComplete()
+                && completionSnapshot.add("activity:void_set"))
+            {
+                showCompletionPopup("Void Knight set");
+            }
+        }
+
+        if (panel != null && ((!torsoBefore && isFighterTorsoComplete())
+            || (!voidBefore && isVoidSetComplete())))
+        {
+            panel.refresh();
+        }
+    }
+
+    @Subscribe
     public void onActorDeath(ActorDeath event) {
         Actor actor = event.getActor();
         if (!(actor instanceof NPC)) return;
@@ -718,6 +784,12 @@ public class RewindPlugin extends Plugin {
         }
         if (isFightCavesAvailable(currentRelease) && isFightCavesComplete()) {
             completionSnapshot.add("activity:fight_caves");
+        }
+        if (isVoidSetAvailable(currentRelease) && isVoidSetComplete()) {
+            completionSnapshot.add("activity:void_set");
+        }
+        if (isFighterTorsoAvailable(currentRelease) && isFighterTorsoComplete()) {
+            completionSnapshot.add("activity:fighter_torso");
         }
         completionSnapshotReady = true;
     }
@@ -896,10 +968,49 @@ public class RewindPlugin extends Plugin {
         return Boolean.parseBoolean(value);
     }
 
+    boolean isFighterTorsoAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._04_JANUARY_2007.getLocalDate());
+    }
+
+    boolean isVoidSetAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._06_JUNE_2006.getLocalDate());
+    }
+
+    boolean isFighterTorsoComplete() {
+        return readProfileFlag(COMPLETION_FIGHTER_TORSO_KEY);
+    }
+
+    boolean isVoidSetComplete() {
+        return readProfileFlag(COMPLETION_VOID_TOP_KEY)
+            && readProfileFlag(COMPLETION_VOID_ROBE_KEY)
+            && readProfileFlag(COMPLETION_VOID_GLOVES_KEY)
+            && readProfileFlag(COMPLETION_VOID_HELM_KEY);
+    }
+
+    private boolean readProfileFlag(String key) {
+        String value = configManager.getRSProfileConfiguration(CONFIG_GROUP_KEY, key);
+        if (value == null)
+        {
+            value = configManager.getConfiguration(CONFIG_GROUP_KEY, key);
+        }
+        return Boolean.parseBoolean(value);
+    }
+
+    private void writeProfileFlag(String key) {
+        configManager.setRSProfileConfiguration(CONFIG_GROUP_KEY, key, true);
+        configManager.setConfiguration(CONFIG_GROUP_KEY, key, true);
+    }
+
     private int getAvailableActivityCount(Release release) {
         int total = 0;
         if (isBarrowsAvailable(release)) total++;
         if (isFightCavesAvailable(release)) total++;
+        if (isVoidSetAvailable(release)) total++;
+        if (isFighterTorsoAvailable(release)) total++;
         return total;
     }
 
@@ -907,6 +1018,8 @@ public class RewindPlugin extends Plugin {
         int total = 0;
         if (isBarrowsAvailable(release) && isBarrowsComplete()) total++;
         if (isFightCavesAvailable(release) && isFightCavesComplete()) total++;
+        if (isVoidSetAvailable(release) && isVoidSetComplete()) total++;
+        if (isFighterTorsoAvailable(release) && isFighterTorsoComplete()) total++;
         return total;
     }
 
