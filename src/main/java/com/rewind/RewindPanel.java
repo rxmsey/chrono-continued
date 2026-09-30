@@ -190,28 +190,50 @@ public class RewindPanel extends PluginPanel
     {
         completionDetails.removeAll();
 
-        JLabel questHeader = sectionTitle("QUESTS");
-        completionDetails.add(questHeader);
+        JPanel questRows = card();
         for (Quest quest : plugin.getAvailableCompletionQuests())
         {
             boolean done = plugin.isQuestComplete(quest);
-            completionDetails.add(objectiveRow(done, quest.getName()));
+            questRows.add(objectiveRow(done, quest.getName()));
         }
+        addExpandableSection(completionDetails, "QUESTS", questRows);
 
-        completionDetails.add(Box.createVerticalStrut(8));
-        completionDetails.add(sectionTitle("SKILL MILESTONES"));
+        completionDetails.add(Box.createVerticalStrut(6));
+
+        JPanel skillRows = card();
         Map<Skill, Integer> levels = plugin.getAvailableCompletionSkills();
         for (Map.Entry<Skill, Integer> target : plugin.getHistoricalSkillTargets().entrySet())
         {
             int currentLevel = levels.getOrDefault(target.getKey(), 1);
-            completionDetails.add(objectiveRow(
+            skillRows.add(objectiveRow(
                 currentLevel >= target.getValue(),
                 target.getKey().getName() + " " + target.getValue() + " (current " + currentLevel + ")"));
         }
+        addExpandableSection(completionDetails, "SKILL MILESTONES", skillRows);
 
         completionDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         completionDetails.revalidate();
         completionDetails.repaint();
+    }
+
+    private static void addExpandableSection(JPanel parent, String title, JPanel rows)
+    {
+        JButton toggle = new JButton("\u25B6  " + title);
+        toggle.setFocusable(false);
+        toggle.setHorizontalAlignment(SwingConstants.LEFT);
+        toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        toggle.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        rows.setVisible(false);
+        toggle.addActionListener(e ->
+        {
+            boolean show = !rows.isVisible();
+            rows.setVisible(show);
+            toggle.setText((show ? "\u25BC  " : "\u25B6  ") + title);
+            parent.revalidate();
+            parent.repaint();
+        });
+        parent.add(toggle);
+        parent.add(rows);
     }
 
     private static JPanel objectiveRow(boolean complete, String objective)
@@ -219,7 +241,9 @@ public class RewindPanel extends PluginPanel
         JPanel row = new JPanel(new BorderLayout());
         row.setOpaque(false);
         row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
-        JLabel label = new JLabel((complete ? "\u2713 " : "\u25CB ") + objective);
+        // RuneLite's bundled RuneScape font does not reliably contain the Unicode
+        // checkmark/circle glyphs; use ASCII markers to avoid green square glyphs.
+        JLabel label = new JLabel((complete ? "[x] " : "[ ] ") + objective);
         label.setForeground(complete ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
         row.add(label, BorderLayout.WEST);
         return row;
