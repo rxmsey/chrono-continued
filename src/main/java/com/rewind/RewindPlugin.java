@@ -636,15 +636,6 @@ public class RewindPlugin extends Plugin {
     @Subscribe
     public void onGameTick(GameTick event) {
         checkQuestCompletions();
-        checkActivityCompletions();
-    }
-
-    private void checkActivityCompletions() {
-        if (!completionSnapshotReady || currentRelease == null) return;
-        String key = "activity:barrows_chest";
-        if (isBarrowsAvailable(currentRelease) && isBarrowsComplete() && completionSnapshot.add(key)) {
-            showCompletionPopup("Barrows reward chest");
-        }
     }
 
     private void checkQuestCompletions() {
@@ -670,9 +661,6 @@ public class RewindPlugin extends Plugin {
                 completionSnapshot.add("skill:" + entry.getKey().name() + ":" + entry.getValue());
             }
         }
-        if (isBarrowsAvailable(currentRelease) && isBarrowsComplete()) {
-            completionSnapshot.add("activity:barrows_chest");
-        }
         completionSnapshotReady = true;
     }
 
@@ -683,13 +671,9 @@ public class RewindPlugin extends Plugin {
         if (panel != null) panel.refresh();
     }
 
-    boolean isClientStateReadable() {
-        return client.getGameState() == GameState.LOGGED_IN && client.isClientThread();
-    }
-
     CompletionProgress getCompletionProgress() {
         if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) {
-            return new CompletionProgress(0, 0, 0, 0, 0, 0);
+            return new CompletionProgress(0, 0, 0, 0);
         }
 
         List<Quest> availableQuests = Release.getQuests(currentRelease);
@@ -714,12 +698,8 @@ public class RewindPlugin extends Plugin {
             }
         }
 
-        int availableActivities = isBarrowsAvailable(currentRelease) ? 1 : 0;
-        int completedActivities = availableActivities > 0 && isBarrowsComplete() ? 1 : 0;
-
         return new CompletionProgress(
-            completedQuests, availableQuests.size(), completedMilestones, availableMilestones,
-            completedActivities, availableActivities);
+            completedQuests, availableQuests.size(), completedMilestones, availableMilestones);
     }
 
     /**
@@ -729,18 +709,14 @@ public class RewindPlugin extends Plugin {
      * requirement yet receive a modest target based on how long they have existed.
      */
     Map<Skill, Integer> getHistoricalSkillTargets() {
-        return getHistoricalSkillTargets(currentRelease);
-    }
-
-    private Map<Skill, Integer> getHistoricalSkillTargets(Release release) {
         Map<Skill, Integer> requirements = new EnumMap<>(Skill.class);
-        for (Quest quest : Release.getQuests(release)) {
+        for (Quest quest : Release.getQuests(currentRelease)) {
             applyQuestRequirements(requirements, quest);
         }
 
         Map<Skill, Integer> targets = new LinkedHashMap<>();
-        LocalDate selected = release.getDate().getLocalDate();
-        for (Skill skill : Release.getSkills(release)) {
+        LocalDate selected = currentRelease.getDate().getLocalDate();
+        for (Skill skill : Release.getSkills(currentRelease)) {
             if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) continue;
             int requirement = requirements.getOrDefault(skill, 0);
             int target;
@@ -783,36 +759,6 @@ public class RewindPlugin extends Plugin {
      */
     private static void applyQuestRequirements(Map<Skill, Integer> r, Quest q) {
         switch (q) {
-            case THE_GOLEM: require(r, Skill.CRAFTING, 20); break;
-            case TEARS_OF_GUTHIX:
-                require(r, Skill.CRAFTING, 20); require(r, Skill.MINING, 20); break;
-            case THE_GIANT_DWARF:
-                require(r, Skill.CRAFTING, 12); require(r, Skill.MAGIC, 33); break;
-            case THE_LOST_TRIBE: require(r, Skill.MINING, 17); break;
-            case ONE_SMALL_FAVOUR: require(r, Skill.CRAFTING, 25); break;
-            case BETWEEN_A_ROCK:
-                require(r, Skill.DEFENCE, 30); require(r, Skill.MINING, 40); break;
-            case SPIRITS_OF_THE_ELID:
-                require(r, Skill.MAGIC, 33); require(r, Skill.MINING, 37); break;
-            case RUM_DEAL: require(r, Skill.CRAFTING, 42); break;
-            case CABIN_FEVER: require(r, Skill.CRAFTING, 45); break;
-            case THE_HAND_IN_THE_SAND: require(r, Skill.CRAFTING, 49); break;
-            case ENAKHRAS_LAMENT: require(r, Skill.CRAFTING, 50); break;
-            case DARKNESS_OF_HALLOWVALE:
-                require(r, Skill.CRAFTING, 32); require(r, Skill.MAGIC, 33);
-                require(r, Skill.MINING, 20); break;
-            case THE_SLUG_MENACE: require(r, Skill.CRAFTING, 30); break;
-            case ELEMENTAL_WORKSHOP_II: require(r, Skill.MAGIC, 20); break;
-            case ENLIGHTENED_JOURNEY: require(r, Skill.CRAFTING, 36); break;
-            case ANIMAL_MAGNETISM: require(r, Skill.CRAFTING, 19); break;
-            case COLD_WAR: require(r, Skill.CRAFTING, 30); break;
-            case THE_GREAT_BRAIN_ROBBERY:
-                require(r, Skill.CRAFTING, 16); require(r, Skill.CONSTRUCTION, 30);
-                require(r, Skill.PRAYER, 50); break;
-            case GRIM_TALES:
-                require(r, Skill.AGILITY, 59); require(r, Skill.FARMING, 45);
-                require(r, Skill.HERBLORE, 52); require(r, Skill.THIEVING, 58);
-                require(r, Skill.WOODCUTTING, 71); break;
             case DRAGON_SLAYER_I: require(r, Skill.MAGIC, 33); break;
             case HEROES_QUEST:
                 require(r, Skill.COOKING, 53); require(r, Skill.FISHING, 53);
@@ -860,40 +806,6 @@ public class RewindPlugin extends Plugin {
             }
         }
         return ReleaseDate._04_JANUARY_2001.getLocalDate();
-    }
-
-    boolean isBarrowsAvailable(Release release) {
-        return release != null && !release.getDate().getLocalDate().isBefore(
-            ReleaseDate._09_MAY_2005.getLocalDate());
-    }
-
-    boolean isBarrowsComplete() {
-        return client.getGameState() == GameState.LOGGED_IN
-            && client.getVarpValue(1502) > 0;
-    }
-
-    CompletionProgress getEraProgress(int year) {
-        if (client.getGameState() != GameState.LOGGED_IN) return new CompletionProgress(0, 0, 0, 0, 0, 0);
-        Release eraRelease = null;
-        for (Release release : Release.getRELEASES()) {
-            if (release.getDate().getLocalDate().getYear() <= year) eraRelease = release;
-            else break;
-        }
-        if (eraRelease == null) return new CompletionProgress(0, 0, 0, 0, 0, 0);
-
-        List<Quest> quests = Release.getQuests(eraRelease);
-        int completedQuests = 0;
-        for (Quest quest : quests) if (isQuestComplete(quest)) completedQuests++;
-
-        Map<Skill, Integer> targets = getHistoricalSkillTargets(eraRelease);
-        int completedSkills = 0;
-        for (Map.Entry<Skill, Integer> e : targets.entrySet()) {
-            if (client.getRealSkillLevel(e.getKey()) >= e.getValue()) completedSkills++;
-        }
-        int activityAvailable = isBarrowsAvailable(eraRelease) ? 1 : 0;
-        int activityComplete = activityAvailable > 0 && isBarrowsComplete() ? 1 : 0;
-        return new CompletionProgress(completedQuests, quests.size(), completedSkills, targets.size(),
-            activityComplete, activityAvailable);
     }
 
     List<Quest> getAvailableCompletionQuests() {
