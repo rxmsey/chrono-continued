@@ -153,7 +153,7 @@ public class RewindPanel extends PluginPanel
         prayersValue.setText(progress(Release.getPrayers(release).size(), Release.getPrayers(finalRelease).size()));
         spellsValue.setText(progress(Release.getSpells(release).size(), Release.getSpells(finalRelease).size()));
         CompletionProgress completion = plugin.getCompletionProgress();
-        completionValue.setText(completion.getPercentage() + "%");
+        completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
         if (completionDetails.isVisible()) rebuildCompletionDetails();
@@ -188,7 +188,7 @@ public class RewindPanel extends PluginPanel
 
         completionDetails.add(Box.createVerticalStrut(8));
         completionDetails.add(sectionTitle("SKILL MILESTONES"));
-        final int[] milestones = {10, 20, 30, 40, 50, 60, 70, 80, 90, 99};
+        final int[] milestones = RewindPlugin.completionMilestones();
         for (Map.Entry<Skill, Integer> entry : plugin.getAvailableCompletionSkills().entrySet())
         {
             for (int milestone : milestones)
