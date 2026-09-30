@@ -284,11 +284,27 @@ public class RewindPanel extends PluginPanel
             hasActivity = true;
         }
 
+        if (plugin.isBonesToPeachesAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isBonesToPeachesComplete(),
+                "Unlock Bones to Peaches"));
+            hasActivity = true;
+        }
+
         if (plugin.isVoidSetAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
                 plugin.isVoidSetComplete(),
                 "Own Void top, robe, gloves + any Void helm"));
+            hasActivity = true;
+        }
+
+        if (plugin.isRuneDefenderAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isRuneDefenderComplete(),
+                "Own a Rune defender"));
             hasActivity = true;
         }
 
