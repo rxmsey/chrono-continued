@@ -40,6 +40,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.Notifier;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ImageUtil;
 
@@ -127,6 +128,9 @@ public class RewindPlugin extends Plugin {
 	@Inject
 	private ClientToolbar clientToolbar;
 
+    @Inject
+    private Notifier notifier;
+
 	@Getter
 	private Release currentRelease;
 
@@ -139,6 +143,8 @@ public class RewindPlugin extends Plugin {
 
     private Set<Integer> sailingObjects = Collections.emptySet();
     private Set<String> unlockedQuestNames = Collections.emptySet();
+    private final Set<String> completionSnapshot = new HashSet<>();
+    private boolean completionSnapshotReady;
 
 	@Getter
 	private boolean mapEnabled;
@@ -285,8 +291,12 @@ public class RewindPlugin extends Plugin {
         if (e.getGameState() == GameState.LOGGED_IN) {
             clientThread.invokeLater(() -> {
                 refreshWidgets();
+                seedCompletionSnapshot();
                 if (panel != null) panel.refresh();
             });
+        } else if (e.getGameState() == GameState.LOGIN_SCREEN || e.getGameState() == GameState.HOPPING) {
+            completionSnapshotReady = false;
+            completionSnapshot.clear();
         }
 	}
 
@@ -600,6 +610,53 @@ public class RewindPlugin extends Plugin {
      * existed by the selected date. Boss/activity objectives can be layered onto
      * this model once their persistent completion signals are verified.
      */
+    @Subscribe
+    public void onStatChanged(StatChanged event) {
+        if (!completionSnapshotReady || currentRelease == null) return;
+        Skill skill = event.getSkill();
+        Integer target = getHistoricalSkillTargets().get(skill);
+        if (target == null || event.getLevel() < target) return;
+        String key = "skill:" + skill.name() + ":" + target;
+        if (completionSnapshot.add(key)) {
+            showCompletionPopup(skill.getName() + " " + target);
+        }
+    }
+
+    @Subscribe
+    public void onQuestChanged(QuestChanged event) {
+        if (!completionSnapshotReady || currentRelease == null) return;
+        Quest quest = event.getQuest();
+        if (!Release.getQuests(currentRelease).contains(quest) || !isQuestComplete(quest)) return;
+        String key = "quest:" + quest.name();
+        if (completionSnapshot.add(key)) {
+            showCompletionPopup(quest.getName());
+        }
+    }
+
+    private void seedCompletionSnapshot() {
+        if (client.getGameState() != GameState.LOGGED_IN || currentRelease == null) return;
+        completionSnapshot.clear();
+        for (Quest quest : Release.getQuests(currentRelease)) {
+            if (isQuestComplete(quest)) completionSnapshot.add("quest:" + quest.name());
+        }
+        for (Map.Entry<Skill, Integer> entry : getHistoricalSkillTargets().entrySet()) {
+            if (client.getRealSkillLevel(entry.getKey()) >= entry.getValue()) {
+                completionSnapshot.add("skill:" + entry.getKey().name() + ":" + entry.getValue());
+            }
+        }
+        completionSnapshotReady = true;
+    }
+
+    private void showCompletionPopup(String objective) {
+        CompletionProgress progress = getCompletionProgress();
+        String message = "Rewind Completion — " + objective + " — "
+            + progress.getCompleted() + " / " + progress.getAvailable()
+            + " (" + currentRelease.getDate().getName() + ")";
+        notifier.notify(message);
+        addWarningMessage("Historical milestone completed: " + objective + ".", false);
+        if (panel != null) panel.refresh();
+    }
+
     CompletionProgress getCompletionProgress() {
         if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) {
             return new CompletionProgress(0, 0, 0, 0);
