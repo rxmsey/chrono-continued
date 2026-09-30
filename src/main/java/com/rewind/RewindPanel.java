@@ -284,6 +284,22 @@ public class RewindPanel extends PluginPanel
             hasActivity = true;
         }
 
+        if (plugin.isVoidSetAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isVoidSetComplete(),
+                "Own Void top, robe, gloves + any Void helm"));
+            hasActivity = true;
+        }
+
+        if (plugin.isFighterTorsoAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isFighterTorsoComplete(),
+                "Own a Fighter torso"));
+            hasActivity = true;
+        }
+
         if (!hasActivity)
         {
             activityRows.add(objectiveRow(false, "No activities for this milestone"));
