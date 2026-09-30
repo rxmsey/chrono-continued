@@ -66,7 +66,7 @@ public class RewindCompletionOverlay extends Overlay
         drawCentered(graphics, x, "Historical objective completed", y + 60,
             FontManager.getRunescapeSmallFont(), new Color(255, 205, 110));
 
-        String footer = timeline + (progress.isEmpty() ? "" : "  •  " + progress);
+        String footer = timeline + (progress.isEmpty() ? "" : "  -  " + progress);
         drawCentered(graphics, x, footer, y + 76,
             FontManager.getRunescapeSmallFont(), new Color(190, 190, 190));
 
