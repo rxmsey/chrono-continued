@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Provides;
 import javax.inject.Inject;
+import javax.swing.SwingUtilities;
 
 import com.rewind.regionlocker.RegionBorderOverlay;
 import com.rewind.regionlocker.RegionLocker;
