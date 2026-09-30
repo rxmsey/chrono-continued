@@ -280,11 +280,18 @@ public class RewindPanel extends PluginPanel
         label.setForeground(Color.WHITE);
         header.add(label, BorderLayout.WEST);
 
-        BasicArrowButton arrow = new BasicArrowButton(SwingConstants.EAST);
+        BasicArrowButton arrow = new BasicArrowButton(
+            SwingConstants.EAST,
+            ColorScheme.DARK_GRAY_COLOR,
+            ColorScheme.LIGHT_GRAY_COLOR,
+            Color.WHITE,
+            ColorScheme.MEDIUM_GRAY_COLOR);
         arrow.setFocusable(false);
-        arrow.setBorderPainted(false);
-        arrow.setContentAreaFilled(false);
-        arrow.setPreferredSize(new Dimension(18, 18));
+        arrow.setOpaque(true);
+        arrow.setBorder(BorderFactory.createLineBorder(ColorScheme.MEDIUM_GRAY_COLOR));
+        arrow.setPreferredSize(new Dimension(26, 26));
+        arrow.setMinimumSize(new Dimension(26, 26));
+        arrow.setMaximumSize(new Dimension(26, 26));
         header.add(arrow, BorderLayout.EAST);
 
         rows.setVisible(false);
