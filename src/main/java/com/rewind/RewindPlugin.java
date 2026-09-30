@@ -21,6 +21,7 @@ import net.runelite.api.*;
 import net.runelite.api.events.*;
 import net.runelite.api.gameval.DBTableID;
 import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.widgets.*;
@@ -651,6 +652,17 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onItemContainerChanged(ItemContainerChanged event) {
+        // Only player-owned containers count toward ownership objectives. Reward
+        // shops and other UI containers can contain the same item IDs and must not
+        // award completion merely because the player opened the shop.
+        int containerId = event.getContainerId();
+        if (containerId != InventoryID.INV
+            && containerId != InventoryID.WORN
+            && containerId != InventoryID.BANK)
+        {
+            return;
+        }
+
         ItemContainer container = event.getItemContainer();
         if (container == null) return;
 
