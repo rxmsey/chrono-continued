@@ -162,11 +162,11 @@ public class RewindPanel extends PluginPanel
         timelineSelector.add(Box.createVerticalStrut(6));
 
         DefaultComboBoxModel<ReleaseDate> model = new DefaultComboBoxModel<>();
-        for (ReleaseDate date : ReleaseDate.values())
+        for (Release release : Release.getRELEASES())
         {
-            if (HistoricalCutoff.isSupported(date.getLocalDate()))
+            if (isMeaningfulTimelineRelease(release))
             {
-                model.addElement(date);
+                model.addElement(release.getDate());
             }
         }
         timelineDates.setModel(model);
@@ -190,6 +190,34 @@ public class RewindPanel extends PluginPanel
         apply.addActionListener(e -> applyTimelineSelection());
         actions.add(apply);
         timelineSelector.add(actions);
+    }
+
+    /**
+     * The player-facing timeline only contains dates where Rewind actually changes
+     * the historical game state. Keep the final 10 August 2007 backup as the
+     * explicit endpoint even though it does not itself unlock another tracked item.
+     *
+     * Historical no-op/news entries remain in the release database so their source
+     * data is preserved and they can be surfaced again if Rewind later models the
+     * activity or mechanic introduced on that date.
+     */
+    private static boolean isMeaningfulTimelineRelease(Release release)
+    {
+        if (release.getDate() == ReleaseDate._10_AUGUST_2007)
+        {
+            return true;
+        }
+
+        return hasEntries(release.getRegions())
+            || hasEntries(release.getSkills())
+            || hasEntries(release.getPrayers())
+            || hasEntries(release.getQuests())
+            || hasEntries(release.getSpells());
+    }
+
+    private static boolean hasEntries(java.util.Collection<?> values)
+    {
+        return values != null && !values.isEmpty();
     }
 
     private void toggleTimelineSelector()
