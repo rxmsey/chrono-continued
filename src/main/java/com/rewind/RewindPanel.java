@@ -187,7 +187,16 @@ public class RewindPanel extends PluginPanel
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
         completionActivitiesValue.setText(progress(completion.getCompletedActivities(), completion.getAvailableActivities()));
         refreshEraProgress();
-        if (completionDetails.isVisible() && plugin.isClientStateReadable()) rebuildCompletionDetails();
+
+        // Prepare the hidden Completion Log as soon as the client state is readable.
+        // Previously this was only rebuilt while already visible, so after a fresh
+        // login the first click opened an empty panel until another timeline change
+        // triggered a refresh.
+        if (plugin.isClientStateReadable())
+        {
+            rebuildCompletionDetails();
+        }
+
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geValue.setForeground(geUnlocked ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
