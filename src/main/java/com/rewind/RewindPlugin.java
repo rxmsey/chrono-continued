@@ -69,6 +69,7 @@ public class RewindPlugin extends Plugin {
     private static final String COMPLETION_VOID_ROBE_KEY = "completionVoidRobe";
     private static final String COMPLETION_VOID_GLOVES_KEY = "completionVoidGloves";
     private static final String COMPLETION_VOID_HELM_KEY = "completionVoidHelm";
+    private static final String COMPLETION_RUNE_DEFENDER_KEY = "completionRuneDefender";
 
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
@@ -648,6 +649,7 @@ public class RewindPlugin extends Plugin {
         if (container == null) return;
 
         boolean torsoBefore = isFighterTorsoComplete();
+        boolean runeDefenderBefore = isRuneDefenderComplete();
         boolean voidBefore = isVoidSetComplete();
 
         for (Item item : container.getItems())
@@ -656,6 +658,11 @@ public class RewindPlugin extends Plugin {
 
             switch (item.getId())
             {
+                case ItemID.RUNE_PARRYINGDAGGER:
+                case ItemID.RUNE_PARRYINGDAGGER_T:
+                case ItemID.RUNE_PARRYINGDAGGER_T_TROUVER:
+                    writeProfileFlag(COMPLETION_RUNE_DEFENDER_KEY);
+                    break;
                 case ItemID.BARBASSAULT_PENANCE_FIGHTER_TORSO:
                     writeProfileFlag(COMPLETION_FIGHTER_TORSO_KEY);
                     break;
@@ -687,6 +694,13 @@ public class RewindPlugin extends Plugin {
                 showCompletionPopup("Fighter torso");
             }
 
+            if (!runeDefenderBefore && isRuneDefenderAvailable(currentRelease)
+                && isRuneDefenderComplete()
+                && completionSnapshot.add("activity:rune_defender"))
+            {
+                showCompletionPopup("Rune defender");
+            }
+
             if (!voidBefore && isVoidSetAvailable(currentRelease)
                 && isVoidSetComplete()
                 && completionSnapshot.add("activity:void_set"))
@@ -696,6 +710,7 @@ public class RewindPlugin extends Plugin {
         }
 
         if (panel != null && ((!torsoBefore && isFighterTorsoComplete())
+            || (!runeDefenderBefore && isRuneDefenderComplete())
             || (!voidBefore && isVoidSetComplete())))
         {
             panel.refresh();
@@ -754,6 +769,17 @@ public class RewindPlugin extends Plugin {
         {
             completionSnapshot.add("activity:fight_caves");
         }
+
+        if (isBonesToPeachesAvailable(currentRelease) && isBonesToPeachesComplete()
+            && completionSnapshot.add("activity:bones_to_peaches"))
+        {
+            showCompletionPopup("Bones to Peaches");
+        }
+
+        if (isRuneDefenderAvailable(currentRelease) && isRuneDefenderComplete())
+        {
+            completionSnapshot.add("activity:rune_defender");
+        }
     }
 
     private void checkQuestCompletions() {
@@ -785,8 +811,14 @@ public class RewindPlugin extends Plugin {
         if (isFightCavesAvailable(currentRelease) && isFightCavesComplete()) {
             completionSnapshot.add("activity:fight_caves");
         }
+        if (isBonesToPeachesAvailable(currentRelease) && isBonesToPeachesComplete()) {
+            completionSnapshot.add("activity:bones_to_peaches");
+        }
         if (isVoidSetAvailable(currentRelease) && isVoidSetComplete()) {
             completionSnapshot.add("activity:void_set");
+        }
+        if (isRuneDefenderAvailable(currentRelease) && isRuneDefenderComplete()) {
+            completionSnapshot.add("activity:rune_defender");
         }
         if (isFighterTorsoAvailable(currentRelease) && isFighterTorsoComplete()) {
             completionSnapshot.add("activity:fighter_torso");
@@ -980,6 +1012,18 @@ public class RewindPlugin extends Plugin {
                 ReleaseDate._06_JUNE_2006.getLocalDate());
     }
 
+    boolean isRuneDefenderAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._13_JUNE_2006.getLocalDate());
+    }
+
+    boolean isBonesToPeachesAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._04_JANUARY_2006.getLocalDate());
+    }
+
     boolean isFighterTorsoComplete() {
         return readProfileFlag(COMPLETION_FIGHTER_TORSO_KEY);
     }
@@ -989,6 +1033,18 @@ public class RewindPlugin extends Plugin {
             && readProfileFlag(COMPLETION_VOID_ROBE_KEY)
             && readProfileFlag(COMPLETION_VOID_GLOVES_KEY)
             && readProfileFlag(COMPLETION_VOID_HELM_KEY);
+    }
+
+    boolean isRuneDefenderComplete() {
+        return readProfileFlag(COMPLETION_RUNE_DEFENDER_KEY);
+    }
+
+    boolean isBonesToPeachesComplete() {
+        // MAGICTRAINING_BONESPEACHES is varbit 1505 in RuneLite's gameval data.
+        // Unlike inferring from inventory or spell clicks, this is the game's
+        // persistent account state for whether the MTA reward spell is unlocked.
+        return client.getGameState() == GameState.LOGGED_IN
+            && client.getVarbitValue(1505) > 0;
     }
 
     private boolean readProfileFlag(String key) {
@@ -1009,7 +1065,9 @@ public class RewindPlugin extends Plugin {
         int total = 0;
         if (isBarrowsAvailable(release)) total++;
         if (isFightCavesAvailable(release)) total++;
+        if (isBonesToPeachesAvailable(release)) total++;
         if (isVoidSetAvailable(release)) total++;
+        if (isRuneDefenderAvailable(release)) total++;
         if (isFighterTorsoAvailable(release)) total++;
         return total;
     }
@@ -1018,7 +1076,9 @@ public class RewindPlugin extends Plugin {
         int total = 0;
         if (isBarrowsAvailable(release) && isBarrowsComplete()) total++;
         if (isFightCavesAvailable(release) && isFightCavesComplete()) total++;
+        if (isBonesToPeachesAvailable(release) && isBonesToPeachesComplete()) total++;
         if (isVoidSetAvailable(release) && isVoidSetComplete()) total++;
+        if (isRuneDefenderAvailable(release) && isRuneDefenderComplete()) total++;
         if (isFighterTorsoAvailable(release) && isFighterTorsoComplete()) total++;
         return total;
     }
