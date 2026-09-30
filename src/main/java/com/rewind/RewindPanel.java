@@ -169,7 +169,6 @@ public class RewindPanel extends PluginPanel
     private void toggleCompletionDetails()
     {
         boolean show = !completionDetails.isVisible();
-        if (show) rebuildCompletionDetails();
         completionDetails.setVisible(show);
         revalidate();
         repaint();
