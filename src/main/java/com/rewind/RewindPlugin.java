@@ -719,7 +719,9 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.WOODCUTTING, 55); require(r, Skill.MINING, 60);
                 require(r, Skill.CRAFTING, 61); require(r, Skill.FIREMAKING, 49); break;
             case DREAM_MENTOR:
-                require(r, Skill.COMBAT, 85); break;
+                // Combat level is a composite requirement, so individual combat-skill
+                // targets continue to use their historical/content-driven goals.
+                break;
             case KINGS_RANSOM:
                 require(r, Skill.MAGIC, 45); require(r, Skill.DEFENCE, 65); break;
             default: break;
