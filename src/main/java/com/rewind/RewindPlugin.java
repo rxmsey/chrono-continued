@@ -50,7 +50,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 
@@ -633,42 +632,98 @@ public class RewindPlugin extends Plugin {
     }
 
     /**
-     * Each historical skill has one current target. A newly released skill starts
-     * modestly and its target grows with time in the timeline, capped by the era.
-     * This keeps January 2001 focused on experiencing the launch game rather than
-     * asking the player to max skills immediately.
+     * Completion skill goals follow the content available in the selected timeline.
+     * Known quest requirements establish a floor; Rewind then adds a small mastery
+     * buffer and rounds up to a clean five-level target. Skills with no quest-driven
+     * requirement yet receive a modest target based on how long they have existed.
      */
     Map<Skill, Integer> getHistoricalSkillTargets() {
-        Map<Skill, Integer> targets = new LinkedHashMap<>();
-        if (currentRelease == null) return targets;
+        Map<Skill, Integer> requirements = new EnumMap<>(Skill.class);
+        for (Quest quest : Release.getQuests(currentRelease)) {
+            applyQuestRequirements(requirements, quest);
+        }
 
+        Map<Skill, Integer> targets = new LinkedHashMap<>();
         LocalDate selected = currentRelease.getDate().getLocalDate();
         for (Skill skill : Release.getSkills(currentRelease)) {
             if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) continue;
-
-            LocalDate introduced = skillIntroductionDate(skill);
-            long months = Math.max(0, ChronoUnit.MONTHS.between(introduced.withDayOfMonth(1), selected.withDayOfMonth(1)));
-            int maturityTarget;
-            if (months < 3) maturityTarget = 20;
-            else if (months < 6) maturityTarget = 30;
-            else if (months < 12) maturityTarget = 40;
-            else if (months < 24) maturityTarget = 50;
-            else if (months < 36) maturityTarget = 60;
-            else maturityTarget = 70;
-
-            int eraCap;
-            switch (selected.getYear()) {
-                case 2001: eraCap = 30; break;
-                case 2002: eraCap = 40; break;
-                case 2003: eraCap = 50; break;
-                case 2004: eraCap = 60; break;
-                case 2005: eraCap = 70; break;
-                case 2006: eraCap = 75; break;
-                default: eraCap = 80; break;
+            int requirement = requirements.getOrDefault(skill, 0);
+            int target;
+            if (requirement > 0) {
+                target = roundUpFive(requirement + 5);
+            } else {
+                long ageMonths = java.time.temporal.ChronoUnit.MONTHS.between(
+                    skillIntroductionDate(skill).withDayOfMonth(1), selected.withDayOfMonth(1));
+                target = ageMonths < 6 ? 20 : ageMonths < 18 ? 30 : 40;
             }
-            targets.put(skill, Math.min(maturityTarget, eraCap));
+            targets.put(skill, Math.min(target, historicalSkillCap(selected.getYear())));
         }
         return targets;
+    }
+
+    private static int historicalSkillCap(int year) {
+        switch (year) {
+            case 2001: return 40;
+            case 2002: return 50;
+            case 2003: return 60;
+            case 2004: return 70;
+            case 2005: return 75;
+            case 2006: return 80;
+            default: return 85;
+        }
+    }
+
+    private static int roundUpFive(int level) {
+        return Math.min(99, ((level + 4) / 5) * 5);
+    }
+
+    private static void require(Map<Skill, Integer> requirements, Skill skill, int level) {
+        requirements.merge(skill, level, Math::max);
+    }
+
+    /**
+     * Curated hard skill requirements for quests represented in Rewind. Entries are
+     * intentionally added only when the requirement is reliable; unknown quests do
+     * not invent a requirement and instead fall back to the skill-age target.
+     */
+    private static void applyQuestRequirements(Map<Skill, Integer> r, Quest q) {
+        switch (q) {
+            case DRAGON_SLAYER_I: require(r, Skill.MAGIC, 33); break;
+            case HEROES_QUEST:
+                require(r, Skill.COOKING, 53); require(r, Skill.FISHING, 53);
+                require(r, Skill.MINING, 50); require(r, Skill.HERBLORE, 25); break;
+            case LOST_CITY: require(r, Skill.CRAFTING, 31); require(r, Skill.WOODCUTTING, 36); break;
+            case FAMILY_CREST:
+                require(r, Skill.MINING, 40); require(r, Skill.SMITHING, 40);
+                require(r, Skill.MAGIC, 59); require(r, Skill.CRAFTING, 40); break;
+            case LEGENDS_QUEST:
+                require(r, Skill.AGILITY, 50); require(r, Skill.CRAFTING, 50);
+                require(r, Skill.HERBLORE, 45); require(r, Skill.MAGIC, 56);
+                require(r, Skill.MINING, 52); require(r, Skill.PRAYER, 42);
+                require(r, Skill.SMITHING, 50); require(r, Skill.STRENGTH, 50);
+                require(r, Skill.THIEVING, 50); require(r, Skill.WOODCUTTING, 50); break;
+            case DESERT_TREASURE_I:
+                require(r, Skill.FIREMAKING, 50); require(r, Skill.MAGIC, 50);
+                require(r, Skill.SLAYER, 10); require(r, Skill.THIEVING, 53); break;
+            case MOURNINGS_END_PART_I:
+                require(r, Skill.RANGED, 60); require(r, Skill.THIEVING, 50); break;
+            case MOURNINGS_END_PART_II: require(r, Skill.AGILITY, 56); break;
+            case RECIPE_FOR_DISASTER:
+                require(r, Skill.COOKING, 70); break;
+            case SWAN_SONG:
+                require(r, Skill.MAGIC, 66); require(r, Skill.COOKING, 62);
+                require(r, Skill.FISHING, 62); require(r, Skill.SMITHING, 45);
+                require(r, Skill.FIREMAKING, 42); require(r, Skill.CRAFTING, 40); break;
+            case LUNAR_DIPLOMACY:
+                require(r, Skill.MAGIC, 65); require(r, Skill.DEFENCE, 40);
+                require(r, Skill.WOODCUTTING, 55); require(r, Skill.MINING, 60);
+                require(r, Skill.CRAFTING, 61); require(r, Skill.FIREMAKING, 49); break;
+            case DREAM_MENTOR:
+                require(r, Skill.COMBAT, 85); break;
+            case KINGS_RANSOM:
+                require(r, Skill.MAGIC, 45); require(r, Skill.DEFENCE, 65); break;
+            default: break;
+        }
     }
 
     private LocalDate skillIntroductionDate(Skill skill) {
