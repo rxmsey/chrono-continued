@@ -1147,7 +1147,7 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.FLETCHING, 10); require(r, Skill.SMITHING, 20); break;
             case WATCHTOWER:
                 require(r, Skill.AGILITY, 25); require(r, Skill.HERBLORE, 14);
-                require(r, Skill.MAGIC, 14); require(r, Skill.MINING, 40);
+                require(r, Skill.MAGIC, 15); require(r, Skill.MINING, 40);
                 require(r, Skill.THIEVING, 15); break;
             case THE_DIG_SITE:
                 require(r, Skill.AGILITY, 10); require(r, Skill.HERBLORE, 10);
@@ -1162,7 +1162,7 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.AGILITY, 15); break;
             case TAI_BWO_WANNAI_TRIO:
                 require(r, Skill.AGILITY, 15); require(r, Skill.COOKING, 30);
-                require(r, Skill.FISHING, 5); break;
+                require(r, Skill.FIREMAKING, 30); require(r, Skill.FISHING, 5); break;
             case REGICIDE:
                 require(r, Skill.AGILITY, 56); require(r, Skill.CRAFTING, 10); break;
             case EADGARS_RUSE:
@@ -1241,7 +1241,8 @@ public class RewindPlugin extends Plugin {
                 require(r, Skill.SLAYER, 18); require(r, Skill.WOODCUTTING, 35); break;
             case COLD_WAR:
                 require(r, Skill.AGILITY, 30); require(r, Skill.CONSTRUCTION, 34);
-                require(r, Skill.CRAFTING, 30); require(r, Skill.HUNTER, 10); break;
+                require(r, Skill.CRAFTING, 30); require(r, Skill.HUNTER, 10);
+                require(r, Skill.THIEVING, 15); break;
             case THE_GREAT_BRAIN_ROBBERY:
                 require(r, Skill.CRAFTING, 16); require(r, Skill.CONSTRUCTION, 30);
                 require(r, Skill.PRAYER, 50); break;
@@ -1319,7 +1320,7 @@ public class RewindPlugin extends Plugin {
             case TOWER_OF_LIFE:
                 require(r, Skill.CONSTRUCTION, 10); break;
             case WHAT_LIES_BELOW:
-                require(r, Skill.RUNECRAFT, 35); break;
+                require(r, Skill.MINING, 42); require(r, Skill.RUNECRAFT, 35); break;
             case OLAFS_QUEST:
                 require(r, Skill.FIREMAKING, 40); require(r, Skill.WOODCUTTING, 50); break;
             case ANOTHER_SLICE_OF_HAM:
@@ -1327,8 +1328,8 @@ public class RewindPlugin extends Plugin {
             case BARBARIAN_TRAINING:
                 require(r, Skill.AGILITY, 15); require(r, Skill.CRAFTING, 11);
                 require(r, Skill.FARMING, 15); require(r, Skill.FIREMAKING, 35);
-                require(r, Skill.FISHING, 55); require(r, Skill.HERBLORE, 4);
-                require(r, Skill.SMITHING, 5); require(r, Skill.STRENGTH, 35); break;
+                require(r, Skill.FISHING, 55); require(r, Skill.SMITHING, 5);
+                require(r, Skill.STRENGTH, 15); break;
             case MAGE_ARENA_I:
                 require(r, Skill.MAGIC, 60); break;
             case RECIPE_FOR_DISASTER__ANOTHER_COOKS_QUEST:
