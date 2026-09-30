@@ -208,10 +208,9 @@ public class RewindPlugin extends Plugin {
 		clientToolbar.removeNavigation(navButton);
         renderCallbackManager.unregister(drawListener);
         reloadScene();
-        for (RewindSpell spell : RewindSpell.values()) {
-            Widget widget = client.getWidget(spell.getPackedID());
-            if (widget != null) widget.setOpacity(0);
-        }
+        // Rebuild the native spellbook after Rewind is disabled so its script callback
+        // no longer filters the spell array.
+        clientThread.invokeLater(this::redrawSpellbook);
         for (RewindPrayer prayer : RewindPrayer.values()) {
             Widget widget = client.getWidget(prayer.getPackedID());
             if (widget != null) widget.setOpacity(0);
@@ -327,7 +326,7 @@ public class RewindPlugin extends Plugin {
             && !isPrayerWidgetUnlocked(widget, target)) {
             deny(e); return;
         }
-        List<RewindSpell> spells = Release.getSpells(currentRelease);
+        List<RewindSpell> spells = getUnlockedSpells();
         if (option.equals("Cast") || option.toLowerCase(java.util.Locale.ROOT).contains("autocast")) {
             if (!HistoricalSpellRestrictions.allowed(target, spells)) { deny(e); return; }
         }
@@ -409,21 +408,65 @@ public class RewindPlugin extends Plugin {
      * but leave already-filtered rows alone so RuneLite's own search/status filters and
      * native Free/Members/release-date grouping continue to work normally.
      */
-    @Subscribe(priority = -1) // run after RuneLite's Quest List plugin
+    @Subscribe(priority = -1) // run after RuneLite's native Quest List/Spellbook filtering
     public void onScriptCallbackEvent(ScriptCallbackEvent event) {
-        if (!"questFilter".equals(event.getEventName()) || currentRelease == null) return;
+        if (currentRelease == null) return;
 
-        int[] intStack = client.getIntStack();
-        int intStackSize = client.getIntStackSize();
-        if (intStack == null || intStackSize < 2) return;
+        if ("questFilter".equals(event.getEventName())) {
+            int[] intStack = client.getIntStack();
+            int intStackSize = client.getIntStackSize();
+            if (intStack == null || intStackSize < 2) return;
 
-        int row = intStack[intStackSize - 1];
-        Object[] displayName = client.getDBTableField(row, DBTableID.Quest.COL_DISPLAYNAME, 0);
-        if (displayName == null || displayName.length == 0 || !(displayName[0] instanceof String)) return;
+            int row = intStack[intStackSize - 1];
+            Object[] displayName = client.getDBTableField(row, DBTableID.Quest.COL_DISPLAYNAME, 0);
+            if (displayName == null || displayName.length == 0 || !(displayName[0] instanceof String)) return;
 
-        if (!unlockedQuestNames.contains((String) displayName[0])) {
-            intStack[intStackSize - 2] = 1;
+            if (!unlockedQuestNames.contains((String) displayName[0])) {
+                intStack[intStackSize - 2] = 1;
+            }
+            return;
         }
+
+        if ("spellbookSort".equals(event.getEventName())) {
+            filterHistoricalSpells();
+        }
+    }
+
+    /**
+     * The game builds an array containing the spells which will be laid out in the
+     * current spellbook. Filter that array instead of hiding/painting over widgets.
+     * This is the same callback used by RuneLite's core Spellbook plugin, so the
+     * remaining spells retain their native widgets, tooltips and menu behaviour.
+     */
+    private void filterHistoricalSpells() {
+        int[] stack = client.getIntStack();
+        int size = client.getIntStackSize();
+        if (stack == null || size < 3) return;
+
+        int spellbookEnumId = stack[size - 3];
+        int spellArrayId = stack[size - 2];
+        int numSpells = stack[size - 1];
+
+        EnumComposition spellbook = client.getEnum(spellbookEnumId);
+        int[] spells = client.getArray(spellArrayId);
+        if (spellbook == null || spells == null || numSpells <= 0) return;
+
+        Set<Integer> allowedWidgets = new HashSet<>();
+        for (RewindSpell spell : getUnlockedSpells()) {
+            allowedWidgets.add(spell.getPackedID());
+        }
+
+        int write = 0;
+        for (int read = 0; read < numSpells; ++read) {
+            int enumIndex = spells[read];
+            ItemComposition spellDefinition = client.getItemDefinition(spellbook.getIntValue(enumIndex));
+            int spellWidget = spellDefinition.getIntValue(ParamID.SPELL_BUTTON);
+            if (allowedWidgets.contains(spellWidget)) {
+                spells[write++] = enumIndex;
+            }
+        }
+
+        stack[size - 1] = write;
     }
 
     private void updateUnlockedQuestNames() {
@@ -513,26 +556,29 @@ public class RewindPlugin extends Plugin {
     List<RewindSpell> getUnlockedSpells() {
         List<RewindSpell> unlocked = new ArrayList<>(Release.getSpells(currentRelease));
         if (config.unlockHomeTeleport()) {
-            addVisibleHomeTeleport(unlocked, RewindSpell.LUMBRIDGE_HOME_TELEPORT);
-            addVisibleHomeTeleport(unlocked, RewindSpell.EDGEVILLE_HOME_TELEPORT);
-            addVisibleHomeTeleport(unlocked, RewindSpell.LUNAR_HOME_TELEPORT);
+            addSpell(unlocked, RewindSpell.LUMBRIDGE_HOME_TELEPORT);
+            addSpell(unlocked, RewindSpell.EDGEVILLE_HOME_TELEPORT);
+            addSpell(unlocked, RewindSpell.LUNAR_HOME_TELEPORT);
         }
         return unlocked;
     }
 
-    private void addVisibleHomeTeleport(List<RewindSpell> spells, RewindSpell homeTeleport) {
-        Widget widget = client.getWidget(homeTeleport.getPackedID());
-        if (widget != null && !widget.isHidden() && !spells.contains(homeTeleport)) {
-            spells.add(homeTeleport);
-        }
+    private static void addSpell(List<RewindSpell> spells, RewindSpell spell) {
+        if (!spells.contains(spell)) spells.add(spell);
     }
 
     private void updateSpells() {
-        List<RewindSpell> unlocked = getUnlockedSpells();
-        for (RewindSpell spell : RewindSpell.values()) {
-            Widget widget = client.getWidget(spell.getPackedID());
-            if (widget != null) widget.setOpacity(unlocked.contains(spell) ? 0 : 160);
-        }
+        redrawSpellbook();
+    }
+
+    private void redrawSpellbook() {
+        if (client.getGameState() != GameState.LOGGED_IN) return;
+        Widget universe = client.getWidget(InterfaceID.MagicSpellbook.UNIVERSE);
+        if (universe == null || universe.getOnInvTransmitListener() == null) return;
+        client.createScriptEventBuilder(universe.getOnInvTransmitListener())
+            .setSource(universe)
+            .build()
+            .run();
     }
 
     private void updateAdditionalRegions() {
