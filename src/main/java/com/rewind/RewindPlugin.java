@@ -839,7 +839,24 @@ public class RewindPlugin extends Plugin {
     }
 
     List<Quest> getAvailableCompletionQuests() {
-        return currentRelease == null ? Collections.emptyList() : new ArrayList<>(Release.getQuests(currentRelease));
+        if (currentRelease == null)
+        {
+            return Collections.emptyList();
+        }
+
+        // The Completion Log is a milestone checklist for the selected historical
+        // release, not a cumulative quest list. Earlier quests remain playable but
+        // are hidden here once the player advances to a later timeline milestone.
+        // The final 10 August 2007 endpoint is the exception: it is the full
+        // historical completion view and therefore shows every supported quest.
+        if (currentRelease.getDate() == ReleaseDate._10_AUGUST_2007)
+        {
+            return new ArrayList<>(Release.getQuests(currentRelease));
+        }
+
+        return currentRelease.getQuests() == null
+            ? Collections.emptyList()
+            : new ArrayList<>(currentRelease.getQuests());
     }
 
     boolean isQuestComplete(Quest quest) {
