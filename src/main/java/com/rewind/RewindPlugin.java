@@ -155,6 +155,7 @@ public class RewindPlugin extends Plugin {
     private Set<String> unlockedQuestNames = Collections.emptySet();
     private final Set<String> completionSnapshot = new HashSet<>();
     private boolean completionSnapshotReady;
+    private boolean completionSeedPending;
 
 	@Getter
 	private boolean mapEnabled;
@@ -315,13 +316,22 @@ public class RewindPlugin extends Plugin {
 	public void onGameStateChanged(GameStateChanged e){
         historicalMinimapInputBlocker.clear();
         if (e.getGameState() == GameState.LOGGED_IN) {
+            // RuneLite can fire StatChanged while the player's levels are still
+            // being populated during login. Seeding here can therefore snapshot
+            // level 1, then immediately announce an old milestone (for example
+            // Mining 20) when the real level arrives. Keep completion detection
+            // disabled until the first logged-in game tick, then seed once from
+            // the fully loaded player state.
+            completionSnapshotReady = false;
+            completionSeedPending = true;
+            completionSnapshot.clear();
             clientThread.invokeLater(() -> {
                 refreshWidgets();
-                seedCompletionSnapshot();
                 if (panel != null) panel.refresh();
             });
         } else if (e.getGameState() == GameState.LOGIN_SCREEN || e.getGameState() == GameState.HOPPING) {
             completionSnapshotReady = false;
+            completionSeedPending = false;
             completionSnapshot.clear();
         }
 	}
@@ -766,6 +776,14 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onGameTick(GameTick event) {
+        if (completionSeedPending)
+        {
+            completionSeedPending = false;
+            seedCompletionSnapshot();
+            if (panel != null) panel.refresh();
+            return;
+        }
+
         checkQuestCompletions();
         checkActivityCompletions();
     }
