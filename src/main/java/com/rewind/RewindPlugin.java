@@ -274,8 +274,15 @@ public class RewindPlugin extends Plugin {
 		}
 
 		if (e.getKey().equals("unlockHomeTeleport")) {
-            clientThread.invokeLater(this::updateSpells);
-            if (panel != null) panel.refresh();
+            // ConfigChanged can arrive before the config proxy reflects the new
+            // value. Refreshing the sidebar immediately here used to overwrite the
+            // button's correct state with the stale one ("Enabled").
+            clientThread.invokeLater(() -> {
+                updateSpells();
+                if (panel != null) {
+                    SwingUtilities.invokeLater(panel::refresh);
+                }
+            });
 		}
 
 		if(e.getKey().equals(CONFIG_RELEASE_DATE_KEY)) {
