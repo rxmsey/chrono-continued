@@ -12,6 +12,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Player-facing summary of the currently selected historical release. */
@@ -29,6 +30,8 @@ public class RewindPanel extends PluginPanel
     private final JLabel completionQuestsValue = valueLabel();
     private final JLabel completionSkillsValue = valueLabel();
     private final JPanel completionDetails = card();
+    private final JPanel eraProgress = card();
+    private final Map<Integer, JLabel> eraValues = new LinkedHashMap<>();
     private final JLabel geValue = valueLabel();
     private final JButton geToggle = new JButton();
     private final JLabel homeTeleportValue = valueLabel();
@@ -105,7 +108,13 @@ public class RewindPanel extends PluginPanel
         viewCompletion.setFocusable(false);
         viewCompletion.setAlignmentX(Component.LEFT_ALIGNMENT);
         viewCompletion.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        viewCompletion.addActionListener(e -> toggleCompletionDetails());
+        viewCompletion.addActionListener(e ->
+        {
+            toggleCompletionDetails();
+            viewCompletion.setText(completionDetails.isVisible()
+                ? "Hide Completion Log"
+                : "View Completion Log");
+        });
         completionCard.add(Box.createVerticalStrut(8));
         completionCard.add(viewCompletion);
 
@@ -113,6 +122,16 @@ public class RewindPanel extends PluginPanel
         content.add(Box.createVerticalStrut(6));
         completionDetails.setVisible(false);
         content.add(completionDetails);
+        content.add(Box.createVerticalStrut(10));
+
+        content.add(sectionTitle("ERA PROGRESS"));
+        for (int year = 2001; year <= 2007; year++)
+        {
+            JLabel value = valueLabel();
+            eraValues.put(year, value);
+            eraProgress.add(row(Integer.toString(year), value));
+        }
+        content.add(eraProgress);
         content.add(Box.createVerticalStrut(10));
 
         content.add(sectionTitle("ACCESS"));
@@ -160,13 +179,42 @@ public class RewindPanel extends PluginPanel
         completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
-        if (completionDetails.isVisible()) rebuildCompletionDetails();
+        refreshEraProgress();
+        if (completionDetails.isVisible() && plugin.isClientStateReadable()) rebuildCompletionDetails();
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
         boolean homeTeleportUnlocked = plugin.getConfig().unlockHomeTeleport();
         homeTeleportValue.setText(homeTeleportUnlocked ? "Enabled" : "Locked");
         homeTeleportToggle.setText(homeTeleportUnlocked ? "Disable Access" : "Enable Access");
+    }
+
+    private void refreshEraProgress()
+    {
+        Release release = plugin.getCurrentRelease();
+        if (release == null || !plugin.isClientStateReadable())
+        {
+            for (JLabel value : eraValues.values())
+            {
+                value.setText("—");
+            }
+            return;
+        }
+
+        int selectedYear = release.getDate().getLocalDate().getYear();
+        for (Map.Entry<Integer, JLabel> entry : eraValues.entrySet())
+        {
+            int year = entry.getKey();
+            JLabel value = entry.getValue();
+            if (year > selectedYear)
+            {
+                value.setText("Locked");
+                continue;
+            }
+
+            CompletionProgress era = plugin.getEraProgress(year);
+            value.setText(era.getAvailable() == 0 ? "—" : era.getPercentage() + "%");
+        }
     }
 
     private void toggleCompletionDetails()
