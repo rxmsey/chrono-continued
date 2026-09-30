@@ -588,6 +588,49 @@ public class RewindPlugin extends Plugin {
             .run();
     }
 
+    /**
+     * Completion Log v1 deliberately uses only state RuneLite can read reliably:
+     * historical quest completion and curated level milestones for skills which
+     * existed by the selected date. Boss/activity objectives can be layered onto
+     * this model once their persistent completion signals are verified.
+     */
+    CompletionProgress getCompletionProgress() {
+        if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) {
+            return new CompletionProgress(0, 0, 0, 0);
+        }
+
+        List<Quest> availableQuests = Release.getQuests(currentRelease);
+        int completedQuests = 0;
+        for (Quest quest : availableQuests) {
+            try {
+                if (quest.getState(client) == QuestState.FINISHED) {
+                    completedQuests++;
+                }
+            } catch (RuntimeException ex) {
+                log.debug("Unable to read quest state for {}", quest.getName(), ex);
+            }
+        }
+
+        int completedMilestones = 0;
+        int availableMilestones = 0;
+        final int[] milestones = {10, 20, 30, 40, 50, 60, 70, 80, 90, 99};
+        for (Skill skill : Release.getSkills(currentRelease)) {
+            if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) {
+                continue;
+            }
+            int level = client.getRealSkillLevel(skill);
+            for (int milestone : milestones) {
+                availableMilestones++;
+                if (level >= milestone) {
+                    completedMilestones++;
+                }
+            }
+        }
+
+        return new CompletionProgress(
+            completedQuests, availableQuests.size(), completedMilestones, availableMilestones);
+    }
+
     private void updateAdditionalRegions() {
         HistoricalRegionState.setAdditionallyUnlocked(config.unlockGrandExchange()
             ? Collections.singleton(GRAND_EXCHANGE_REGION) : Collections.emptySet());
