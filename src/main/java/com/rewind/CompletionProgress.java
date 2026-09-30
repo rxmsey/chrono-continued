@@ -10,15 +10,17 @@ public class CompletionProgress
     int availableQuests;
     int completedSkillMilestones;
     int availableSkillMilestones;
+    int completedActivities;
+    int availableActivities;
 
     public int getCompleted()
     {
-        return completedQuests + completedSkillMilestones;
+        return completedQuests + completedSkillMilestones + completedActivities;
     }
 
     public int getAvailable()
     {
-        return availableQuests + availableSkillMilestones;
+        return availableQuests + availableSkillMilestones + availableActivities;
     }
 
     public int getPercentage()
