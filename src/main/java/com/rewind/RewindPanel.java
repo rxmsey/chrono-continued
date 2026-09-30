@@ -59,7 +59,7 @@ public class RewindPanel extends PluginPanel
 
         JLabel subtitle = new JLabel("<html>Experience Old School RuneScape<br>through its historical timeline.</html>");
         subtitle.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-        subtitle.setBorder(new EmptyBorder(3, 0, 12, 0));
+        subtitle.setBorder(new EmptyBorder(3, 0, 10, 0));
         subtitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(subtitle);
 
@@ -90,7 +90,7 @@ public class RewindPanel extends PluginPanel
         content.add(timelineSelector);
         content.add(Box.createVerticalStrut(10));
 
-        content.add(sectionTitle("TIMELINE PROGRESS"));
+        content.add(sectionTitle("AVAILABLE CONTENT"));
         JPanel unlockCard = card();
         unlockCard.add(row("Regions", regionsValue));
         unlockCard.add(row("Quests", questsValue));
@@ -178,6 +178,11 @@ public class RewindPanel extends PluginPanel
         spellsValue.setText(Integer.toString(Release.getSpells(release).size()));
         CompletionProgress completion = plugin.getCompletionProgress();
         completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
+        completionValue.setForeground(completion.getAvailable() == 0
+            ? ColorScheme.LIGHT_GRAY_COLOR
+            : completion.getPercentage() == 100
+                ? ColorScheme.PROGRESS_COMPLETE_COLOR
+                : ColorScheme.BRAND_ORANGE);
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
         completionActivitiesValue.setText(progress(completion.getCompletedActivities(), completion.getAvailableActivities()));
@@ -185,9 +190,11 @@ public class RewindPanel extends PluginPanel
         if (completionDetails.isVisible() && plugin.isClientStateReadable()) rebuildCompletionDetails();
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
+        geValue.setForeground(geUnlocked ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
         boolean homeTeleportUnlocked = plugin.getConfig().unlockHomeTeleport();
         homeTeleportValue.setText(homeTeleportUnlocked ? "Enabled" : "Locked");
+        homeTeleportValue.setForeground(homeTeleportUnlocked ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
         homeTeleportToggle.setText(homeTeleportUnlocked ? "Disable Access" : "Enable Access");
     }
 
@@ -211,11 +218,17 @@ public class RewindPanel extends PluginPanel
             if (year > selectedYear)
             {
                 value.setText("Locked");
+                value.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
                 continue;
             }
 
             CompletionProgress era = plugin.getEraProgress(year);
             value.setText(era.getAvailable() == 0 ? "—" : era.getPercentage() + "%");
+            value.setForeground(era.getAvailable() == 0
+                ? ColorScheme.LIGHT_GRAY_COLOR
+                : era.getPercentage() == 100
+                    ? ColorScheme.PROGRESS_COMPLETE_COLOR
+                    : ColorScheme.LIGHT_GRAY_COLOR);
         }
     }
 
@@ -271,7 +284,7 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isBarrowsComplete(),
-                "Loot the Barrows reward chest"));
+                "Loot a Barrows reward chest"));
             hasActivity = true;
         }
 
@@ -295,7 +308,7 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isVoidSetComplete(),
-                "Own Void top, robe, gloves + any Void helm"));
+                "Void top + robe + gloves + any helm"));
             hasActivity = true;
         }
 
@@ -317,7 +330,7 @@ public class RewindPanel extends PluginPanel
 
         if (!hasActivity)
         {
-            activityRows.add(objectiveRow(false, "No activities for this milestone"));
+            activityRows.add(emptyStateRow("No tracked activities at this date."));
         }
         addExpandableSection(completionDetails, "ACTIVITIES", activityRows);
 
@@ -390,6 +403,19 @@ public class RewindPanel extends PluginPanel
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         return panel;
+    }
+
+    private static JPanel emptyStateRow(String text)
+    {
+        JPanel row = new JPanel(new BorderLayout());
+        row.setOpaque(false);
+        row.setBorder(new EmptyBorder(2, 0, 2, 0));
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+
+        JLabel label = new JLabel("<html><i>" + text + "</i></html>");
+        label.setForeground(ColorScheme.MEDIUM_GRAY_COLOR);
+        row.add(label, BorderLayout.WEST);
+        return row;
     }
 
     private static JPanel objectiveRow(boolean complete, String objective)
@@ -547,7 +573,7 @@ public class RewindPanel extends PluginPanel
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        panel.setBorder(new EmptyBorder(8, 8, 8, 8));
+        panel.setBorder(new EmptyBorder(7, 8, 7, 8));
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 180));
         return panel;
