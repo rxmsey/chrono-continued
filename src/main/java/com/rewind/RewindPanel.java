@@ -19,6 +19,9 @@ public class RewindPanel extends PluginPanel
     private final JLabel skillsValue = valueLabel();
     private final JLabel prayersValue = valueLabel();
     private final JLabel spellsValue = valueLabel();
+    private final JLabel completionValue = valueLabel();
+    private final JLabel completionQuestsValue = valueLabel();
+    private final JLabel completionSkillsValue = valueLabel();
     private final JLabel geValue = valueLabel();
     private final JButton geToggle = new JButton();
     private final JLabel homeTeleportValue = valueLabel();
@@ -86,6 +89,14 @@ public class RewindPanel extends PluginPanel
         content.add(unlockCard);
         content.add(Box.createVerticalStrut(10));
 
+        content.add(sectionTitle("COMPLETION LOG"));
+        JPanel completionCard = card();
+        completionCard.add(row("Historical completion", completionValue));
+        completionCard.add(row("Quests", completionQuestsValue));
+        completionCard.add(row("Skill milestones", completionSkillsValue));
+        content.add(completionCard);
+        content.add(Box.createVerticalStrut(10));
+
         content.add(sectionTitle("ACCESS"));
         JPanel accessCard = card();
         accessCard.add(row("Grand Exchange", geValue));
@@ -127,6 +138,10 @@ public class RewindPanel extends PluginPanel
         skillsValue.setText(progress(Release.getSkills(release).size(), Release.getSkills(finalRelease).size()));
         prayersValue.setText(progress(Release.getPrayers(release).size(), Release.getPrayers(finalRelease).size()));
         spellsValue.setText(progress(Release.getSpells(release).size(), Release.getSpells(finalRelease).size()));
+        CompletionProgress completion = plugin.getCompletionProgress();
+        completionValue.setText(completion.getPercentage() + "%");
+        completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
+        completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
         geToggle.setText(geUnlocked ? "Disable Access" : "Enable Access");
