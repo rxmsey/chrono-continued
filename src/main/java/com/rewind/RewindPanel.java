@@ -188,15 +188,13 @@ public class RewindPanel extends PluginPanel
 
         completionDetails.add(Box.createVerticalStrut(8));
         completionDetails.add(sectionTitle("SKILL MILESTONES"));
-        final int[] milestones = RewindPlugin.completionMilestones();
-        for (Map.Entry<Skill, Integer> entry : plugin.getAvailableCompletionSkills().entrySet())
+        Map<Skill, Integer> levels = plugin.getAvailableCompletionSkills();
+        for (Map.Entry<Skill, Integer> target : plugin.getHistoricalSkillTargets().entrySet())
         {
-            for (int milestone : milestones)
-            {
-                completionDetails.add(objectiveRow(
-                    entry.getValue() >= milestone,
-                    entry.getKey().getName() + " " + milestone));
-            }
+            int currentLevel = levels.getOrDefault(target.getKey(), 1);
+            completionDetails.add(objectiveRow(
+                currentLevel >= target.getValue(),
+                target.getKey().getName() + " " + target.getValue() + " (current " + currentLevel + ")"));
         }
 
         completionDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
