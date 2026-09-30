@@ -664,12 +664,6 @@ public class RewindPlugin extends Plugin {
         completionSnapshotReady = true;
     }
 
-    void testCompletionNotification() {
-        String date = currentRelease == null ? "Historical timeline" : currentRelease.getDate().getName();
-        CompletionProgress progress = getCompletionProgress();
-        completionOverlay.show("Cook's Assistant", date, progress.getCompleted(), progress.getAvailable());
-    }
-
     private void showCompletionPopup(String objective) {
         CompletionProgress progress = getCompletionProgress();
         completionOverlay.show(objective, currentRelease.getDate().getName(),
