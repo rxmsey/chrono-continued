@@ -20,7 +20,6 @@ import net.runelite.api.*;
 import net.runelite.api.events.*;
 import net.runelite.api.gameval.DBTableID;
 import net.runelite.api.gameval.InterfaceID;
-import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.callback.RenderCallback;
@@ -864,8 +863,10 @@ public class RewindPlugin extends Plugin {
     }
 
     boolean isBarrowsComplete() {
+        // TOTAL_BARROWS_CHESTS is varp 1502. Keep the numeric id here for
+        // compatibility with the RuneLite API version used by Plugin Hub builds.
         return client.getGameState() == GameState.LOGGED_IN
-            && client.getVarpValue(VarPlayerID.TOTAL_BARROWS_CHESTS) > 0;
+            && client.getVarpValue(1502) > 0;
     }
 
     CompletionProgress getEraProgress(int year) {
