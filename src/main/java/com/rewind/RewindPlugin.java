@@ -178,6 +178,7 @@ public class RewindPlugin extends Plugin {
 		overlayManager.add(skillOverlay);
 		overlayManager.add(abilityOverlay);
 		overlayManager.add(regionLockerOverlay);
+        overlayManager.add(completionOverlay);
 		overlayManager.add(historicalSceneMaskOverlay);
 		overlayManager.add(historicalMinimapMaskOverlay);
         mouseManager.registerMouseListener(historicalMinimapInputBlocker);
@@ -206,6 +207,7 @@ public class RewindPlugin extends Plugin {
 		overlayManager.remove(skillOverlay);
 		overlayManager.remove(abilityOverlay);
 		overlayManager.remove(regionLockerOverlay);
+        overlayManager.remove(completionOverlay);
 		overlayManager.remove(regionBorderOverlay);
 		overlayManager.remove(historicalSceneMaskOverlay);
 		overlayManager.remove(historicalMinimapMaskOverlay);
