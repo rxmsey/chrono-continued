@@ -62,6 +62,8 @@ import java.util.List;
 		tags = {"time traveler", "by release"}
 )
 public class RewindPlugin extends Plugin {
+    private static final String COMPLETION_FIGHT_CAVES_KEY = "completionFightCaves";
+
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
 	public static final String CONFIG_RELEASE_DATE_KEY = "releasedate";
@@ -635,6 +637,35 @@ public class RewindPlugin extends Plugin {
     }
 
     @Subscribe
+    public void onActorDeath(ActorDeath event) {
+        Actor actor = event.getActor();
+        if (!(actor instanceof NPC)) return;
+
+        NPC npc = (NPC) actor;
+        if (!"TzTok-Jad".equalsIgnoreCase(npc.getName())) return;
+
+        configManager.setRSProfileConfiguration(
+            CONFIG_GROUP_KEY, COMPLETION_FIGHT_CAVES_KEY, true);
+        configManager.setConfiguration(
+            CONFIG_GROUP_KEY, COMPLETION_FIGHT_CAVES_KEY, true);
+
+        if (completionSnapshotReady && currentRelease != null
+            && isFightCavesAvailable(currentRelease))
+        {
+            String key = "activity:fight_caves";
+            if (completionSnapshot.add(key))
+            {
+                showCompletionPopup("TzHaar Fight Cave");
+            }
+        }
+
+        if (panel != null)
+        {
+            panel.refresh();
+        }
+    }
+
+    @Subscribe
     public void onGameTick(GameTick event) {
         checkQuestCompletions();
         checkActivityCompletions();
@@ -642,13 +673,20 @@ public class RewindPlugin extends Plugin {
 
     private void checkActivityCompletions() {
         if (!completionSnapshotReady || currentRelease == null
-            || client.getGameState() != GameState.LOGGED_IN
-            || !isBarrowsAvailable(currentRelease)) return;
+            || client.getGameState() != GameState.LOGGED_IN) return;
 
-        String key = "activity:barrows_chest";
-        if (!completionSnapshot.contains(key) && isBarrowsComplete()) {
-            completionSnapshot.add(key);
-            showCompletionPopup("Barrows reward chest");
+        if (isBarrowsAvailable(currentRelease))
+        {
+            String key = "activity:barrows_chest";
+            if (!completionSnapshot.contains(key) && isBarrowsComplete()) {
+                completionSnapshot.add(key);
+                showCompletionPopup("Barrows reward chest");
+            }
+        }
+
+        if (isFightCavesAvailable(currentRelease) && isFightCavesComplete())
+        {
+            completionSnapshot.add("activity:fight_caves");
         }
     }
 
@@ -677,6 +715,9 @@ public class RewindPlugin extends Plugin {
         }
         if (isBarrowsAvailable(currentRelease) && isBarrowsComplete()) {
             completionSnapshot.add("activity:barrows_chest");
+        }
+        if (isFightCavesAvailable(currentRelease) && isFightCavesComplete()) {
+            completionSnapshot.add("activity:fight_caves");
         }
         completionSnapshotReady = true;
     }
@@ -719,8 +760,8 @@ public class RewindPlugin extends Plugin {
             }
         }
 
-        int availableActivities = isBarrowsAvailable(currentRelease) ? 1 : 0;
-        int completedActivities = availableActivities > 0 && isBarrowsComplete() ? 1 : 0;
+        int availableActivities = getAvailableActivityCount(currentRelease);
+        int completedActivities = getCompletedActivityCount(currentRelease);
 
         return new CompletionProgress(
             completedQuests, availableQuests.size(),
@@ -816,8 +857,8 @@ public class RewindPlugin extends Plugin {
             }
         }
 
-        int availableActivities = isBarrowsAvailable(eraRelease) ? 1 : 0;
-        int completedActivities = availableActivities > 0 && isBarrowsComplete() ? 1 : 0;
+        int availableActivities = getAvailableActivityCount(eraRelease);
+        int completedActivities = getCompletedActivityCount(eraRelease);
 
         return new CompletionProgress(
             completedQuests, quests.size(),
@@ -836,6 +877,37 @@ public class RewindPlugin extends Plugin {
         // here so this remains compatible even when generated gameval constants move.
         return client.getGameState() == GameState.LOGGED_IN
             && client.getVarpValue(1502) > 0;
+    }
+
+    boolean isFightCavesAvailable(Release release) {
+        return release != null
+            && !release.getDate().getLocalDate().isBefore(
+                ReleaseDate._04_OCTOBER_2005.getLocalDate());
+    }
+
+    boolean isFightCavesComplete() {
+        String value = configManager.getRSProfileConfiguration(
+            CONFIG_GROUP_KEY, COMPLETION_FIGHT_CAVES_KEY);
+        if (value == null)
+        {
+            value = configManager.getConfiguration(
+                CONFIG_GROUP_KEY, COMPLETION_FIGHT_CAVES_KEY);
+        }
+        return Boolean.parseBoolean(value);
+    }
+
+    private int getAvailableActivityCount(Release release) {
+        int total = 0;
+        if (isBarrowsAvailable(release)) total++;
+        if (isFightCavesAvailable(release)) total++;
+        return total;
+    }
+
+    private int getCompletedActivityCount(Release release) {
+        int total = 0;
+        if (isBarrowsAvailable(release) && isBarrowsComplete()) total++;
+        if (isFightCavesAvailable(release) && isFightCavesComplete()) total++;
+        return total;
     }
 
     private static int historicalSkillCap(int year) {
