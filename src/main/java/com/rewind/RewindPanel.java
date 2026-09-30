@@ -267,13 +267,24 @@ public class RewindPanel extends PluginPanel
         completionDetails.add(Box.createVerticalStrut(6));
 
         JPanel activityRows = objectiveList();
+        boolean hasActivity = false;
         if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
                 plugin.isBarrowsComplete(),
                 "Loot the Barrows reward chest"));
+            hasActivity = true;
         }
-        else
+
+        if (plugin.isFightCavesAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isFightCavesComplete(),
+                "Complete the TzHaar Fight Cave"));
+            hasActivity = true;
+        }
+
+        if (!hasActivity)
         {
             activityRows.add(objectiveRow(false, "No activities for this milestone"));
         }
