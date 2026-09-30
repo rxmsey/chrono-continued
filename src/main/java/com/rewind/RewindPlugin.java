@@ -631,6 +631,31 @@ public class RewindPlugin extends Plugin {
             completedQuests, availableQuests.size(), completedMilestones, availableMilestones);
     }
 
+    List<Quest> getAvailableCompletionQuests() {
+        return currentRelease == null ? Collections.emptyList() : new ArrayList<>(Release.getQuests(currentRelease));
+    }
+
+    boolean isQuestComplete(Quest quest) {
+        if (quest == null || client.getGameState() != GameState.LOGGED_IN) return false;
+        try {
+            return quest.getState(client) == QuestState.FINISHED;
+        } catch (RuntimeException ex) {
+            log.debug("Unable to read quest state for {}", quest.getName(), ex);
+            return false;
+        }
+    }
+
+    Map<Skill, Integer> getAvailableCompletionSkills() {
+        Map<Skill, Integer> levels = new LinkedHashMap<>();
+        if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN) return levels;
+        for (Skill skill : Release.getSkills(currentRelease)) {
+            if (!HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) {
+                levels.put(skill, client.getRealSkillLevel(skill));
+            }
+        }
+        return levels;
+    }
+
     private void updateAdditionalRegions() {
         HistoricalRegionState.setAdditionallyUnlocked(config.unlockGrandExchange()
             ? Collections.singleton(GRAND_EXCHANGE_REGION) : Collections.emptySet());
