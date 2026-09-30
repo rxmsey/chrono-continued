@@ -681,7 +681,7 @@ public class RewindPlugin extends Plugin {
             return new CompletionProgress(0, 0, 0, 0);
         }
 
-        List<Quest> availableQuests = Release.getQuests(currentRelease);
+        List<Quest> availableQuests = getAvailableCompletionQuests();
         int completedQuests = 0;
         for (Quest quest : availableQuests) {
             try {
@@ -714,14 +714,23 @@ public class RewindPlugin extends Plugin {
      * requirement yet receive a modest target based on how long they have existed.
      */
     Map<Skill, Integer> getHistoricalSkillTargets() {
+        return getHistoricalSkillTargets(currentRelease);
+    }
+
+    private Map<Skill, Integer> getHistoricalSkillTargets(Release release) {
+        Map<Skill, Integer> targets = new LinkedHashMap<>();
+        if (release == null)
+        {
+            return targets;
+        }
+
         Map<Skill, Integer> requirements = new EnumMap<>(Skill.class);
-        for (Quest quest : Release.getQuests(currentRelease)) {
+        for (Quest quest : Release.getQuests(release)) {
             applyQuestRequirements(requirements, quest);
         }
 
-        Map<Skill, Integer> targets = new LinkedHashMap<>();
-        LocalDate selected = currentRelease.getDate().getLocalDate();
-        for (Skill skill : Release.getSkills(currentRelease)) {
+        LocalDate selected = release.getDate().getLocalDate();
+        for (Skill skill : Release.getSkills(release)) {
             if (HistoricalPermanentExclusions.isSkillPermanentlyLocked(skill)) continue;
             int requirement = requirements.getOrDefault(skill, 0);
             int target;
@@ -735,6 +744,59 @@ public class RewindPlugin extends Plugin {
             targets.put(skill, Math.min(target, historicalSkillCap(selected.getYear())));
         }
         return targets;
+    }
+
+    CompletionProgress getEraProgress(int year) {
+        if (currentRelease == null || client.getGameState() != GameState.LOGGED_IN)
+        {
+            return new CompletionProgress(0, 0, 0, 0);
+        }
+
+        // Future eras relative to the player's selected timeline are intentionally
+        // unavailable. The final 10 August 2007 endpoint exposes every era.
+        if (year > currentRelease.getDate().getLocalDate().getYear())
+        {
+            return new CompletionProgress(0, 0, 0, 0);
+        }
+
+        Release eraRelease = null;
+        for (Release release : Release.getRELEASES())
+        {
+            int releaseYear = release.getDate().getLocalDate().getYear();
+            if (releaseYear > year)
+            {
+                break;
+            }
+            eraRelease = release;
+        }
+
+        if (eraRelease == null)
+        {
+            return new CompletionProgress(0, 0, 0, 0);
+        }
+
+        List<Quest> quests = Release.getQuests(eraRelease);
+        int completedQuests = 0;
+        for (Quest quest : quests)
+        {
+            if (isQuestComplete(quest))
+            {
+                completedQuests++;
+            }
+        }
+
+        Map<Skill, Integer> targets = getHistoricalSkillTargets(eraRelease);
+        int completedSkills = 0;
+        for (Map.Entry<Skill, Integer> entry : targets.entrySet())
+        {
+            if (client.getRealSkillLevel(entry.getKey()) >= entry.getValue())
+            {
+                completedSkills++;
+            }
+        }
+
+        return new CompletionProgress(
+            completedQuests, quests.size(), completedSkills, targets.size());
     }
 
     private static int historicalSkillCap(int year) {
