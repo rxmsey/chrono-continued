@@ -25,6 +25,8 @@ public class RewindPanel extends PluginPanel
     private final JLabel completionValue = valueLabel();
     private final JLabel completionQuestsValue = valueLabel();
     private final JLabel completionSkillsValue = valueLabel();
+    private final JLabel completionActivitiesValue = valueLabel();
+    private final JPanel eraProgress = card();
     private final JPanel completionDetails = card();
     private final JLabel geValue = valueLabel();
     private final JButton geToggle = new JButton();
@@ -98,6 +100,7 @@ public class RewindPanel extends PluginPanel
         completionCard.add(row("Historical completion", completionValue));
         completionCard.add(row("Quests", completionQuestsValue));
         completionCard.add(row("Skill milestones", completionSkillsValue));
+        completionCard.add(row("Activities", completionActivitiesValue));
         JButton viewCompletion = new JButton("View Completion Log");
         viewCompletion.setFocusable(false);
         viewCompletion.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -110,6 +113,14 @@ public class RewindPanel extends PluginPanel
         content.add(Box.createVerticalStrut(6));
         completionDetails.setVisible(false);
         content.add(completionDetails);
+        content.add(Box.createVerticalStrut(10));
+
+        content.add(sectionTitle("ERA PROGRESS"));
+        for (int year = 2001; year <= 2007; year++)
+        {
+            eraProgress.add(row(Integer.toString(year), eraValue(year)));
+        }
+        content.add(eraProgress);
         content.add(Box.createVerticalStrut(10));
 
         content.add(sectionTitle("ACCESS"));
@@ -157,6 +168,8 @@ public class RewindPanel extends PluginPanel
         completionValue.setText(completion.getAvailable() == 0 ? "—" : completion.getPercentage() + "%");
         completionQuestsValue.setText(progress(completion.getCompletedQuests(), completion.getAvailableQuests()));
         completionSkillsValue.setText(progress(completion.getCompletedSkillMilestones(), completion.getAvailableSkillMilestones()));
+        completionActivitiesValue.setText(progress(completion.getCompletedActivities(), completion.getAvailableActivities()));
+        rebuildEraProgress();
         if (completionDetails.isVisible()) rebuildCompletionDetails();
         boolean geUnlocked = plugin.getConfig().unlockGrandExchange();
         geValue.setText(geUnlocked ? "Enabled" : "Locked");
@@ -188,6 +201,17 @@ public class RewindPanel extends PluginPanel
         }
 
         completionDetails.add(Box.createVerticalStrut(8));
+        completionDetails.add(sectionTitle("ACTIVITIES"));
+        if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
+        {
+            completionDetails.add(objectiveRow(plugin.isBarrowsComplete(), "Open a Barrows reward chest"));
+        }
+        else
+        {
+            completionDetails.add(objectiveRow(false, "No tracked activities available yet"));
+        }
+
+        completionDetails.add(Box.createVerticalStrut(8));
         completionDetails.add(sectionTitle("SKILL MILESTONES"));
         Map<Skill, Integer> levels = plugin.getAvailableCompletionSkills();
         for (Map.Entry<Skill, Integer> target : plugin.getHistoricalSkillTargets().entrySet())
@@ -201,6 +225,36 @@ public class RewindPanel extends PluginPanel
         completionDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         completionDetails.revalidate();
         completionDetails.repaint();
+    }
+
+    private JLabel eraValue(int year)
+    {
+        JLabel label = valueLabel();
+        label.setName("era-" + year);
+        return label;
+    }
+
+    private void rebuildEraProgress()
+    {
+        for (Component component : eraProgress.getComponents())
+        {
+            if (!(component instanceof JPanel)) continue;
+            JPanel row = (JPanel) component;
+            for (Component child : row.getComponents())
+            {
+                if (child instanceof JLabel)
+                {
+                    JLabel label = (JLabel) child;
+                    String name = label.getName();
+                    if (name != null && name.startsWith("era-"))
+                    {
+                        int year = Integer.parseInt(name.substring(4));
+                        CompletionProgress era = plugin.getEraProgress(year);
+                        label.setText(era.getAvailable() == 0 ? "—" : era.getPercentage() + "%");
+                    }
+                }
+            }
+        }
     }
 
     private static JPanel objectiveRow(boolean complete, String objective)
