@@ -479,7 +479,9 @@ public class RewindPanel extends PluginPanel
      */
     private static boolean isMeaningfulTimelineRelease(Release release)
     {
-        if (release.getDate() == ReleaseDate._10_AUGUST_2007)
+        if (release.getDate() == ReleaseDate._10_AUGUST_2007
+            || release.getDate() == ReleaseDate._06_JUNE_2006
+            || release.getDate() == ReleaseDate._13_JUNE_2006)
         {
             return true;
         }
