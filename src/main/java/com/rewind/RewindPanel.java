@@ -21,6 +21,7 @@ public class RewindPanel extends PluginPanel
     private final RewindPlugin plugin;
     private final JLabel dateValue = valueLabel();
     private final JLabel description = new JLabel();
+    private final JLabel unlockDetails = new JLabel();
     private final JLabel regionsValue = valueLabel();
     private final JLabel questsValue = valueLabel();
     private final JLabel skillsValue = valueLabel();
@@ -74,6 +75,7 @@ public class RewindPanel extends PluginPanel
 
         content.add(sectionTitle("CURRENT DATE"));
         JPanel dateCard = card();
+        dateCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 360));
         dateValue.setFont(FontManager.getRunescapeBoldFont());
         dateValue.setForeground(Color.WHITE);
         dateValue.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -82,6 +84,18 @@ public class RewindPanel extends PluginPanel
         description.setBorder(new EmptyBorder(6, 0, 0, 0));
         description.setAlignmentX(Component.LEFT_ALIGNMENT);
         dateCard.add(description);
+
+        JLabel unlockHeading = new JLabel("NEW IN THIS UPDATE");
+        unlockHeading.setFont(FontManager.getRunescapeSmallFont());
+        unlockHeading.setForeground(ColorScheme.BRAND_ORANGE);
+        unlockHeading.setBorder(new EmptyBorder(10, 0, 3, 0));
+        unlockHeading.setAlignmentX(Component.LEFT_ALIGNMENT);
+        dateCard.add(unlockHeading);
+
+        unlockDetails.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+        unlockDetails.setAlignmentX(Component.LEFT_ALIGNMENT);
+        unlockDetails.setMaximumSize(new Dimension(Integer.MAX_VALUE, 190));
+        dateCard.add(unlockDetails);
 
         JButton changeTimeline = new JButton("Change Timeline");
         changeTimeline.setFocusable(false);
@@ -181,6 +195,7 @@ public class RewindPanel extends PluginPanel
         tutorialNotice.setVisible(plugin.isTutorialBypass());
         dateValue.setText(release.getDate().getName());
         description.setText(html(release.getDescription()));
+        unlockDetails.setText(buildUnlockDetails(release));
         regionsValue.setText(Integer.toString(Release.getRegions(release).size()));
         questsValue.setText(Integer.toString(Release.getQuests(release).size()));
         skillsValue.setText(Integer.toString(Release.getSkills(release).size()));
@@ -767,6 +782,98 @@ public class RewindPanel extends PluginPanel
     public void updateDescription(String ignored)
     {
         refresh();
+    }
+
+    static String buildUnlockDetails(Release release)
+    {
+        java.util.List<String> lines = new java.util.ArrayList<>();
+
+        if (hasEntries(release.getQuests()))
+        {
+            java.util.List<String> names = new java.util.ArrayList<>();
+            for (Quest quest : release.getQuests())
+            {
+                names.add(quest.getName());
+            }
+            lines.add("<b>Quests:</b> " + joinNames(names));
+        }
+
+        if (hasEntries(release.getSkills()))
+        {
+            java.util.List<String> names = new java.util.ArrayList<>();
+            for (Skill skill : release.getSkills())
+            {
+                names.add(skill.getName());
+            }
+            lines.add("<b>Skills:</b> " + joinNames(names));
+        }
+
+        if (hasEntries(release.getPrayers()))
+        {
+            java.util.List<String> names = new java.util.ArrayList<>();
+            for (net.runelite.api.Prayer prayer : release.getPrayers())
+            {
+                names.add(prayerName(prayer));
+            }
+            lines.add("<b>Prayers:</b> " + joinNames(names));
+        }
+
+        if (hasEntries(release.getSpells()))
+        {
+            java.util.List<String> names = new java.util.ArrayList<>();
+            for (RewindSpell spell : release.getSpells())
+            {
+                names.add(spell.getName());
+            }
+            lines.add("<b>Spells:</b> " + joinNames(names));
+        }
+
+        if (hasEntries(release.getRegions()))
+        {
+            int count = release.getRegions().size();
+            lines.add("<b>World:</b> " + count + " newly unlocked map region" + (count == 1 ? "" : "s"));
+        }
+
+        if (lines.isEmpty())
+        {
+            return "<html><i>No new Rewind-tracked unlocks on this date.</i></html>";
+        }
+
+        return "<html>" + String.join("<br>", lines) + "</html>";
+    }
+
+    private static String prayerName(net.runelite.api.Prayer prayer)
+    {
+        for (RewindPrayer rewindPrayer : RewindPrayer.values())
+        {
+            if (rewindPrayer.getPrayer() == prayer)
+            {
+                return rewindPrayer.getName();
+            }
+        }
+        return prettifyEnum(prayer.name());
+    }
+
+    private static String prettifyEnum(String value)
+    {
+        String[] words = value.toLowerCase(java.util.Locale.ROOT).split("_");
+        StringBuilder result = new StringBuilder();
+        for (String word : words)
+        {
+            if (word.isEmpty()) continue;
+            if (result.length() > 0) result.append(' ');
+            result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+        }
+        return result.toString();
+    }
+
+    private static String joinNames(java.util.List<String> names)
+    {
+        if (names.size() <= 6)
+        {
+            return String.join(", ", names);
+        }
+        return String.join(", ", names.subList(0, 6)) + " +" + (names.size() - 6) + " more";
     }
 
     private static JLabel sectionTitle(String text)
