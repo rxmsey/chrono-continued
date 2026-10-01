@@ -441,6 +441,24 @@ public class RewindPlugin extends Plugin {
             && sailingObjects.contains(e.getId())) {
             deny(e); return;
         }
+        // Forester's Campfires are a modern Firemaking mechanic. Preserve normal
+        // historical tinderbox Firemaking, but prevent adding logs to an existing
+        // fire/campfire and prevent tending the modern campfire object itself.
+        if (e.getId() == FORESTERS_CAMPFIRE_OBJECT
+            && (option.equalsIgnoreCase("Tend-to") || option.equalsIgnoreCase("Tend"))) {
+            deny(e);
+            addWarningMessage("Bonfire Firemaking was not available by " + config.release().getName() + ".", false);
+            return;
+        }
+        if (e.getMenuAction() == net.runelite.api.MenuAction.WIDGET_TARGET_ON_GAME_OBJECT
+            && (e.getId() == REGULAR_FIRE_OBJECT || e.getId() == FORESTERS_CAMPFIRE_OBJECT)) {
+            Widget selected = client.getSelectedWidget();
+            if (selected != null && selected.getItemId() >= 0 && isLogItem(selected.getItemId())) {
+                deny(e);
+                addWarningMessage("Bonfire Firemaking was not available by " + config.release().getName() + ".", false);
+                return;
+            }
+        }
         NPC npc = e.getMenuEntry().getNpc();
         if (npc != null && !option.equals("Examine")
             && !isNpcUnlocked(npc)) {
@@ -473,6 +491,14 @@ public class RewindPlugin extends Plugin {
             addWarningMessage("This item is unavailable or has no verified release date for "
                 + config.release().getName() + ".", false);
         }
+    }
+
+    private boolean isLogItem(int itemId) {
+        ItemComposition item = client.getItemDefinition(itemId);
+        if (item == null || item.getName() == null) {
+            return false;
+        }
+        return item.getName().trim().toLowerCase(Locale.ROOT).endsWith("logs");
     }
 
     private void deny(MenuOptionClicked event) {
