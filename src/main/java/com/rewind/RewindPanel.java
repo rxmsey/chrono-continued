@@ -39,6 +39,7 @@ public class RewindPanel extends PluginPanel
     private final JButton homeTeleportToggle = new JButton();
     private final JPanel timelineSelector = card();
     private final JComboBox<ReleaseDate> timelineDates = new JComboBox<>();
+    private final JLabel tutorialNotice = new JLabel("<html><b>Tutorial Island detected.</b><br>Rewind restrictions will activate after the tutorial is complete.</html>");
 
     public RewindPanel(RewindPlugin plugin)
     {
@@ -62,6 +63,14 @@ public class RewindPanel extends PluginPanel
         subtitle.setBorder(new EmptyBorder(3, 0, 10, 0));
         subtitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(subtitle);
+
+        tutorialNotice.setForeground(ColorScheme.BRAND_ORANGE);
+        tutorialNotice.setBorder(new EmptyBorder(8, 8, 8, 8));
+        tutorialNotice.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tutorialNotice.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
+        tutorialNotice.setVisible(false);
+        content.add(tutorialNotice);
+        content.add(Box.createVerticalStrut(4));
 
         content.add(sectionTitle("CURRENT DATE"));
         JPanel dateCard = card();
@@ -169,6 +178,7 @@ public class RewindPanel extends PluginPanel
             return;
         }
 
+        tutorialNotice.setVisible(plugin.isTutorialBypass());
         dateValue.setText(release.getDate().getName());
         description.setText(html(release.getDescription()));
         regionsValue.setText(Integer.toString(Release.getRegions(release).size()));
