@@ -87,6 +87,8 @@ public class RewindPlugin extends Plugin {
 	public static final String CONFIG_GROUP_KEY = "chrono";
 	public static final String CONFIG_RELEASE_DATE_KEY = "releasedate";
 	private static final int GRAND_EXCHANGE_REGION = 12598;
+    private static final Set<Integer> TUTORIAL_ISLAND_REGIONS = new HashSet<>(Arrays.asList(
+        12336, 12335, 12592, 12080, 12079, 12436));
     private static final int PYRAMID_PLUNDER_REGION = 7749;
     private static final Set<Integer> CASTLE_WARS_REGIONS =
         new HashSet<>(Arrays.asList(9520, 9620));
@@ -175,6 +177,7 @@ public class RewindPlugin extends Plugin {
     private final Set<String> completionSnapshot = new HashSet<>();
     private boolean completionSnapshotReady;
     private boolean completionSeedPending;
+    private volatile boolean tutorialBypass;
     private NPC slayerTowerTarget;
 
 	@Getter
@@ -228,12 +231,17 @@ public class RewindPlugin extends Plugin {
         updateAdditionalRegions();
         renderCallbackManager.register(drawListener);
         reloadScene();
-        clientThread.invokeLater(this::refreshWidgets);
+        clientThread.invokeLater(() -> {
+            updateTutorialBypass();
+            refreshWidgets();
+        });
 	}
 
 	@Override
 	protected void shutDown() {
 		RegionLocker.renderLockedRegions = false;
+        HistoricalRegionState.setBypassRestrictions(false);
+        tutorialBypass = false;
 		overlayManager.remove(itemOverlay);
 		skillOverlay.restoreAllSkills();
 		overlayManager.remove(skillOverlay);
@@ -329,7 +337,15 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onClientTick(net.runelite.api.events.ClientTick event) {
-        historicalMinimapInputBlocker.refresh();
+        updateTutorialBypass();
+        if (tutorialBypass)
+        {
+            historicalMinimapInputBlocker.clear();
+        }
+        else
+        {
+            historicalMinimapInputBlocker.refresh();
+        }
     }
 
 	@Subscribe
@@ -359,6 +375,8 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
+        if (tutorialBypass) return;
+
         String option = HistoricalSpellRestrictions.clean(e.getMenuOption());
         String target = HistoricalSpellRestrictions.clean(e.getMenuTarget());
         Widget widget = e.getWidget();
@@ -483,7 +501,7 @@ public class RewindPlugin extends Plugin {
      */
     @Subscribe(priority = -1) // run after RuneLite's native Quest List/Spellbook filtering
     public void onScriptCallbackEvent(ScriptCallbackEvent event) {
-        if (currentRelease == null) return;
+        if (currentRelease == null || tutorialBypass) return;
 
         if ("questFilter".equals(event.getEventName())) {
             int[] intStack = client.getIntStack();
@@ -586,6 +604,8 @@ public class RewindPlugin extends Plugin {
 
 	@VisibleForTesting
 	boolean shouldDraw(Renderable renderable, boolean drawingUI) {
+        if (tutorialBypass) return true;
+
 		if (renderable instanceof NPC)
 		{
 			NPC npc = (NPC) renderable;
@@ -619,6 +639,8 @@ public class RewindPlugin extends Plugin {
 	}
 
 	public boolean isItemUnlocked(int itemId) throws ParseException {
+        if (tutorialBypass) return true;
+
         ItemComposition item = client.getItemDefinition(itemId);
         // A bank note is the same historical item, not an independent modern item.
         if (item.getNote() != -1) itemId = item.getLinkedNoteId();
@@ -626,6 +648,17 @@ public class RewindPlugin extends Plugin {
 	}
 
     private void updatePrayers() {
+        if (tutorialBypass)
+        {
+            abilityOverlay.restoreAllAbilities();
+            for (RewindPrayer prayer : RewindPrayer.values())
+            {
+                Widget parent = client.getWidget(prayer.getPackedID());
+                if (parent != null) parent.setOpacity(0);
+            }
+            return;
+        }
+
         List<Prayer> unlocked = Release.getPrayers(currentRelease);
         for (RewindPrayer prayer : RewindPrayer.values()) {
             Widget parent = client.getWidget(prayer.getPackedID());
