@@ -296,7 +296,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isFishingTrawlerComplete(),
-                "Complete a Fishing Trawler trip"));
+                "Complete a Fishing Trawler trip",
+                "Take part in the Fishing Trawler minigame and finish a trip. Rewind marks this complete when the Fishing Trawler reward container is populated at the end of the trip."));
             hasActivity = true;
         }
 
@@ -304,7 +305,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isShadesMorttonComplete(),
-                "Help rebuild the Flamtaer temple"));
+                "Help rebuild the Flamtaer temple",
+                "Participate in the Shades of Mort'ton activity by helping rebuild the Flamtaer temple. Rewind detects your contribution from the temple sanctity state while you are in Mort'ton."));
             hasActivity = true;
         }
 
@@ -312,7 +314,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isCastleWarsComplete(),
-                "Buy a Castle Wars reward"));
+                "Buy a Castle Wars reward",
+                "Play Castle Wars, earn tickets, then buy a decorative reward from Lanthus's Castle Wars reward shop. Rewind records the purchase when the reward enters your inventory at Castle Wars."));
             hasActivity = true;
         }
 
@@ -320,7 +323,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isSlayerTowerComplete(),
-                "Kill a monster in the Slayer Tower"));
+                "Kill a monster in the Slayer Tower",
+                "Fight and kill a monster inside the Slayer Tower. Rewind tracks a monster that your character is fighting and records the objective when that monster dies in a Slayer Tower region."));
             hasActivity = true;
         }
 
@@ -328,7 +332,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isBarrowsComplete(),
-                "Loot a Barrows reward chest"));
+                "Loot a Barrows reward chest",
+                "Complete a Barrows run and open the reward chest. RuneScape keeps a persistent Barrows chest counter, which Rewind uses to recognise completion."));
             hasActivity = true;
         }
 
@@ -336,7 +341,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isBlastFurnaceComplete(),
-                "Smelt bars at the Blast Furnace"));
+                "Smelt bars at the Blast Furnace",
+                "Use the Blast Furnace to produce bars. Rewind records the objective when the Blast Furnace bar-dispenser reward container contains bars."));
             hasActivity = true;
         }
 
@@ -344,7 +350,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isFightCavesComplete(),
-                "Complete the TzHaar Fight Cave"));
+                "Complete the TzHaar Fight Cave",
+                "Reach the end of the TzHaar Fight Cave and defeat TzTok-Jad. Rewind records the completion when Jad dies."));
             hasActivity = true;
         }
 
@@ -352,7 +359,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isBonesToPeachesComplete(),
-                "Unlock Bones to Peaches"));
+                "Unlock Bones to Peaches",
+                "Earn enough points in the Mage Training Arena to unlock Bones to Peaches. Rewind reads the game's persistent unlock state for the spell."));
             hasActivity = true;
         }
 
@@ -360,7 +368,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isAgilityPyramidComplete(),
-                "Retrieve a pyramid top"));
+                "Retrieve a pyramid top",
+                "Complete the Agility Pyramid course and retrieve the pyramid top. Rewind records it when a pyramid top enters your inventory while you are at the Agility Pyramid."));
             hasActivity = true;
         }
 
@@ -368,7 +377,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isTempleTrekkingComplete(),
-                "Complete a Temple Trek"));
+                "Complete a Temple Trek",
+                "Finish a Temple Trek/Burgh de Rott Ramble and receive a reward token. Rewind records the objective when it sees the trek reward token in your player-owned items."));
             hasActivity = true;
         }
 
@@ -376,7 +386,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isVoidSetComplete(),
-                "Void top + robe + gloves + any helm"));
+                "Void top + robe + gloves + any helm",
+                "Earn a basic Void Knight set from Pest Control: Void knight top, robe, gloves, and any one of the melee, ranged, or magic helms."));
             hasActivity = true;
         }
 
@@ -384,7 +395,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isRuneDefenderComplete(),
-                "Own a Rune defender"));
+                "Own a Rune defender",
+                "Progress through the Warriors' Guild Cyclopes until you obtain a Rune defender. Rewind remembers the defender once it appears in your inventory, equipment, or bank."));
             hasActivity = true;
         }
 
@@ -392,7 +404,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isTroubleBrewingComplete(),
-                "Earn Pieces of Eight"));
+                "Earn Pieces of Eight",
+                "Play Trouble Brewing on Mos Le'Harmless and earn Pieces of Eight, the minigame's reward currency. Rewind records the objective when Pieces of Eight appear in your player-owned items."));
             hasActivity = true;
         }
 
@@ -400,7 +413,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isStrongholdSecurityComplete(),
-                "Claim Stronghold boots"));
+                "Claim Stronghold boots",
+                "Reach the end of the Stronghold of Security and claim either Fancy boots or Fighting boots from the Cradle of Life."));
             hasActivity = true;
         }
 
@@ -408,7 +422,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isPyramidPlunderComplete(),
-                "Loot a Pyramid Plunder artefact"));
+                "Loot a Pyramid Plunder artefact",
+                "Take part in Pyramid Plunder and loot one of its artefacts, such as an ivory comb, scarab, statuette, seal, or Pharaoh's sceptre. Rewind only credits tradeable artefacts when acquired inside Pyramid Plunder."));
             hasActivity = true;
         }
 
@@ -416,7 +431,8 @@ public class RewindPanel extends PluginPanel
         {
             activityRows.add(objectiveRow(
                 plugin.isFighterTorsoComplete(),
-                "Own a Fighter torso"));
+                "Own a Fighter torso",
+                "Play Barbarian Assault and earn enough role points to buy a Fighter torso. Rewind remembers the torso once it appears in your inventory, equipment, or bank."));
             hasActivity = true;
         }
 
@@ -512,15 +528,72 @@ public class RewindPanel extends PluginPanel
 
     private static JPanel objectiveRow(boolean complete, String objective)
     {
+        return objectiveRow(complete, objective, null);
+    }
+
+    private static JPanel objectiveRow(boolean complete, String objective, String explanation)
+    {
         JPanel row = new JPanel(new BorderLayout());
         row.setOpaque(false);
-        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
-        // RuneLite's bundled RuneScape font does not reliably contain the Unicode
-        // checkmark/circle glyphs; use ASCII markers to avoid green square glyphs.
-        JLabel label = new JLabel((complete ? "[x] " : "[ ] ") + objective);
-        label.setForeground(complete ? ColorScheme.PROGRESS_COMPLETE_COLOR : ColorScheme.LIGHT_GRAY_COLOR);
-        row.add(label, BorderLayout.WEST);
+        row.setAlignmentX(Component.LEFT_ALIGNMENT);
+        row.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        row.setBorder(new EmptyBorder(2, 0, 2, 0));
+
+        // HTML gives the objective a real wrapping width instead of allowing Swing
+        // to clip long text at the right edge of the narrow RuneLite sidebar.
+        JLabel label = new JLabel(
+            "<html><div style='width:185px'>"
+                + (complete ? "[x] " : "[ ] ")
+                + escapeHtml(objective)
+                + "</div></html>");
+        label.setForeground(complete
+            ? ColorScheme.PROGRESS_COMPLETE_COLOR
+            : ColorScheme.LIGHT_GRAY_COLOR);
+
+        if (explanation != null && !explanation.isEmpty())
+        {
+            row.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            row.setToolTipText("Click for activity details");
+            label.setToolTipText("Click for activity details");
+
+            MouseAdapter detailsClick = new MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(MouseEvent e)
+                {
+                    showObjectiveExplanation(row, objective, explanation);
+                }
+            };
+            row.addMouseListener(detailsClick);
+            label.addMouseListener(detailsClick);
+        }
+
+        row.add(label, BorderLayout.CENTER);
         return row;
+    }
+
+    private static void showObjectiveExplanation(Component parent, String objective, String explanation)
+    {
+        JLabel message = new JLabel(
+            "<html><div style='width:280px'>"
+                + escapeHtml(explanation)
+                + "</div></html>");
+        message.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+
+        JOptionPane.showMessageDialog(
+            parent,
+            message,
+            objective,
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private static String escapeHtml(String value)
+    {
+        return value
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;");
     }
 
     void updateGrandExchangeState(boolean enabled)
