@@ -41,6 +41,12 @@ public class RewindAbilityOverlay extends Overlay
             return null;
         }
 
+        if (plugin.isTutorialBypass())
+        {
+            restoreAllAbilities();
+            return null;
+        }
+
         List<Prayer> prayers = Release.getPrayers(plugin.getCurrentRelease());
         for (RewindPrayer prayer : RewindPrayer.values())
         {
