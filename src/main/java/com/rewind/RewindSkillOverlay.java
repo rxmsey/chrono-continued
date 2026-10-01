@@ -39,6 +39,12 @@ public class RewindSkillOverlay extends Overlay
             return null;
         }
 
+        if (plugin.isTutorialBypass())
+        {
+            restoreAllSkills();
+            return null;
+        }
+
         Widget stats = client.getWidget(InterfaceID.Stats.UNIVERSE);
         if (stats == null || stats.isHidden())
         {
