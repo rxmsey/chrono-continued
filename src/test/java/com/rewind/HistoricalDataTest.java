@@ -36,6 +36,13 @@ public class HistoricalDataTest {
             try (Reader reader = resource(file)) { releases.addAll(Arrays.asList(GSON.fromJson(reader, Release[].class))); }
         }
         Release.setReleases(releases.toArray(new Release[0]));
+        HistoricalRegionState.clearRegionGates();
+        for (Release release : Release.getRELEASES()) {
+            if (release.getRegions() == null) continue;
+            for (Integer regionId : release.getRegions()) {
+                if (regionId != null) HistoricalRegionState.gateRegion(regionId, release.getDate().getLocalDate());
+            }
+        }
         try (Reader reader = resource("items.json")) {
             EntityDefinition.itemDefinitions = GSON.fromJson(reader, new TypeToken<Map<Integer, EntityDefinition>>(){}.getType());
         }
@@ -147,15 +154,24 @@ public class HistoricalDataTest {
         assertTrue(HistoricalSpellRestrictions.allowedWidget(InterfaceID.MagicSpellbook.ICE_BARRAGE, last));
         assertFalse(HistoricalSpellRestrictions.allowedWidget(InterfaceID.MagicSpellbook.TELEPORT_ME_TO_BOAT, last));
     }
-    @Test public void regionStateIsCumulativeAndUnknownUndergroundRegionsAreLocked() {
+    @Test public void regionStateKeepsLegacyUndergroundSupportWithoutLeakingDatedRegions() {
         Release last = release("2007-08-10");
         HistoricalRegionState.setSelectedDate(last.getDate().getDate());
         HistoricalRegionState.replaceWith(Release.getRegions(last));
         assertTrue(HistoricalRegionState.isRegionUnlocked(12850)); // Lumbridge
         assertTrue(HistoricalRegionState.isRegionUnlocked(15148)); // Harmony, not Feldip
         assertTrue(HistoricalRegionState.isRegionUnlocked(10835)); // Dorgesh-Kaan
-        assertFalse(HistoricalRegionState.isRegionUnlocked( (20 << 8) | 75));
-        assertFalse(HistoricalRegionState.isRegionUnlocked( (20 << 8) | 150));
+        assertFalse(HistoricalRegionState.isRegionUnlocked((20 << 8) | 75)); // unknown normal map space
+        assertTrue(HistoricalRegionState.isRegionUnlocked(12437)); // Wizards' Tower basement
+        assertTrue(HistoricalRegionState.isRegionUnlocked((20 << 8) | 150)); // auxiliary underground space
+
+        HistoricalRegionState.setSelectedDate(date("2005-03-13"));
+        HistoricalRegionState.replaceWith(Release.getRegions(release("2005-03-07")));
+        assertFalse(HistoricalRegionState.isRegionUnlocked(12693)); // Lumbridge Swamp Caves: 14 Mar 2005
+        HistoricalRegionState.setSelectedDate(date("2005-03-14"));
+        assertTrue(HistoricalRegionState.isRegionUnlocked(12693));
+
+        HistoricalRegionState.setSelectedDate(release("2005-01-31").getDate().getDate());
         HistoricalRegionState.replaceWith(Release.getRegions(release("2005-01-31")));
         assertFalse(HistoricalRegionState.isRegionUnlocked(15148));
     }
