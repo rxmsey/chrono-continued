@@ -81,6 +81,7 @@ public class RewindPlugin extends Plugin {
     private static final String COMPLETION_BLAST_FURNACE_KEY = "completionBlastFurnace";
     private static final String COMPLETION_SHADES_MORTTON_KEY = "completionShadesMortton";
     private static final String COMPLETION_SLAYER_TOWER_KEY = "completionSlayerTower";
+    private static final String COMPLETION_MAGE_ARENA_CAPE_KEY = "completionMageArenaCape";
 
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
@@ -721,6 +722,7 @@ public class RewindPlugin extends Plugin {
         boolean torsoBefore = isFighterTorsoComplete();
         boolean runeDefenderBefore = isRuneDefenderComplete();
         boolean voidBefore = isVoidSetComplete();
+        boolean mageArenaCapeBefore = isMageArenaCapeComplete();
         boolean castleWarsBefore = isCastleWarsComplete();
         boolean agilityPyramidBefore = isAgilityPyramidComplete();
         boolean templeTrekkingBefore = isTempleTrekkingComplete();
@@ -777,6 +779,13 @@ public class RewindPlugin extends Plugin {
 
             // These untradeable rewards safely backfill completion from inventory,
             // equipment, or bank when Rewind first encounters them.
+            if (lowerName.equals("saradomin cape")
+                || lowerName.equals("zamorak cape")
+                || lowerName.equals("guthix cape"))
+            {
+                writeProfileFlag(COMPLETION_MAGE_ARENA_CAPE_KEY);
+            }
+
             if (lowerName.equals("fancy boots") || lowerName.equals("fighting boots"))
             {
                 writeProfileFlag(COMPLETION_STRONGHOLD_SECURITY_KEY);
@@ -806,6 +815,10 @@ public class RewindPlugin extends Plugin {
                 writeProfileFlag(COMPLETION_PYRAMID_PLUNDER_KEY);
             }
         }
+
+        maybeShowItemActivity(mageArenaCapeBefore, isMageArenaCapeComplete(),
+            isMageArenaCapeAvailable(currentRelease), "activity:mage_arena_cape",
+            "Obtain a Mage Arena god cape");
 
         maybeShowItemActivity(castleWarsBefore, isCastleWarsComplete(),
             isCastleWarsAvailable(currentRelease), "activity:castle_wars",
@@ -853,6 +866,7 @@ public class RewindPlugin extends Plugin {
         if (panel != null && ((!torsoBefore && isFighterTorsoComplete())
             || (!runeDefenderBefore && isRuneDefenderComplete())
             || (!voidBefore && isVoidSetComplete())
+            || (!mageArenaCapeBefore && isMageArenaCapeComplete())
             || (!castleWarsBefore && isCastleWarsComplete())
             || (!agilityPyramidBefore && isAgilityPyramidComplete())
             || (!templeTrekkingBefore && isTempleTrekkingComplete())
@@ -1045,6 +1059,9 @@ public class RewindPlugin extends Plugin {
         }
         if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
             completionSnapshot.add("activity:fishing_trawler");
+        if (isMageArenaCapeAvailable(currentRelease) && isMageArenaCapeComplete())
+            completionSnapshot.add("activity:mage_arena_cape");
+
         if (isShadesMorttonAvailable(currentRelease) && isShadesMorttonComplete())
             completionSnapshot.add("activity:shades_mortton");
         if (isSlayerTowerAvailable(currentRelease) && isSlayerTowerComplete())
@@ -1108,6 +1125,9 @@ public class RewindPlugin extends Plugin {
         }
         if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
             completionSnapshot.add("activity:fishing_trawler");
+        if (isMageArenaCapeAvailable(currentRelease) && isMageArenaCapeComplete())
+            completionSnapshot.add("activity:mage_arena_cape");
+
         if (isShadesMorttonAvailable(currentRelease) && isShadesMorttonComplete())
             completionSnapshot.add("activity:shades_mortton");
         if (isSlayerTowerAvailable(currentRelease) && isSlayerTowerComplete())
@@ -1314,6 +1334,12 @@ public class RewindPlugin extends Plugin {
         return Boolean.parseBoolean(value);
     }
 
+    boolean isMageArenaCapeAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._22_SEPTEMBER_2003);
+    }
+
+    boolean isMageArenaCapeComplete() { return readProfileFlag(COMPLETION_MAGE_ARENA_CAPE_KEY); }
+
     boolean isShadesMorttonAvailable(Release release) {
         return availableFrom(release, ReleaseDate._18_OCTOBER_2004);
     }
@@ -1434,6 +1460,7 @@ public class RewindPlugin extends Plugin {
     private int getAvailableActivityCount(Release release) {
         int total = 0;
         if (isFishingTrawlerAvailable(release)) total++;
+        if (isMageArenaCapeAvailable(release)) total++;
         if (isShadesMorttonAvailable(release)) total++;
         if (isCastleWarsAvailable(release)) total++;
         if (isSlayerTowerAvailable(release)) total++;
@@ -1455,6 +1482,7 @@ public class RewindPlugin extends Plugin {
     private int getCompletedActivityCount(Release release) {
         int total = 0;
         if (isFishingTrawlerAvailable(release) && isFishingTrawlerComplete()) total++;
+        if (isMageArenaCapeAvailable(release) && isMageArenaCapeComplete()) total++;
         if (isShadesMorttonAvailable(release) && isShadesMorttonComplete()) total++;
         if (isCastleWarsAvailable(release) && isCastleWarsComplete()) total++;
         if (isSlayerTowerAvailable(release) && isSlayerTowerComplete()) total++;
