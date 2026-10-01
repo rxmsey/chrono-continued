@@ -163,7 +163,7 @@ public class HistoricalDataTest {
         assertTrue(HistoricalRegionState.isRegionUnlocked(10835)); // Dorgesh-Kaan
         assertFalse(HistoricalRegionState.isRegionUnlocked((20 << 8) | 75)); // unknown normal map space
         assertTrue(HistoricalRegionState.isRegionUnlocked(12437)); // Wizards' Tower basement
-        assertTrue(HistoricalRegionState.isRegionUnlocked((20 << 8) | 150)); // auxiliary underground space
+        assertFalse(HistoricalRegionState.isRegionUnlocked((20 << 8) | 150)); // unknown underground space still fails closed
 
         HistoricalRegionState.setSelectedDate(date("2005-03-13"));
         HistoricalRegionState.replaceWith(Release.getRegions(release("2005-03-07")));
