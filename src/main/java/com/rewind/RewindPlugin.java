@@ -488,9 +488,81 @@ public class RewindPlugin extends Plugin {
 
     private void refreshWidgets() {
         if (client.getGameState() != GameState.LOGGED_IN) return;
+        if (tutorialBypass)
+        {
+            skillOverlay.restoreAllSkills();
+            abilityOverlay.restoreAllAbilities();
+            restoreSpellWidgets();
+            redrawSpellbook();
+            redrawQuests();
+            return;
+        }
         updatePrayers();
         updateSpells();
         redrawQuests();
+    }
+
+    public boolean isTutorialBypass()
+    {
+        return tutorialBypass;
+    }
+
+    private void updateTutorialBypass()
+    {
+        if (client.getGameState() != GameState.LOGGED_IN)
+        {
+            return;
+        }
+
+        Player player = client.getLocalPlayer();
+        if (player == null)
+        {
+            return;
+        }
+
+        boolean bypass = TUTORIAL_ISLAND_REGIONS.contains(player.getWorldLocation().getRegionID());
+        if (bypass == tutorialBypass)
+        {
+            return;
+        }
+
+        tutorialBypass = bypass;
+        HistoricalRegionState.setBypassRestrictions(bypass);
+        completionSnapshotReady = false;
+        completionSeedPending = !bypass;
+        completionSnapshot.clear();
+        historicalMinimapInputBlocker.clear();
+
+        if (bypass)
+        {
+            skillOverlay.restoreAllSkills();
+            abilityOverlay.restoreAllAbilities();
+            restoreSpellWidgets();
+            redrawSpellbook();
+            redrawQuests();
+        }
+        else
+        {
+            refreshWidgets();
+        }
+
+        if (panel != null)
+        {
+            SwingUtilities.invokeLater(panel::refresh);
+        }
+        reloadScene();
+    }
+
+    private void restoreSpellWidgets()
+    {
+        for (RewindSpell spell : RewindSpell.values())
+        {
+            Widget widget = client.getWidget(spell.getPackedID());
+            if (widget != null)
+            {
+                widget.setHidden(false);
+            }
+        }
     }
 
     /**
