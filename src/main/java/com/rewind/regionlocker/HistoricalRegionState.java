@@ -43,9 +43,15 @@ public final class HistoricalRegionState
         }
     }
 
+    public static synchronized void clearRegionGates()
+    {
+        timedRegions.clear();
+    }
+
     public static synchronized void gateRegion(int regionId, LocalDate release)
     {
-        timedRegions.put(regionId, release);
+        timedRegions.merge(regionId, release, (existing, incoming) ->
+            existing.isBefore(incoming) ? existing : incoming);
     }
 
     public static synchronized void setBypassRestrictions(boolean bypass)
@@ -73,11 +79,22 @@ public final class HistoricalRegionState
         }
 
         LocalDate gate = timedRegions.get(regionId);
-        if (gate != null && selected.isBefore(gate))
+        if (gate != null)
         {
-            return false;
+            return !selected.isBefore(gate);
+        }
+
+        if (isAuxiliaryUndergroundRegion(regionId))
+        {
+            return true;
         }
 
         return unlocked.contains(regionId);
+    }
+
+    static boolean isAuxiliaryUndergroundRegion(int regionId)
+    {
+        int baseY = (regionId & 255) << 6;
+        return baseY >= 8960;
     }
 }
