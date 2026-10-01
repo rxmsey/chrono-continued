@@ -71,11 +71,24 @@ public class RewindPlugin extends Plugin {
     private static final String COMPLETION_VOID_GLOVES_KEY = "completionVoidGloves";
     private static final String COMPLETION_VOID_HELM_KEY = "completionVoidHelm";
     private static final String COMPLETION_RUNE_DEFENDER_KEY = "completionRuneDefender";
+    private static final String COMPLETION_CASTLE_WARS_KEY = "completionCastleWarsReward";
+    private static final String COMPLETION_AGILITY_PYRAMID_KEY = "completionAgilityPyramid";
+    private static final String COMPLETION_TEMPLE_TREKKING_KEY = "completionTempleTrekking";
+    private static final String COMPLETION_TROUBLE_BREWING_KEY = "completionTroubleBrewing";
+    private static final String COMPLETION_STRONGHOLD_SECURITY_KEY = "completionStrongholdSecurity";
+    private static final String COMPLETION_PYRAMID_PLUNDER_KEY = "completionPyramidPlunder";
+    private static final String COMPLETION_FISHING_TRAWLER_KEY = "completionFishingTrawler";
+    private static final String COMPLETION_BLAST_FURNACE_KEY = "completionBlastFurnace";
 
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
 	public static final String CONFIG_RELEASE_DATE_KEY = "releasedate";
 	private static final int GRAND_EXCHANGE_REGION = 12598;
+    private static final int PYRAMID_PLUNDER_REGION = 7749;
+    private static final Set<Integer> CASTLE_WARS_REGIONS =
+        new HashSet<>(Arrays.asList(9520, 9620));
+    private static final Set<Integer> AGILITY_PYRAMID_REGIONS =
+        new HashSet<>(Arrays.asList(12105, 13356));
 
 	private static final int SOUND_EFFECT_FAIL = 2277;
 	private static final int SOUND_EFFECT_INACTIVE = 2673;
@@ -662,10 +675,35 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onItemContainerChanged(ItemContainerChanged event) {
-        // Only player-owned containers count toward ownership objectives. Reward
-        // shops and other UI containers can contain the same item IDs and must not
-        // award completion merely because the player opened the shop.
         int containerId = event.getContainerId();
+        ItemContainer container = event.getItemContainer();
+        if (container == null) return;
+
+        // These minigame-owned containers are themselves reliable completion
+        // signals: they are only populated after the player has produced/earned
+        // the corresponding reward.
+        if (containerId == InventoryID.TRAWLER_REWARDINV && hasAnyItem(container))
+        {
+            recordActivity(
+                COMPLETION_FISHING_TRAWLER_KEY,
+                "activity:fishing_trawler",
+                "Complete a Fishing Trawler trip",
+                isFishingTrawlerAvailable(currentRelease));
+            return;
+        }
+
+        if (containerId == InventoryID.BLAST_FURNACE_BARS_INV && hasAnyItem(container))
+        {
+            recordActivity(
+                COMPLETION_BLAST_FURNACE_KEY,
+                "activity:blast_furnace",
+                "Smelt bars at the Blast Furnace",
+                isBlastFurnaceAvailable(currentRelease));
+            return;
+        }
+
+        // Ownership-based objectives only inspect player-owned containers. This
+        // prevents reward shops themselves from granting completion just by opening.
         if (containerId != InventoryID.INV
             && containerId != InventoryID.WORN
             && containerId != InventoryID.BANK)
@@ -673,12 +711,17 @@ public class RewindPlugin extends Plugin {
             return;
         }
 
-        ItemContainer container = event.getItemContainer();
-        if (container == null) return;
-
         boolean torsoBefore = isFighterTorsoComplete();
         boolean runeDefenderBefore = isRuneDefenderComplete();
         boolean voidBefore = isVoidSetComplete();
+        boolean castleWarsBefore = isCastleWarsComplete();
+        boolean agilityPyramidBefore = isAgilityPyramidComplete();
+        boolean templeTrekkingBefore = isTempleTrekkingComplete();
+        boolean troubleBrewingBefore = isTroubleBrewingComplete();
+        boolean strongholdBefore = isStrongholdSecurityComplete();
+        boolean pyramidPlunderBefore = isPyramidPlunderComplete();
+
+        int regionId = currentRegionId();
 
         for (Item item : container.getItems())
         {
@@ -711,7 +754,70 @@ public class RewindPlugin extends Plugin {
                 default:
                     break;
             }
+
+            ItemComposition definition = client.getItemDefinition(item.getId());
+            String itemName = definition == null ? "" : definition.getName();
+            String lowerName = itemName == null ? "" : itemName.toLowerCase(Locale.ROOT);
+
+            // Castle Wars decorative rewards are untradeable; seeing one in the
+            // player's inventory at Castle Wars proves a ticket-shop purchase.
+            if (containerId == InventoryID.INV
+                && CASTLE_WARS_REGIONS.contains(regionId)
+                && lowerName.contains("decorative"))
+            {
+                writeProfileFlag(COMPLETION_CASTLE_WARS_KEY);
+            }
+
+            // These untradeable rewards safely backfill completion from inventory,
+            // equipment, or bank when Rewind first encounters them.
+            if (lowerName.equals("fancy boots") || lowerName.equals("fighting boots"))
+            {
+                writeProfileFlag(COMPLETION_STRONGHOLD_SECURITY_KEY);
+            }
+            if (lowerName.startsWith("reward token")
+                && !lowerName.contains("gnome"))
+            {
+                writeProfileFlag(COMPLETION_TEMPLE_TREKKING_KEY);
+            }
+            if (lowerName.equals("pieces of eight"))
+            {
+                writeProfileFlag(COMPLETION_TROUBLE_BREWING_KEY);
+            }
+
+            // Pyramid Top and Pyramid Plunder artefacts are tradeable, so only
+            // credit them when they appear in the inventory inside the activity.
+            if (containerId == InventoryID.INV
+                && AGILITY_PYRAMID_REGIONS.contains(regionId)
+                && lowerName.equals("pyramid top"))
+            {
+                writeProfileFlag(COMPLETION_AGILITY_PYRAMID_KEY);
+            }
+            if (containerId == InventoryID.INV
+                && regionId == PYRAMID_PLUNDER_REGION
+                && isPyramidPlunderArtefact(lowerName))
+            {
+                writeProfileFlag(COMPLETION_PYRAMID_PLUNDER_KEY);
+            }
         }
+
+        maybeShowItemActivity(castleWarsBefore, isCastleWarsComplete(),
+            isCastleWarsAvailable(currentRelease), "activity:castle_wars",
+            "Buy a Castle Wars reward");
+        maybeShowItemActivity(agilityPyramidBefore, isAgilityPyramidComplete(),
+            isAgilityPyramidAvailable(currentRelease), "activity:agility_pyramid",
+            "Retrieve a pyramid top");
+        maybeShowItemActivity(templeTrekkingBefore, isTempleTrekkingComplete(),
+            isTempleTrekkingAvailable(currentRelease), "activity:temple_trekking",
+            "Complete a Temple Trek");
+        maybeShowItemActivity(troubleBrewingBefore, isTroubleBrewingComplete(),
+            isTroubleBrewingAvailable(currentRelease), "activity:trouble_brewing",
+            "Earn Pieces of Eight");
+        maybeShowItemActivity(strongholdBefore, isStrongholdSecurityComplete(),
+            isStrongholdSecurityAvailable(currentRelease), "activity:stronghold_security",
+            "Claim Stronghold boots");
+        maybeShowItemActivity(pyramidPlunderBefore, isPyramidPlunderComplete(),
+            isPyramidPlunderAvailable(currentRelease), "activity:pyramid_plunder",
+            "Loot a Pyramid Plunder artefact");
 
         if (completionSnapshotReady && currentRelease != null)
         {
@@ -739,7 +845,75 @@ public class RewindPlugin extends Plugin {
 
         if (panel != null && ((!torsoBefore && isFighterTorsoComplete())
             || (!runeDefenderBefore && isRuneDefenderComplete())
-            || (!voidBefore && isVoidSetComplete())))
+            || (!voidBefore && isVoidSetComplete())
+            || (!castleWarsBefore && isCastleWarsComplete())
+            || (!agilityPyramidBefore && isAgilityPyramidComplete())
+            || (!templeTrekkingBefore && isTempleTrekkingComplete())
+            || (!troubleBrewingBefore && isTroubleBrewingComplete())
+            || (!strongholdBefore && isStrongholdSecurityComplete())
+            || (!pyramidPlunderBefore && isPyramidPlunderComplete())))
+        {
+            panel.refresh();
+        }
+    }
+
+    private boolean hasAnyItem(ItemContainer container)
+    {
+        for (Item item : container.getItems())
+        {
+            if (item != null && item.getQuantity() > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int currentRegionId()
+    {
+        Player localPlayer = client.getLocalPlayer();
+        if (localPlayer == null)
+        {
+            return -1;
+        }
+        WorldPoint point = localPlayer.getWorldLocation();
+        return point == null ? -1 : point.getRegionID();
+    }
+
+    private static boolean isPyramidPlunderArtefact(String name)
+    {
+        return name.equals("ivory comb")
+            || name.equals("pottery scarab")
+            || name.equals("pottery statuette")
+            || name.equals("stone seal")
+            || name.equals("stone scarab")
+            || name.equals("stone statuette")
+            || name.equals("gold seal")
+            || name.equals("golden scarab")
+            || name.equals("golden statuette")
+            || name.equals("pharaoh's sceptre");
+    }
+
+    private void maybeShowItemActivity(boolean before, boolean after, boolean available,
+        String snapshotKey, String title)
+    {
+        if (!before && after && completionSnapshotReady && currentRelease != null
+            && available && completionSnapshot.add(snapshotKey))
+        {
+            showCompletionPopup(title);
+        }
+    }
+
+    private void recordActivity(String profileKey, String snapshotKey, String title, boolean available)
+    {
+        boolean before = readProfileFlag(profileKey);
+        writeProfileFlag(profileKey);
+        if (!before && completionSnapshotReady && currentRelease != null
+            && available && completionSnapshot.add(snapshotKey))
+        {
+            showCompletionPopup(title);
+        }
+        if (!before && panel != null)
         {
             panel.refresh();
         }
@@ -816,6 +990,22 @@ public class RewindPlugin extends Plugin {
         {
             completionSnapshot.add("activity:rune_defender");
         }
+        if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
+            completionSnapshot.add("activity:fishing_trawler");
+        if (isCastleWarsAvailable(currentRelease) && isCastleWarsComplete())
+            completionSnapshot.add("activity:castle_wars");
+        if (isBlastFurnaceAvailable(currentRelease) && isBlastFurnaceComplete())
+            completionSnapshot.add("activity:blast_furnace");
+        if (isAgilityPyramidAvailable(currentRelease) && isAgilityPyramidComplete())
+            completionSnapshot.add("activity:agility_pyramid");
+        if (isTempleTrekkingAvailable(currentRelease) && isTempleTrekkingComplete())
+            completionSnapshot.add("activity:temple_trekking");
+        if (isTroubleBrewingAvailable(currentRelease) && isTroubleBrewingComplete())
+            completionSnapshot.add("activity:trouble_brewing");
+        if (isStrongholdSecurityAvailable(currentRelease) && isStrongholdSecurityComplete())
+            completionSnapshot.add("activity:stronghold_security");
+        if (isPyramidPlunderAvailable(currentRelease) && isPyramidPlunderComplete())
+            completionSnapshot.add("activity:pyramid_plunder");
     }
 
     private void checkQuestCompletions() {
@@ -859,6 +1049,22 @@ public class RewindPlugin extends Plugin {
         if (isFighterTorsoAvailable(currentRelease) && isFighterTorsoComplete()) {
             completionSnapshot.add("activity:fighter_torso");
         }
+        if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
+            completionSnapshot.add("activity:fishing_trawler");
+        if (isCastleWarsAvailable(currentRelease) && isCastleWarsComplete())
+            completionSnapshot.add("activity:castle_wars");
+        if (isBlastFurnaceAvailable(currentRelease) && isBlastFurnaceComplete())
+            completionSnapshot.add("activity:blast_furnace");
+        if (isAgilityPyramidAvailable(currentRelease) && isAgilityPyramidComplete())
+            completionSnapshot.add("activity:agility_pyramid");
+        if (isTempleTrekkingAvailable(currentRelease) && isTempleTrekkingComplete())
+            completionSnapshot.add("activity:temple_trekking");
+        if (isTroubleBrewingAvailable(currentRelease) && isTroubleBrewingComplete())
+            completionSnapshot.add("activity:trouble_brewing");
+        if (isStrongholdSecurityAvailable(currentRelease) && isStrongholdSecurityComplete())
+            completionSnapshot.add("activity:stronghold_security");
+        if (isPyramidPlunderAvailable(currentRelease) && isPyramidPlunderComplete())
+            completionSnapshot.add("activity:pyramid_plunder");
         completionSnapshotReady = true;
     }
 
@@ -1047,6 +1253,51 @@ public class RewindPlugin extends Plugin {
         return Boolean.parseBoolean(value);
     }
 
+    boolean isFishingTrawlerAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._28_JULY_2003);
+    }
+
+    boolean isCastleWarsAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._13_DECEMBER_2004);
+    }
+
+    boolean isBlastFurnaceAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._23_AUGUST_2005);
+    }
+
+    boolean isAgilityPyramidAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._16_JANUARY_2006);
+    }
+
+    boolean isTempleTrekkingAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._28_MARCH_2006);
+    }
+
+    boolean isTroubleBrewingAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._04_JULY_2006);
+    }
+
+    boolean isStrongholdSecurityAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._04_JULY_2006);
+    }
+
+    boolean isPyramidPlunderAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._17_JULY_2006);
+    }
+
+    boolean isFishingTrawlerComplete() { return readProfileFlag(COMPLETION_FISHING_TRAWLER_KEY); }
+    boolean isCastleWarsComplete() { return readProfileFlag(COMPLETION_CASTLE_WARS_KEY); }
+    boolean isBlastFurnaceComplete() { return readProfileFlag(COMPLETION_BLAST_FURNACE_KEY); }
+    boolean isAgilityPyramidComplete() { return readProfileFlag(COMPLETION_AGILITY_PYRAMID_KEY); }
+    boolean isTempleTrekkingComplete() { return readProfileFlag(COMPLETION_TEMPLE_TREKKING_KEY); }
+    boolean isTroubleBrewingComplete() { return readProfileFlag(COMPLETION_TROUBLE_BREWING_KEY); }
+    boolean isStrongholdSecurityComplete() { return readProfileFlag(COMPLETION_STRONGHOLD_SECURITY_KEY); }
+    boolean isPyramidPlunderComplete() { return readProfileFlag(COMPLETION_PYRAMID_PLUNDER_KEY); }
+
+    private static boolean availableFrom(Release release, ReleaseDate date) {
+        return release != null && !release.getDate().getLocalDate().isBefore(date.getLocalDate());
+    }
+
     boolean isFighterTorsoAvailable(Release release) {
         return release != null
             && !release.getDate().getLocalDate().isBefore(
@@ -1110,9 +1361,17 @@ public class RewindPlugin extends Plugin {
 
     private int getAvailableActivityCount(Release release) {
         int total = 0;
+        if (isFishingTrawlerAvailable(release)) total++;
+        if (isCastleWarsAvailable(release)) total++;
         if (isBarrowsAvailable(release)) total++;
+        if (isBlastFurnaceAvailable(release)) total++;
         if (isFightCavesAvailable(release)) total++;
         if (isBonesToPeachesAvailable(release)) total++;
+        if (isAgilityPyramidAvailable(release)) total++;
+        if (isTempleTrekkingAvailable(release)) total++;
+        if (isTroubleBrewingAvailable(release)) total++;
+        if (isStrongholdSecurityAvailable(release)) total++;
+        if (isPyramidPlunderAvailable(release)) total++;
         if (isVoidSetAvailable(release)) total++;
         if (isRuneDefenderAvailable(release)) total++;
         if (isFighterTorsoAvailable(release)) total++;
@@ -1121,9 +1380,17 @@ public class RewindPlugin extends Plugin {
 
     private int getCompletedActivityCount(Release release) {
         int total = 0;
+        if (isFishingTrawlerAvailable(release) && isFishingTrawlerComplete()) total++;
+        if (isCastleWarsAvailable(release) && isCastleWarsComplete()) total++;
         if (isBarrowsAvailable(release) && isBarrowsComplete()) total++;
+        if (isBlastFurnaceAvailable(release) && isBlastFurnaceComplete()) total++;
         if (isFightCavesAvailable(release) && isFightCavesComplete()) total++;
         if (isBonesToPeachesAvailable(release) && isBonesToPeachesComplete()) total++;
+        if (isAgilityPyramidAvailable(release) && isAgilityPyramidComplete()) total++;
+        if (isTempleTrekkingAvailable(release) && isTempleTrekkingComplete()) total++;
+        if (isTroubleBrewingAvailable(release) && isTroubleBrewingComplete()) total++;
+        if (isStrongholdSecurityAvailable(release) && isStrongholdSecurityComplete()) total++;
+        if (isPyramidPlunderAvailable(release) && isPyramidPlunderComplete()) total++;
         if (isVoidSetAvailable(release) && isVoidSetComplete()) total++;
         if (isRuneDefenderAvailable(release) && isRuneDefenderComplete()) total++;
         if (isFighterTorsoAvailable(release) && isFighterTorsoComplete()) total++;
