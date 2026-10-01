@@ -24,6 +24,7 @@ import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.widgets.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.callback.RenderCallback;
@@ -281,6 +282,16 @@ public class RewindPlugin extends Plugin {
         Release[] merged = Arrays.copyOf(base, base.length + continued.length);
         System.arraycopy(continued, 0, merged, base.length, continued.length);
         Release.setReleases(merged);
+        HistoricalRegionState.clearRegionGates();
+        for (Release release : Release.getRELEASES())
+        {
+            if (release.getRegions() == null) continue;
+            LocalDate releaseDate = release.getDate().getLocalDate();
+            for (Integer regionId : release.getRegions())
+            {
+                if (regionId != null) HistoricalRegionState.gateRegion(regionId, releaseDate);
+            }
+        }
     }
 
     private <T> T loadDefinitionResource(Type type, String resource) {
@@ -340,7 +351,9 @@ public class RewindPlugin extends Plugin {
     @Subscribe
     public void onClientTick(net.runelite.api.events.ClientTick event) {
         updateTutorialBypass();
-        if (tutorialBypass)
+        boolean regionBypass = tutorialBypass || isCutsceneActive();
+        HistoricalRegionState.setBypassRestrictions(regionBypass);
+        if (regionBypass)
         {
             historicalMinimapInputBlocker.clear();
         }
@@ -348,6 +361,12 @@ public class RewindPlugin extends Plugin {
         {
             historicalMinimapInputBlocker.refresh();
         }
+    }
+
+    private boolean isCutsceneActive()
+    {
+        return client.getGameState() == GameState.LOGGED_IN
+            && client.getVarbitValue(VarbitID.CUTSCENE_STATUS) == 1;
     }
 
 	@Subscribe
@@ -377,7 +396,7 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
-        if (tutorialBypass) return;
+        if (tutorialBypass || isCutsceneActive()) return;
 
         String option = HistoricalSpellRestrictions.clean(e.getMenuOption());
         String target = HistoricalSpellRestrictions.clean(e.getMenuTarget());
