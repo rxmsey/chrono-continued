@@ -291,6 +291,70 @@ public class RewindPanel extends PluginPanel
 
         JPanel activityRows = objectiveList();
         boolean hasActivity = false;
+        if (plugin.isFishingTrawlerAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isFishingTrawlerComplete(),
+                "Complete a Fishing Trawler trip"));
+            hasActivity = true;
+        }
+
+        if (plugin.isCastleWarsAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isCastleWarsComplete(),
+                "Buy a Castle Wars reward"));
+            hasActivity = true;
+        }
+
+        if (plugin.isBlastFurnaceAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isBlastFurnaceComplete(),
+                "Smelt bars at the Blast Furnace"));
+            hasActivity = true;
+        }
+
+        if (plugin.isAgilityPyramidAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isAgilityPyramidComplete(),
+                "Retrieve a pyramid top"));
+            hasActivity = true;
+        }
+
+        if (plugin.isTempleTrekkingAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isTempleTrekkingComplete(),
+                "Complete a Temple Trek"));
+            hasActivity = true;
+        }
+
+        if (plugin.isTroubleBrewingAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isTroubleBrewingComplete(),
+                "Earn Pieces of Eight"));
+            hasActivity = true;
+        }
+
+        if (plugin.isStrongholdSecurityAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isStrongholdSecurityComplete(),
+                "Claim Stronghold boots"));
+            hasActivity = true;
+        }
+
+        if (plugin.isPyramidPlunderAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isPyramidPlunderComplete(),
+                "Loot a Pyramid Plunder artefact"));
+            hasActivity = true;
+        }
+
         if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
@@ -528,8 +592,15 @@ public class RewindPanel extends PluginPanel
     private static boolean isMeaningfulTimelineRelease(Release release)
     {
         if (release.getDate() == ReleaseDate._10_AUGUST_2007
+            || release.getDate() == ReleaseDate._28_JULY_2003
+            || release.getDate() == ReleaseDate._13_DECEMBER_2004
+            || release.getDate() == ReleaseDate._23_AUGUST_2005
+            || release.getDate() == ReleaseDate._16_JANUARY_2006
+            || release.getDate() == ReleaseDate._28_MARCH_2006
             || release.getDate() == ReleaseDate._06_JUNE_2006
-            || release.getDate() == ReleaseDate._13_JUNE_2006)
+            || release.getDate() == ReleaseDate._13_JUNE_2006
+            || release.getDate() == ReleaseDate._04_JULY_2006
+            || release.getDate() == ReleaseDate._17_JULY_2006)
         {
             return true;
         }
