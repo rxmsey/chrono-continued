@@ -301,6 +301,15 @@ public class RewindPanel extends PluginPanel
             hasActivity = true;
         }
 
+        if (plugin.isMageArenaCapeAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isMageArenaCapeComplete(),
+                "Obtain a Mage Arena god cape",
+                "Complete the original Mage Arena challenge and obtain any one of the three god capes: Saradomin, Zamorak, or Guthix. Rewind recognises the unimbued god cape when it appears in your inventory, equipment, or bank."));
+            hasActivity = true;
+        }
+
         if (plugin.isShadesMorttonAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
@@ -683,6 +692,7 @@ public class RewindPanel extends PluginPanel
     {
         if (release.getDate() == ReleaseDate._10_AUGUST_2007
             || release.getDate() == ReleaseDate._28_JULY_2003
+            || release.getDate() == ReleaseDate._22_SEPTEMBER_2003
             || release.getDate() == ReleaseDate._18_OCTOBER_2004
             || release.getDate() == ReleaseDate._13_DECEMBER_2004
             || release.getDate() == ReleaseDate._26_JANUARY_2005
