@@ -87,6 +87,8 @@ public class RewindPlugin extends Plugin {
 	public static final String CONFIG_GROUP_KEY = "chrono";
 	public static final String CONFIG_RELEASE_DATE_KEY = "releasedate";
 	private static final int GRAND_EXCHANGE_REGION = 12598;
+    private static final int REGULAR_FIRE_OBJECT = 26185;
+    private static final int FORESTERS_CAMPFIRE_OBJECT = 49927;
     private static final Set<Integer> TUTORIAL_ISLAND_REGIONS = new HashSet<>(Arrays.asList(
         12336, 12335, 12592, 12080, 12079, 12436));
     private static final int PYRAMID_PLUNDER_REGION = 7749;
