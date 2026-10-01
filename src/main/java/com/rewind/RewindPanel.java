@@ -291,11 +291,20 @@ public class RewindPanel extends PluginPanel
 
         JPanel activityRows = objectiveList();
         boolean hasActivity = false;
+
         if (plugin.isFishingTrawlerAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
                 plugin.isFishingTrawlerComplete(),
                 "Complete a Fishing Trawler trip"));
+            hasActivity = true;
+        }
+
+        if (plugin.isShadesMorttonAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isShadesMorttonComplete(),
+                "Help rebuild the Flamtaer temple"));
             hasActivity = true;
         }
 
@@ -307,11 +316,43 @@ public class RewindPanel extends PluginPanel
             hasActivity = true;
         }
 
+        if (plugin.isSlayerTowerAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isSlayerTowerComplete(),
+                "Kill a monster in the Slayer Tower"));
+            hasActivity = true;
+        }
+
+        if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isBarrowsComplete(),
+                "Loot a Barrows reward chest"));
+            hasActivity = true;
+        }
+
         if (plugin.isBlastFurnaceAvailable(plugin.getCurrentRelease()))
         {
             activityRows.add(objectiveRow(
                 plugin.isBlastFurnaceComplete(),
                 "Smelt bars at the Blast Furnace"));
+            hasActivity = true;
+        }
+
+        if (plugin.isFightCavesAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isFightCavesComplete(),
+                "Complete the TzHaar Fight Cave"));
+            hasActivity = true;
+        }
+
+        if (plugin.isBonesToPeachesAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isBonesToPeachesComplete(),
+                "Unlock Bones to Peaches"));
             hasActivity = true;
         }
 
@@ -328,6 +369,22 @@ public class RewindPanel extends PluginPanel
             activityRows.add(objectiveRow(
                 plugin.isTempleTrekkingComplete(),
                 "Complete a Temple Trek"));
+            hasActivity = true;
+        }
+
+        if (plugin.isVoidSetAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isVoidSetComplete(),
+                "Void top + robe + gloves + any helm"));
+            hasActivity = true;
+        }
+
+        if (plugin.isRuneDefenderAvailable(plugin.getCurrentRelease()))
+        {
+            activityRows.add(objectiveRow(
+                plugin.isRuneDefenderComplete(),
+                "Own a Rune defender"));
             hasActivity = true;
         }
 
@@ -352,46 +409,6 @@ public class RewindPanel extends PluginPanel
             activityRows.add(objectiveRow(
                 plugin.isPyramidPlunderComplete(),
                 "Loot a Pyramid Plunder artefact"));
-            hasActivity = true;
-        }
-
-        if (plugin.isBarrowsAvailable(plugin.getCurrentRelease()))
-        {
-            activityRows.add(objectiveRow(
-                plugin.isBarrowsComplete(),
-                "Loot a Barrows reward chest"));
-            hasActivity = true;
-        }
-
-        if (plugin.isFightCavesAvailable(plugin.getCurrentRelease()))
-        {
-            activityRows.add(objectiveRow(
-                plugin.isFightCavesComplete(),
-                "Complete the TzHaar Fight Cave"));
-            hasActivity = true;
-        }
-
-        if (plugin.isBonesToPeachesAvailable(plugin.getCurrentRelease()))
-        {
-            activityRows.add(objectiveRow(
-                plugin.isBonesToPeachesComplete(),
-                "Unlock Bones to Peaches"));
-            hasActivity = true;
-        }
-
-        if (plugin.isVoidSetAvailable(plugin.getCurrentRelease()))
-        {
-            activityRows.add(objectiveRow(
-                plugin.isVoidSetComplete(),
-                "Void top + robe + gloves + any helm"));
-            hasActivity = true;
-        }
-
-        if (plugin.isRuneDefenderAvailable(plugin.getCurrentRelease()))
-        {
-            activityRows.add(objectiveRow(
-                plugin.isRuneDefenderComplete(),
-                "Own a Rune defender"));
             hasActivity = true;
         }
 
@@ -593,7 +610,9 @@ public class RewindPanel extends PluginPanel
     {
         if (release.getDate() == ReleaseDate._10_AUGUST_2007
             || release.getDate() == ReleaseDate._28_JULY_2003
+            || release.getDate() == ReleaseDate._18_OCTOBER_2004
             || release.getDate() == ReleaseDate._13_DECEMBER_2004
+            || release.getDate() == ReleaseDate._26_JANUARY_2005
             || release.getDate() == ReleaseDate._23_AUGUST_2005
             || release.getDate() == ReleaseDate._16_JANUARY_2006
             || release.getDate() == ReleaseDate._28_MARCH_2006
