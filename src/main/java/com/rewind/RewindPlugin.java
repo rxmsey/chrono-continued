@@ -79,6 +79,8 @@ public class RewindPlugin extends Plugin {
     private static final String COMPLETION_PYRAMID_PLUNDER_KEY = "completionPyramidPlunder";
     private static final String COMPLETION_FISHING_TRAWLER_KEY = "completionFishingTrawler";
     private static final String COMPLETION_BLAST_FURNACE_KEY = "completionBlastFurnace";
+    private static final String COMPLETION_SHADES_MORTTON_KEY = "completionShadesMortton";
+    private static final String COMPLETION_SLAYER_TOWER_KEY = "completionSlayerTower";
 
     // Preserve existing release and region preferences across the Rewind rebrand.
 	public static final String CONFIG_GROUP_KEY = "chrono";
@@ -89,6 +91,9 @@ public class RewindPlugin extends Plugin {
         new HashSet<>(Arrays.asList(9520, 9620));
     private static final Set<Integer> AGILITY_PYRAMID_REGIONS =
         new HashSet<>(Arrays.asList(12105, 13356));
+    private static final int MORTTON_REGION = 13875;
+    private static final Set<Integer> SLAYER_TOWER_REGIONS =
+        new HashSet<>(Arrays.asList(13623, 13723));
 
 	private static final int SOUND_EFFECT_FAIL = 2277;
 	private static final int SOUND_EFFECT_INACTIVE = 2673;
@@ -169,6 +174,7 @@ public class RewindPlugin extends Plugin {
     private final Set<String> completionSnapshot = new HashSet<>();
     private boolean completionSnapshotReady;
     private boolean completionSeedPending;
+    private NPC slayerTowerTarget;
 
 	@Getter
 	private boolean mapEnabled;
@@ -346,6 +352,7 @@ public class RewindPlugin extends Plugin {
             completionSnapshotReady = false;
             completionSeedPending = false;
             completionSnapshot.clear();
+            slayerTowerTarget = null;
         }
 	}
 
@@ -920,11 +927,45 @@ public class RewindPlugin extends Plugin {
     }
 
     @Subscribe
+    public void onInteractingChanged(InteractingChanged event)
+    {
+        if (event.getSource() != client.getLocalPlayer()
+            || !(event.getTarget() instanceof NPC))
+        {
+            return;
+        }
+
+        NPC target = (NPC) event.getTarget();
+        WorldPoint point = target.getWorldLocation();
+        if (point != null && SLAYER_TOWER_REGIONS.contains(point.getRegionID()))
+        {
+            slayerTowerTarget = target;
+        }
+    }
+
+    @Subscribe
     public void onActorDeath(ActorDeath event) {
         Actor actor = event.getActor();
         if (!(actor instanceof NPC)) return;
 
         NPC npc = (NPC) actor;
+
+        if (npc == slayerTowerTarget)
+        {
+            WorldPoint point = npc.getWorldLocation();
+            if (point != null
+                && SLAYER_TOWER_REGIONS.contains(point.getRegionID())
+                && isSlayerTowerAvailable(currentRelease))
+            {
+                recordActivity(
+                    COMPLETION_SLAYER_TOWER_KEY,
+                    "activity:slayer_tower",
+                    "Kill a monster in the Slayer Tower",
+                    true);
+            }
+            slayerTowerTarget = null;
+        }
+
         if (!"TzTok-Jad".equalsIgnoreCase(npc.getName())) return;
 
         configManager.setRSProfileConfiguration(
@@ -956,6 +997,18 @@ public class RewindPlugin extends Plugin {
             seedCompletionSnapshot();
             if (panel != null) panel.refresh();
             return;
+        }
+
+        if (isShadesMorttonAvailable(currentRelease)
+            && !isShadesMorttonComplete()
+            && currentRegionId() == MORTTON_REGION
+            && client.getVarpValue(VarPlayerID.TEMPLE_SANCTITY_P) > 0)
+        {
+            recordActivity(
+                COMPLETION_SHADES_MORTTON_KEY,
+                "activity:shades_mortton",
+                "Contribute to rebuilding the Flamtaer temple",
+                true);
         }
 
         checkQuestCompletions();
@@ -992,6 +1045,10 @@ public class RewindPlugin extends Plugin {
         }
         if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
             completionSnapshot.add("activity:fishing_trawler");
+        if (isShadesMorttonAvailable(currentRelease) && isShadesMorttonComplete())
+            completionSnapshot.add("activity:shades_mortton");
+        if (isSlayerTowerAvailable(currentRelease) && isSlayerTowerComplete())
+            completionSnapshot.add("activity:slayer_tower");
         if (isCastleWarsAvailable(currentRelease) && isCastleWarsComplete())
             completionSnapshot.add("activity:castle_wars");
         if (isBlastFurnaceAvailable(currentRelease) && isBlastFurnaceComplete())
@@ -1051,6 +1108,10 @@ public class RewindPlugin extends Plugin {
         }
         if (isFishingTrawlerAvailable(currentRelease) && isFishingTrawlerComplete())
             completionSnapshot.add("activity:fishing_trawler");
+        if (isShadesMorttonAvailable(currentRelease) && isShadesMorttonComplete())
+            completionSnapshot.add("activity:shades_mortton");
+        if (isSlayerTowerAvailable(currentRelease) && isSlayerTowerComplete())
+            completionSnapshot.add("activity:slayer_tower");
         if (isCastleWarsAvailable(currentRelease) && isCastleWarsComplete())
             completionSnapshot.add("activity:castle_wars");
         if (isBlastFurnaceAvailable(currentRelease) && isBlastFurnaceComplete())
@@ -1253,6 +1314,17 @@ public class RewindPlugin extends Plugin {
         return Boolean.parseBoolean(value);
     }
 
+    boolean isShadesMorttonAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._18_OCTOBER_2004);
+    }
+
+    boolean isSlayerTowerAvailable(Release release) {
+        return availableFrom(release, ReleaseDate._26_JANUARY_2005);
+    }
+
+    boolean isShadesMorttonComplete() { return readProfileFlag(COMPLETION_SHADES_MORTTON_KEY); }
+    boolean isSlayerTowerComplete() { return readProfileFlag(COMPLETION_SLAYER_TOWER_KEY); }
+
     boolean isFishingTrawlerAvailable(Release release) {
         return availableFrom(release, ReleaseDate._28_JULY_2003);
     }
@@ -1362,7 +1434,9 @@ public class RewindPlugin extends Plugin {
     private int getAvailableActivityCount(Release release) {
         int total = 0;
         if (isFishingTrawlerAvailable(release)) total++;
+        if (isShadesMorttonAvailable(release)) total++;
         if (isCastleWarsAvailable(release)) total++;
+        if (isSlayerTowerAvailable(release)) total++;
         if (isBarrowsAvailable(release)) total++;
         if (isBlastFurnaceAvailable(release)) total++;
         if (isFightCavesAvailable(release)) total++;
@@ -1381,7 +1455,9 @@ public class RewindPlugin extends Plugin {
     private int getCompletedActivityCount(Release release) {
         int total = 0;
         if (isFishingTrawlerAvailable(release) && isFishingTrawlerComplete()) total++;
+        if (isShadesMorttonAvailable(release) && isShadesMorttonComplete()) total++;
         if (isCastleWarsAvailable(release) && isCastleWarsComplete()) total++;
+        if (isSlayerTowerAvailable(release) && isSlayerTowerComplete()) total++;
         if (isBarrowsAvailable(release) && isBarrowsComplete()) total++;
         if (isBlastFurnaceAvailable(release) && isBlastFurnaceComplete()) total++;
         if (isFightCavesAvailable(release) && isFightCavesComplete()) total++;
