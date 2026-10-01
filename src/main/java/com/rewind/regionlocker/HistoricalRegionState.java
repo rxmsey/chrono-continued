@@ -16,6 +16,7 @@ public final class HistoricalRegionState
     private static final Set<Integer> additionallyUnlocked = new HashSet<>();
     private static final Map<Integer, LocalDate> timedRegions = new HashMap<>();
     private static LocalDate selected = LocalDate.of(2005, 1, 31);
+    private static boolean bypassRestrictions;
 
     private HistoricalRegionState() {}
 
@@ -47,6 +48,11 @@ public final class HistoricalRegionState
         timedRegions.put(regionId, release);
     }
 
+    public static synchronized void setBypassRestrictions(boolean bypass)
+    {
+        bypassRestrictions = bypass;
+    }
+
     public static synchronized boolean isTileUnlocked(WorldPoint point)
     {
         return isRegionUnlocked(point.getRegionID());
@@ -54,6 +60,11 @@ public final class HistoricalRegionState
 
     public static synchronized boolean isRegionUnlocked(int regionId)
     {
+        if (bypassRestrictions)
+        {
+            return true;
+        }
+
         // User-forced exceptions (currently the Grand Exchange) are true overrides:
         // they must win over both release-list absence and any future timed gate.
         if (additionallyUnlocked.contains(regionId))
