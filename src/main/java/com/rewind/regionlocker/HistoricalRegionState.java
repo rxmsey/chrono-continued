@@ -15,6 +15,9 @@ public final class HistoricalRegionState
     private static final Set<Integer> unlocked = new HashSet<>();
     private static final Set<Integer> additionallyUnlocked = new HashSet<>();
     private static final Map<Integer, LocalDate> timedRegions = new HashMap<>();
+    private static final Set<Integer> legacyAuxiliaryRegions = new HashSet<>(java.util.Arrays.asList(
+        12437 // Wizards' Tower basement; present for The Restless Ghost in the original 2001 world.
+    ));
     private static LocalDate selected = LocalDate.of(2005, 1, 31);
     private static boolean bypassRestrictions;
 
@@ -94,7 +97,6 @@ public final class HistoricalRegionState
 
     static boolean isAuxiliaryUndergroundRegion(int regionId)
     {
-        int baseY = (regionId & 255) << 6;
-        return baseY >= 8960;
+        return legacyAuxiliaryRegions.contains(regionId);
     }
 }
