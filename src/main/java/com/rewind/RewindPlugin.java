@@ -90,6 +90,7 @@ public class RewindPlugin extends Plugin {
 	private static final int GRAND_EXCHANGE_REGION = 12598;
     private static final int REGULAR_FIRE_OBJECT = 26185;
     private static final int FORESTERS_CAMPFIRE_OBJECT = 49927;
+    private static final int DEATH_OFFICE_DEATH_NPC_ID = 9855;
     private static final Set<Integer> TUTORIAL_ISLAND_REGIONS = new HashSet<>(Arrays.asList(
         12336, 12335, 12592, 12080, 12079, 12436));
     private static final int PYRAMID_PLUNDER_REGION = 7749;
@@ -351,7 +352,7 @@ public class RewindPlugin extends Plugin {
     @Subscribe
     public void onClientTick(net.runelite.api.events.ClientTick event) {
         updateTutorialBypass();
-        boolean regionBypass = tutorialBypass || isCutsceneActive();
+        boolean regionBypass = tutorialBypass || isCutsceneActive() || isDeathOfficeActive();
         HistoricalRegionState.setBypassRestrictions(regionBypass);
         if (regionBypass)
         {
@@ -367,6 +368,22 @@ public class RewindPlugin extends Plugin {
     {
         return client.getGameState() == GameState.LOGGED_IN
             && client.getVarbitValue(VarbitID.CUTSCENE_STATUS) == 1;
+    }
+
+    private boolean isDeathOfficeActive()
+    {
+        if (client.getGameState() != GameState.LOGGED_IN)
+        {
+            return false;
+        }
+        for (NPC npc : client.getNpcs())
+        {
+            if (npc != null && npc.getId() == DEATH_OFFICE_DEATH_NPC_ID)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 	@Subscribe
@@ -396,7 +413,7 @@ public class RewindPlugin extends Plugin {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked e) throws ParseException {
-        if (tutorialBypass || isCutsceneActive()) return;
+        if (tutorialBypass || isCutsceneActive() || isDeathOfficeActive()) return;
 
         String option = HistoricalSpellRestrictions.clean(e.getMenuOption());
         String target = HistoricalSpellRestrictions.clean(e.getMenuTarget());
