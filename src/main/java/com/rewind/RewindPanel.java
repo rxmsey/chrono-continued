@@ -548,16 +548,22 @@ public class RewindPanel extends PluginPanel
         row.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
         row.setBorder(new EmptyBorder(2, 0, 2, 0));
 
-        // HTML gives the objective a real wrapping width instead of allowing Swing
-        // to clip long text at the right edge of the narrow RuneLite sidebar.
-        JLabel label = new JLabel(
-            "<html><div style='width:185px'>"
-                + (complete ? "[x] " : "[ ] ")
-                + escapeHtml(objective)
-                + "</div></html>");
+        // JTextArea wraps reliably inside RuneLite's narrow sidebar whereas the
+        // HTML JLabel renderer can keep its preferred single-line width and clip.
+        JTextArea label = new JTextArea((complete ? "[x] " : "[ ] ") + objective);
+        label.setEditable(false);
+        label.setFocusable(false);
+        label.setOpaque(false);
+        label.setLineWrap(true);
+        label.setWrapStyleWord(true);
+        label.setFont(FontManager.getRunescapeFont());
         label.setForeground(complete
             ? ColorScheme.PROGRESS_COMPLETE_COLOR
             : ColorScheme.LIGHT_GRAY_COLOR);
+        label.setBorder(null);
+        label.setMargin(new Insets(0, 0, 0, 0));
+        label.setColumns(1);
+        label.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
         if (explanation != null && !explanation.isEmpty())
         {
