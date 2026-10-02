@@ -26,7 +26,11 @@
       13109,
       13110,
       12954,
-      13210
+      13210,
+      12441,
+      12442,
+      12443,
+      12698
     ],
     "skills": [
       "HITPOINTS",
@@ -223,7 +227,13 @@
   },
   {
     "date": "_06_APRIL_2001",
-    "regions": [],
+    "regions": [
+      11925,
+      12181,
+      12185,
+      12184,
+      12183
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -402,7 +412,10 @@
   },
   {
     "date": "_11_JUNE_2001",
-    "regions": [],
+    "regions": [
+      11414,
+      11413
+    ],
     "skills": [
       "FISHING"
     ],
@@ -816,7 +829,22 @@
   },
   {
     "date": "_27_FEBRUARY_2002",
-    "regions": [],
+    "regions": [
+      9285,
+      9541,
+      9540,
+      9797,
+      11674,
+      11416,
+      11417,
+      11671,
+      11672,
+      11673,
+      11928,
+      11929,
+      11418,
+      11419
+    ],
     "skills": [
       "HERBLORE"
     ],
@@ -1024,7 +1052,8 @@
       10547,
       10548,
       10803,
-      10804
+      10804,
+      10392
     ],
     "skills": [
       "THIEVING"
@@ -1113,7 +1142,9 @@
   },
   {
     "date": "_17_JUNE_2002",
-    "regions": [],
+    "regions": [
+      10390
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1151,7 +1182,9 @@
   },
   {
     "date": "_23_JULY_2002",
-    "regions": [],
+    "regions": [
+      10569
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1210,7 +1243,11 @@
   },
   {
     "date": "_27_AUGUST_2002",
-    "regions": [],
+    "regions": [
+      10134,
+      10136,
+      10391
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1264,7 +1301,10 @@
   },
   {
     "date": "_24_SEPTEMBER_2002",
-    "regions": [],
+    "regions": [
+      10137,
+      10394
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1295,7 +1335,9 @@
   },
   {
     "date": "_23_OCTOBER_2002",
-    "regions": [],
+    "regions": [
+      11412
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1387,7 +1429,10 @@
   },
   {
     "date": "_12_DECEMBER_2002",
-    "regions": [],
+    "regions": [
+      9882,
+      10388
+    ],
     "skills": [
       "AGILITY"
     ],
@@ -1433,7 +1478,10 @@
   },
   {
     "date": "_27_JANUARY_2003",
-    "regions": [],
+    "regions": [
+      11666,
+      11154
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1496,7 +1544,9 @@
   },
   {
     "date": "_17_MARCH_2003",
-    "regions": [],
+    "regions": [
+      9362
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1580,7 +1630,9 @@
   },
   {
     "date": "_07_MAY_2003",
-    "regions": [],
+    "regions": [
+      10387
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1595,7 +1647,9 @@
   },
   {
     "date": "_27_MAY_2003",
-    "regions": [],
+    "regions": [
+      10393
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1665,7 +1719,10 @@
   },
   {
     "date": "_09_JULY_2003",
-    "regions": [],
+    "regions": [
+      13464,
+      13465
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1708,7 +1765,10 @@
   },
   {
     "date": "_20_AUGUST_2003",
-    "regions": [],
+    "regions": [
+      9545,
+      11153
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2438,7 +2498,9 @@
   },
   {
     "date": "_24_AUGUST_2004",
-    "regions": [],
+    "regions": [
+      9803
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2481,7 +2543,9 @@
   },
   {
     "date": "_07_SEPTEMBER_2004",
-    "regions": [],
+    "regions": [
+      13972
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -2584,7 +2648,9 @@
   },
   {
     "date": "_18_OCTOBER_2004",
-    "regions": [],
+    "regions": [
+      13975
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2655,7 +2721,9 @@
   },
   {
     "date": "_17_NOVEMBER_2004",
-    "regions": [],
+    "regions": [
+      10140
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2733,7 +2801,12 @@
   },
   {
     "date": "_06_DECEMBER_2004",
-    "regions": [],
+    "regions": [
+      11150,
+      10894,
+      11151,
+      10974
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2787,7 +2860,15 @@
   },
   {
     "date": "_21_DECEMBER_2004",
-    "regions": [],
+    "regions": [
+      13718,
+      11079,
+      11078,
+      11077,
+      10823,
+      10822,
+      10821
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
