@@ -16,7 +16,9 @@
   {
     "date": "_15_FEBRUARY_2005",
     "regions": [
-      14646
+      14646,
+      14746,
+      15159
     ],
     "skills": [],
     "prayers": [],
@@ -173,7 +175,10 @@
       10575,
       10831,
       12946,
-      13202
+      13202,
+      12439,
+      12438,
+      11323
     ],
     "skills": [],
     "prayers": [],
@@ -391,7 +396,10 @@
   },
   {
     "date": "_19_JULY_2005",
-    "regions": [],
+    "regions": [
+      7752,
+      8008
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -449,7 +457,11 @@
   },
   {
     "date": "_09_AUGUST_2005",
-    "regions": [],
+    "regions": [
+      10058,
+      7758,
+      8261
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -596,7 +608,9 @@
   },
   {
     "date": "_24_OCTOBER_2005",
-    "regions": [],
+    "regions": [
+      11824
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -626,7 +640,10 @@
   },
   {
     "date": "_07_NOVEMBER_2005",
-    "regions": [],
+    "regions": [
+      11588,
+      11589
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -702,7 +719,9 @@
   },
   {
     "date": "_12_DECEMBER_2005",
-    "regions": [],
+    "regions": [
+      12696
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -760,7 +779,10 @@
   },
   {
     "date": "_16_JANUARY_2006",
-    "regions": [],
+    "regions": [
+      12105,
+      13356
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -785,7 +807,8 @@
   {
     "date": "_23_JANUARY_2006",
     "regions": [
-      12423
+      12423,
+      12589
     ],
     "skills": [],
     "prayers": [],
@@ -832,7 +855,9 @@
   },
   {
     "date": "_20_FEBRUARY_2006",
-    "regions": [],
+    "regions": [
+      10577
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -858,7 +883,10 @@
   },
   {
     "date": "_07_MARCH_2006",
-    "regions": [],
+    "regions": [
+      6993,
+      6992
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -918,7 +946,16 @@
   },
   {
     "date": "_28_MARCH_2006",
-    "regions": [],
+    "regions": [
+      8014,
+      8270,
+      8256,
+      8782,
+      9038,
+      9294,
+      9550,
+      9806
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -1137,7 +1174,10 @@
   },
   {
     "date": "_11_JULY_2006",
-    "regions": [],
+    "regions": [
+      12108,
+      12102
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1258,7 +1298,9 @@
   },
   {
     "date": "_22_AUGUST_2006",
-    "regions": [],
+    "regions": [
+      8496
+    ],
     "skills": [],
     "prayers": [
       "SHARP_EYE",
@@ -1421,7 +1463,11 @@
     "regions": [
       10029,
       10811,
-      9272
+      9272,
+      9015,
+      9016,
+      9271,
+      9528
     ],
     "skills": [
       "HUNTER"
@@ -1437,7 +1483,9 @@
   },
   {
     "date": "_28_NOVEMBER_2006",
-    "regions": [],
+    "regions": [
+      8013
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1612,7 +1660,7 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "Minigame updates; German Language Beta Launch \u2013 Some Information",
+    "description": "Minigame updates; German Language Beta Launch – Some Information",
     "sources": [
       "https://oldschool.runescape.wiki/w/Update:Minigame_updates",
       "https://oldschool.runescape.wiki/w/Update:German_Language_Beta_Launch_%E2%80%93_Some_Information"
@@ -1881,7 +1929,10 @@
   },
   {
     "date": "_03_JULY_2007",
-    "regions": [],
+    "regions": [
+      6483,
+      6995
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -1957,6 +2008,6 @@
     "prayers": [],
     "quests": [],
     "spells": [],
-    "description": "10 August 2007 \u2014 Old School backup"
+    "description": "10 August 2007 — Old School backup"
   }
 ]
