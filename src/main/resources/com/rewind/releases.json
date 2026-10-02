@@ -63,7 +63,9 @@
   },
   {
     "date": "_21_JANUARY_2001",
-    "regions": [],
+    "regions": [
+      12440
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2930,7 +2932,12 @@
   },
   {
     "date": "_10_JANUARY_2005",
-    "regions": [],
+    "regions": [
+      13721,
+      13974,
+      13977,
+      13978
+    ],
     "skills": [],
     "prayers": [],
     "quests": [
@@ -2945,7 +2952,14 @@
   },
   {
     "date": "_17_JANUARY_2005",
-    "regions": [],
+    "regions": [
+      10901,
+      10900,
+      10899,
+      10645,
+      10644,
+      10643
+    ],
     "skills": [],
     "prayers": [],
     "quests": [],
@@ -2960,7 +2974,8 @@
     "regions": [
       10907,
       10908,
-      11164
+      11164,
+      13723
     ],
     "skills": [
       "SLAYER"
