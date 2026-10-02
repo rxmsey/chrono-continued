@@ -19,14 +19,30 @@ public class HistoricalRegionAuditTest {
         List<Integer> regions;
     }
 
+    private static class Exclusion {
+        String name;
+        List<Integer> regions;
+        String reason;
+    }
+
+    private static Area[] loadAreas() throws Exception {
+        try (InputStreamReader reader = new InputStreamReader(
+            HistoricalRegionAuditTest.class.getResourceAsStream("region-boundaries.json"), StandardCharsets.UTF_8)) {
+            return new Gson().fromJson(reader, Area[].class);
+        }
+    }
+
+    private static Exclusion[] loadExclusions() throws Exception {
+        try (InputStreamReader reader = new InputStreamReader(
+            HistoricalRegionAuditTest.class.getResourceAsStream("region-audit-exclusions.json"), StandardCharsets.UTF_8)) {
+            return new Gson().fromJson(reader, Exclusion[].class);
+        }
+    }
+
     @BeforeClass public static void load() throws Exception { HistoricalDataTest.load(); }
 
     @Test public void reviewedAreasUnlockTogetherAtTheirDocumentedBoundary() throws Exception {
-        Area[] areas;
-        try (InputStreamReader reader = new InputStreamReader(
-            getClass().getResourceAsStream("region-boundaries.json"), StandardCharsets.UTF_8)) {
-            areas = new Gson().fromJson(reader, Area[].class);
-        }
+        Area[] areas = loadAreas();
         for (Release release : Release.getRELEASES()) {
             HistoricalRegionState.setSelectedDate(release.getDate().getDate());
             HistoricalRegionState.replaceWith(Release.getRegions(release));
@@ -48,6 +64,45 @@ public class HistoricalRegionAuditTest {
                 assertTrue("Duplicate region " + region, seen.add(region));
             }
         }
+    }
+
+    @Test public void intentionalAuditExclusionsRemainFailClosedAndDoNotOverlapReviewedAreas() throws Exception {
+        Set<Integer> reviewed = new HashSet<>();
+        for (Area area : loadAreas()) reviewed.addAll(area.regions);
+
+        Release last = Release.getRELEASES().get(Release.getRELEASES().size() - 1);
+        HistoricalRegionState.setSelectedDate(last.getDate().getDate());
+        HistoricalRegionState.replaceWith(Release.getRegions(last));
+
+        Set<Integer> excluded = new HashSet<>();
+        for (Exclusion exclusion : loadExclusions()) {
+            assertNotNull(exclusion.name, exclusion.reason);
+            assertNotNull(exclusion.reason, exclusion.name);
+            assertFalse(exclusion.name + " needs an audit rationale", exclusion.reason.trim().isEmpty());
+            for (int region : exclusion.regions) {
+                assertTrue("Duplicate audit exclusion " + region, excluded.add(region));
+                assertFalse("Region cannot be both reviewed and excluded: " + region, reviewed.contains(region));
+                assertFalse(exclusion.name + " / " + region + " must remain fail-closed",
+                    HistoricalRegionState.isRegionUnlocked(region));
+            }
+        }
+    }
+
+    @Test public void ernestTheChickenBasementUnlocksWithTheQuestBoundary() {
+        Release before = Release.getRELEASES().stream()
+            .filter(r -> r.getDate().getLocalDate().equals(LocalDate.parse("2001-01-04")))
+            .findFirst().orElseThrow(AssertionError::new);
+        Release release = Release.getRELEASES().stream()
+            .filter(r -> r.getDate().getLocalDate().equals(LocalDate.parse("2001-01-21")))
+            .findFirst().orElseThrow(AssertionError::new);
+
+        HistoricalRegionState.setSelectedDate(before.getDate().getDate());
+        HistoricalRegionState.replaceWith(Release.getRegions(before));
+        assertFalse(HistoricalRegionState.isRegionUnlocked(12440));
+
+        HistoricalRegionState.setSelectedDate(release.getDate().getDate());
+        HistoricalRegionState.replaceWith(Release.getRegions(release));
+        assertTrue(HistoricalRegionState.isRegionUnlocked(12440));
     }
 
     @Test public void fixingHistoricalMinigamesDoesNotOpenModernDedicatedAreas() {
