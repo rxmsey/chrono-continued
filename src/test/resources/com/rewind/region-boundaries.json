@@ -22,6 +22,15 @@
     "reason": "Available from RuneScape launch and required by Demon Slayer."
   },
   {
+    "name": "Draynor Manor basement",
+    "date": "2001-01-21",
+    "regions": [
+      12440
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Draynor_Manor",
+    "reason": "Required by Ernest the Chicken; dedicated basement region."
+  },
+  {
     "name": "Asgarnian Ice Caves",
     "date": "2001-04-06",
     "regions": [
@@ -461,6 +470,32 @@
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
   },
   {
+    "name": "Myreque Hideout",
+    "date": "2005-01-10",
+    "regions": [
+      13721,
+      13974,
+      13977,
+      13978
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Myreque_Hideout",
+    "reason": "Dedicated historical quest area with an explicit pre-backup release date."
+  },
+  {
+    "name": "Brimhaven Dungeon",
+    "date": "2005-01-17",
+    "regions": [
+      10901,
+      10900,
+      10899,
+      10645,
+      10644,
+      10643
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Brimhaven_Dungeon",
+    "reason": "Dedicated historical dungeon with an explicit pre-backup release date."
+  },
+  {
     "name": "Fremennik Slayer Dungeon",
     "date": "2005-01-26",
     "regions": [
@@ -470,6 +505,15 @@
     ],
     "source": "https://oldschool.runescape.wiki/w/Fremennik_Slayer_Dungeon",
     "reason": "Dedicated historical area: complete RuneLite region group."
+  },
+  {
+    "name": "Slayer Tower",
+    "date": "2005-01-26",
+    "regions": [
+      13723
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Slayer_Tower",
+    "reason": "Dedicated historical area introduced with Slayer."
   },
   {
     "name": "Experiment Cave",
@@ -658,6 +702,16 @@
     "reason": "Dedicated historical area: complete RuneLite region group."
   },
   {
+    "name": "Lletya",
+    "date": "2005-07-19",
+    "regions": [
+      9265,
+      11103
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Lletya",
+    "reason": "Dedicated historical settlement opened with Mourning's End Part I."
+  },
+  {
     "name": "Mourner Tunnels",
     "date": "2005-07-19",
     "regions": [
@@ -815,6 +869,17 @@
     ],
     "source": "https://oldschool.runescape.wiki/w/Quarry",
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
+  },
+  {
+    "name": "Mos Le'Harmless",
+    "date": "2006-02-07",
+    "regions": [
+      14637,
+      15406,
+      15407
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Mos_Le%27Harmless",
+    "reason": "Dedicated historical island area introduced with Cabin Fever."
   },
   {
     "name": "Killerwatt Plane",
