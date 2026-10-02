@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Menaphos",
+    "regions": [
+      12843
+    ],
+    "reason": "The pre-backup city was not generally accessible; do not unlock the modern/current region solely from the city release date."
+  },
+  {
+    "name": "Mor Ul Rek inner city",
+    "regions": [
+      9807,
+      10064,
+      10063
+    ],
+    "reason": "Modern inner-city regions are intentionally excluded; only the historical outer TzHaar city region is unlocked."
+  },
+  {
+    "name": "Warriors' Guild basement",
+    "regions": [
+      11675
+    ],
+    "reason": "Modern dedicated basement content must remain locked despite the 2006 surface guild release."
+  },
+  {
+    "name": "Waterbirth Dungeon unresolved floors",
+    "regions": [
+      9886,
+      10142,
+      7492,
+      7748
+    ],
+    "reason": "The dungeon expanded after its initial release; floor-by-floor chronology remains unresolved, so these candidates stay fail-closed."
+  },
+  {
+    "name": "Feldip Hills broad surface",
+    "regions": [
+      9773,
+      10285
+    ],
+    "reason": "Broad surface grouping spans historical changes and is not safe to mass-date from one location release."
+  },
+  {
+    "name": "Isafdar broad surface",
+    "regions": [
+      8497
+    ],
+    "reason": "Broad/shared surface region needs tile-level chronology rather than whole-region unlock."
+  },
+  {
+    "name": "Kandarin broad surface",
+    "regions": [
+      9268,
+      9269,
+      9014,
+      9263,
+      9519
+    ],
+    "reason": "Kandarin spans many releases; one regional date cannot safely authorize all modern terrain in these packed regions."
+  },
+  {
+    "name": "Morytania broad surface",
+    "regions": [
+      14133,
+      14389,
+      14391,
+      14645,
+      14647
+    ],
+    "reason": "Morytania spans multiple releases; these broad/current packed regions are not authorized by one date."
+  },
+  {
+    "name": "Tutorial Island",
+    "regions": [
+      12335,
+      12436
+    ],
+    "reason": "Tutorial Island is handled by the dedicated tutorial bypass rather than permanent historical region unlock data."
+  }
+]
