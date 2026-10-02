@@ -1,5 +1,15 @@
 [
   {
+    "name": "Varrock Sewers",
+    "date": "2001-01-04",
+    "regions": [
+      12954,
+      13210
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Varrock_Sewers",
+    "reason": "Available from RuneScape launch and required by Demon Slayer."
+  },
+  {
     "name": "Dorgesh-Kaan",
     "date": "2007-03-20",
     "regions": [
