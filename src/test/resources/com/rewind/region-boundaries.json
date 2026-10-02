@@ -79,6 +79,19 @@
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
   },
   {
+    "name": "Kandarin historical surface",
+    "date": "2002-02-27",
+    "regions": [
+      9268,
+      9269,
+      9014,
+      9263,
+      9519
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Kandarin",
+    "reason": "Historical Kandarin terrain present during the supported timeline; whole-region locking would block legitimate period gameplay."
+  },
+  {
     "name": "Taverley Dungeon",
     "date": "2002-02-27",
     "regions": [
@@ -226,6 +239,16 @@
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
   },
   {
+    "name": "Feldip Hills historical surface",
+    "date": "2003-05-07",
+    "regions": [
+      9773,
+      10285
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Feldip_Hills",
+    "reason": "Historical Feldip Hills terrain present from the 2003 expansion period."
+  },
+  {
     "name": "Ogre Enclave",
     "date": "2003-05-07",
     "regions": [
@@ -363,6 +386,19 @@
     "reason": "Dedicated historical area: complete RuneLite region group."
   },
   {
+    "name": "Morytania historical surface",
+    "date": "2004-06-29",
+    "regions": [
+      14133,
+      14389,
+      14391,
+      14645,
+      14647
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Morytania",
+    "reason": "Historical Morytania terrain is valid from the 2004 region opening; later content remains controlled separately."
+  },
+  {
     "name": "Brimhaven Agility Arena",
     "date": "2004-07-27",
     "regions": [
@@ -388,6 +424,15 @@
     ],
     "source": "https://oldschool.runescape.wiki/w/Kalphite_Queen",
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
+  },
+  {
+    "name": "Isafdar historical surface",
+    "date": "2004-09-20",
+    "regions": [
+      8497
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Isafdar",
+    "reason": "Historical Isafdar terrain is required for Regicide-era gameplay."
   },
   {
     "name": "Shade Catacombs",
@@ -804,6 +849,18 @@
     ],
     "source": "https://oldschool.runescape.wiki/w/Dagannoth_Kings",
     "reason": "Dedicated historical area with an explicit pre-backup release date and region mapping."
+  },
+  {
+    "name": "Waterbirth Dungeon",
+    "date": "2005-11-07",
+    "regions": [
+      9886,
+      10142,
+      7492,
+      7748
+    ],
+    "source": "https://oldschool.runescape.wiki/w/Waterbirth_Island_Dungeon",
+    "reason": "Conservative full-dungeon boundary: by 7 November 2005 the historical Waterbirth/Dagannoth Kings dungeon content was present."
   },
   {
     "name": "Ardougne Rat Pits",
